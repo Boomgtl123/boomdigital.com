@@ -1,0 +1,21 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    // Website content - readable by all, writable only by authenticated CEO
+    match /website/content {
+      allow read: if true;
+      allow write: if request.auth != null && request.auth.token.email == 'boomdigitaleeuu@gmail.com';
+    }
+    
+    // Analytics - readable only by CEO, writable by all
+    match /analytics/{document} {
+      allow read: if request.auth != null && request.auth.token.email == 'boomdigitaleeuu@gmail.com';
+      allow write: if true;
+    }
+    
+    // Default deny
+    match /{document=**} {
+      allow read, write: if false;
+    }
+  }
+}

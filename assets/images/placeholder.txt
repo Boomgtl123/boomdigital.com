@@ -1,0 +1,8 @@
+Placeholder para archivos de imagen:
+
+- verificado.png (ícono de verificación para el CEO)
+- logo.png (logo de la agencia)
+- hero-bg.jpg (fondo de la sección hero)
+- service-icons/ (íconos para servicios)
+
+En un proyecto real, estos archivos contendrían las imágenes correspondientes.

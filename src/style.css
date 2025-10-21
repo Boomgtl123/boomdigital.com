@@ -1,0 +1,268 @@
+@import 'tailwindcss';
+
+/* Custom Styles for Boom Digital Agency */
+:root {
+  --primary-blue: #37C6FF;
+  --primary-black: #000000;
+  --primary-white: #FFFFFF;
+}
+
+/* Base Styles */
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  line-height: 1.6;
+  color: var(--primary-black);
+  background-color: var(--primary-white);
+}
+
+/* Custom Animations */
+@keyframes float {
+  0%, 100% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+}
+
+@keyframes pulse-glow {
+  0%, 100% {
+    box-shadow: 0 0 20px rgba(55, 198, 255, 0.4);
+  }
+  50% {
+    box-shadow: 0 0 30px rgba(55, 198, 255, 0.8);
+  }
+}
+
+@keyframes slideInFromLeft {
+  0% {
+    transform: translateX(-100%);
+    opacity: 0;
+  }
+  100% {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+@keyframes slideInFromRight {
+  0% {
+    transform: translateX(100%);
+    opacity: 0;
+  }
+  100% {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+/* Utility Classes */
+.animate-float {
+  animation: float 3s ease-in-out infinite;
+}
+
+.animate-pulse-glow {
+  animation: pulse-glow 2s ease-in-out infinite;
+}
+
+.animate-slide-left {
+  animation: slideInFromLeft 0.8s ease-out;
+}
+
+.animate-slide-right {
+  animation: slideInFromRight 0.8s ease-out;
+}
+
+/* Custom Components */
+.glass-effect {
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.gradient-text {
+  background: linear-gradient(135deg, var(--primary-blue), #2B6CB0);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* Button Styles */
+.btn-primary {
+  @apply bg-[#37C6FF] text-white px-8 py-3 rounded-full font-semibold hover:bg-blue-400 transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl;
+}
+
+.btn-secondary {
+  @apply bg-transparent text-black border-2 border-black px-8 py-3 rounded-full font-semibold hover:bg-black hover:text-white transition-all duration-300;
+}
+
+.btn-outline {
+  @apply bg-transparent text-[#37C6FF] border-2 border-[#37C6FF] px-6 py-2 rounded-full font-medium hover:bg-[#37C6FF] hover:text-white transition-all duration-300;
+}
+
+/* Card Styles */
+.card {
+  @apply bg-white rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-2 border border-gray-100;
+}
+
+.card-hover {
+  @apply hover:shadow-2xl hover:border-primary-blue/20 transition-all duration-500;
+}
+
+/* Section Spacing */
+.section-padding {
+  @apply py-20 px-4 sm:px-6 lg:px-8;
+}
+
+/* Navigation Styles */
+.nav-link {
+  @apply text-gray-600 hover:text-primary-blue transition-colors duration-300 font-medium;
+}
+
+.nav-link.active {
+  @apply text-primary-blue font-semibold;
+}
+
+/* Hero Section */
+.hero-gradient {
+  background: linear-gradient(135deg, #FFFFFF 0%, #F0F9FF 100%);
+}
+
+/* Dashboard Styles */
+.metric-card {
+  @apply bg-gradient-to-br from-white to-gray-50 rounded-xl p-6 border border-gray-200 shadow-sm;
+}
+
+.metric-value {
+  @apply text-3xl font-bold text-gray-900;
+}
+
+.metric-label {
+  @apply text-sm text-gray-600 font-medium;
+}
+
+/* Service Card Hover Effects */
+.service-card {
+  @apply relative overflow-hidden group;
+}
+
+.service-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(55, 198, 255, 0.1), transparent);
+  transition: left 0.5s;
+}
+
+.service-card:hover::before {
+  left: 100%;
+}
+
+/* Loading States */
+.loading-spinner {
+  @apply inline-block w-6 h-6 border-2 border-gray-300 border-t-[#37C6FF] rounded-full animate-spin;
+}
+
+/* Responsive Typography */
+.text-responsive {
+  @apply text-4xl sm:text-5xl lg:text-6xl font-bold;
+}
+
+.text-responsive-subtitle {
+  @apply text-lg sm:text-xl lg:text-2xl;
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--primary-blue);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #2B6CB0;
+}
+
+/* Focus States for Accessibility */
+button:focus-visible,
+a:focus-visible {
+  @apply outline-2 outline-offset-2 outline-[#37C6FF];
+}
+
+/* Print Styles */
+@media print {
+  .no-print {
+    display: none !important;
+  }
+}
+
+/* High Contrast Mode Support */
+@media (prefers-contrast: high) {
+  .btn-primary {
+    @apply bg-black text-white border-2 border-white;
+  }
+  
+  .btn-secondary {
+    @apply bg-white text-black border-2 border-black;
+  }
+}
+
+/* Reduced Motion Support */
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* Dark Mode Support (if needed in future) */
+@media (prefers-color-scheme: dark) {
+  .dark-mode-support {
+    @apply bg-gray-900 text-white;
+  }
+}
+
+/* Custom utility for verified badge */
+.verified-badge {
+  @apply inline-flex items-center px-2 py-1 bg-green-100 text-green-800 text-xs font-medium rounded-full;
+}
+
+/* Animation delays for staggered animations */
+.animation-delay-100 {
+  animation-delay: 100ms;
+}
+
+.animation-delay-200 {
+  animation-delay: 200ms;
+}
+
+.animation-delay-300 {
+  animation-delay: 300ms;
+}
+
+.animation-delay-400 {
+  animation-delay: 400ms;
+}
+
+.animation-delay-500 {
+  animation-delay: 500ms;
+}

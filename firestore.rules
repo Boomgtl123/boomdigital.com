@@ -1,19 +1,25 @@
 rules_version = '2';
 service cloud.firestore {
   match /databases/{database}/documents {
-    // Website content - readable by all, writable only by authenticated CEO
+    // Public read access for website content
     match /website/content {
       allow read: if true;
-      allow write: if request.auth != null && request.auth.token.email == 'boomdigitaleeuu@gmail.com';
+      allow write: if request.auth != null && request.auth.token.email == "boomdigitaleeuu@gmail.com";
     }
     
-    // Analytics - readable only by CEO, writable by all
+    // Analytics - public write, CEO read
     match /analytics/{document} {
-      allow read: if request.auth != null && request.auth.token.email == 'boomdigitaleeuu@gmail.com';
+      allow read: if request.auth != null && request.auth.token.email == "boomdigitaleeuu@gmail.com";
       allow write: if true;
     }
     
-    // Default deny
+    // Users collection - user can read/write own data, CEO can read all
+    match /users/{userId} {
+      allow read, write: if request.auth != null && 
+        (request.auth.uid == userId || request.auth.token.email == "boomdigitaleeuu@gmail.com");
+    }
+    
+    // Fallback - deny all other operations
     match /{document=**} {
       allow read, write: if false;
     }

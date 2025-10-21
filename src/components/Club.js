@@ -1,496 +1,307 @@
-// Club Component
+// Club Component - Simple and Functional
 class ClubSection extends HTMLElement {
-  constructor() {
-    super();
-    this.attachShadow({ mode: 'open' });
-    this.currentSlide = 0;
-    this.testimonials = [];
-  }
-
-  connectedCallback() {
-    this.render();
-    this.setupSlider();
-    this.setupBenefits();
-  }
-
-  render() {
-    this.shadowRoot.innerHTML = `
-      <style>
-        :host {
-          display: block;
-          padding: 6rem 0;
-          background: #FFFFFF;
-        }
-
-        .club-section {
-          max-width: 1200px;
-          margin: 0 auto;
-          padding: 0 2rem;
-        }
-
-        .section-header {
-          text-align: center;
-          margin-bottom: 4rem;
-          opacity: 0;
-          transform: translateY(30px);
-        }
-
-        .section-title {
-          font-size: clamp(2rem, 4vw, 3rem);
-          font-weight: 800;
-          color: #000;
-          margin-bottom: 1rem;
-        }
-
-        .section-subtitle {
-          font-size: 1.2rem;
-          color: #64748B;
-          max-width: 600px;
-          margin: 0 auto;
-          line-height: 1.6;
-        }
-
-        .club-content {
-          display: grid;
-          grid-template-columns: 1fr 1fr;
-          gap: 4rem;
-          align-items: center;
-        }
-
-        .testimonials-container {
-          position: relative;
-          overflow: hidden;
-          border-radius: 20px;
-          background: #F8FAFC;
-          padding: 2rem;
-        }
-
-        .testimonials-slider {
-          display: flex;
-          transition: transform 0.5s ease;
-        }
-
-        .testimonial-slide {
-          min-width: 100%;
-          padding: 1rem;
-          opacity: 0;
-          transform: translateX(50px);
-          transition: all 0.5s ease;
-        }
-
-        .testimonial-slide.active {
-          opacity: 1;
-          transform: translateX(0);
-        }
-
-        .testimonial-content {
-          background: white;
-          padding: 2rem;
-          border-radius: 16px;
-          box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
-          position: relative;
-        }
-
-        .testimonial-content::before {
-          content: '"';
-          font-size: 4rem;
-          color: #37C6FF;
-          position: absolute;
-          top: -1rem;
-          left: 1rem;
-          opacity: 0.3;
-        }
-
-        .testimonial-text {
-          font-size: 1.1rem;
-          line-height: 1.6;
-          color: #475569;
-          margin-bottom: 1.5rem;
-          font-style: italic;
-        }
-
-        .testimonial-author {
-          display: flex;
-          align-items: center;
-          gap: 1rem;
-        }
-
-        .author-avatar {
-          width: 50px;
-          height: 50px;
-          border-radius: 50%;
-          background: linear-gradient(135deg, #37C6FF, #2BA3D9);
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          color: white;
-          font-weight: 600;
-          font-size: 1.2rem;
-        }
-
-        .author-info {
-          flex: 1;
-        }
-
-        .author-name {
-          font-weight: 700;
-          color: #000;
-          margin-bottom: 0.25rem;
-        }
-
-        .author-company {
-          color: #64748B;
-          font-size: 0.9rem;
-        }
-
-        .slider-controls {
-          display: flex;
-          justify-content: center;
-          gap: 1rem;
-          margin-top: 2rem;
-        }
-
-        .slider-btn {
-          background: #37C6FF;
-          color: white;
-          border: none;
-          width: 40px;
-          height: 40px;
-          border-radius: 50%;
-          cursor: pointer;
-          transition: all 0.3s ease;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-        }
-
-        .slider-btn:hover {
-          background: #2BA3D9;
-          transform: scale(1.1);
-        }
-
-        .slider-dots {
-          display: flex;
-          gap: 0.5rem;
-          align-items: center;
-        }
-
-        .slider-dot {
-          width: 8px;
-          height: 8px;
-          border-radius: 50%;
-          background: #CBD5E1;
-          cursor: pointer;
-          transition: all 0.3s ease;
-        }
-
-        .slider-dot.active {
-          background: #37C6FF;
-          transform: scale(1.2);
-        }
-
-        .benefits-container {
-          display: flex;
-          flex-direction: column;
-          gap: 2rem;
-        }
-
-        .benefit-card {
-          background: white;
-          border: 1px solid #E2E8F0;
-          border-radius: 16px;
-          padding: 2rem;
-          transition: all 0.3s ease;
-          opacity: 0;
-          transform: translateY(30px);
-        }
-
-        .benefit-card:hover {
-          border-color: #37C6FF;
-          transform: translateY(-5px);
-          box-shadow: 0 10px 30px rgba(55, 198, 255, 0.1);
-        }
-
-        .benefit-header {
-          display: flex;
-          align-items: center;
-          gap: 1rem;
-          margin-bottom: 1rem;
-        }
-
-        .benefit-icon {
-          width: 50px;
-          height: 50px;
-          background: linear-gradient(135deg, #37C6FF, #2BA3D9);
-          border-radius: 12px;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          color: white;
-          font-size: 1.2rem;
-        }
-
-        .benefit-title {
-          font-size: 1.3rem;
-          font-weight: 700;
-          color: #000;
-        }
-
-        .benefit-description {
-          color: #64748B;
-          line-height: 1.6;
-        }
-
-        .club-cta {
-          text-align: center;
-          margin-top: 4rem;
-        }
-
-        .btn-club {
-          background: #000;
-          color: white;
-          border: none;
-          padding: 1rem 2.5rem;
-          border-radius: 12px;
-          font-weight: 600;
-          font-size: 1.1rem;
-          cursor: pointer;
-          transition: all 0.3s ease;
-        }
-
-        .btn-club:hover {
-          background: #333;
-          transform: translateY(-2px);
-          box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
-        }
-
-        @media (max-width: 768px) {
-          .club-section {
-            padding: 0 1rem;
-          }
-
-          .club-content {
-            grid-template-columns: 1fr;
-            gap: 3rem;
-          }
-
-          .benefit-card {
-            padding: 1.5rem;
-          }
-        }
-
-        /* Animation classes */
-        .animate-in {
-          opacity: 1;
-          transform: translateY(0);
-        }
-      </style>
-
-      <section class="club-section" id="club">
-        <div class="section-header">
-          <h2 class="section-title">Club IA Boom</h2>
-          <p class="section-subtitle">
-            Únete a nuestra comunidad exclusiva y accede a beneficios premium, 
-            recursos avanzados y networking con líderes del sector
-          </p>
-        </div>
-
-        <div class="club-content">
-          <div class="testimonials-container">
-            <div class="testimonials-slider" id="testimonialsSlider">
-              <!-- Testimonials will be populated dynamically -->
-            </div>
-
-            <div class="slider-controls">
-              <button class="slider-btn" id="prevBtn">←</button>
-              <div class="slider-dots" id="sliderDots"></div>
-              <button class="slider-btn" id="nextBtn">→</button>
-            </div>
-          </div>
-
-          <div class="benefits-container">
-            <div class="benefit-card" data-benefit="exclusive">
-              <div class="benefit-header">
-                <div class="benefit-icon">🎯</div>
-                <h3 class="benefit-title">Acceso Exclusivo</h3>
-              </div>
-              <p class="benefit-description">
-                Recursos y herramientas avanzadas disponibles solo para miembros 
-                del club. Early access a nuevas funcionalidades.
-              </p>
-            </div>
-
-            <div class="benefit-card" data-benefit="support">
-              <div class="benefit-header">
-                <div class="benefit-icon">💎</div>
-                <h3 class="benefit-title">Soporte Premium</h3>
-              </div>
-              <p class="benefit-description">
-                Atención prioritaria con nuestro equipo de expertos. 
-                Resolución de consultas en menos de 2 horas.
-              </p>
-            </div>
-
-            <div class="benefit-card" data-benefit="network">
-              <div class="benefit-header">
-                <div class="benefit-icon">🌐</div>
-                <h3 class="benefit-title">Networking</h3>
-              </div>
-              <p class="benefit-description">
-                Conecta con otros profesionales y empresas del sector. 
-                Eventos exclusivos y oportunidades de colaboración.
-              </p>
-            </div>
-          </div>
-        </div>
-
-        <div class="club-cta">
-          <button class="btn-club" id="clubCTA">
-            Unirse al Club IA Boom
-          </button>
-        </div>
-      </section>
-    `;
-  }
-
-  setupSlider() {
-    // Default testimonials
-    this.testimonials = [
-      {
-        id: 1,
-        text: "Boom Digital revolucionó nuestro enfoque digital. La implementación de IA nos permitió escalar operaciones sin aumentar costos. Increíble ROI en solo 3 meses.",
-        name: "Carlos Rodríguez",
-        company: "TechStart Inc",
-        initials: "CR"
-      },
-      {
-        id: 2,
-        text: "La automatización con IA nos ahorró más de 20 horas semanales en tareas repetitivas. El equipo puede ahora enfocarse en estrategias de crecimiento.",
-        name: "María González",
-        company: "Ecommerce Pro",
-        initials: "MG"
-      },
-      {
-        id: 3,
-        text: "El Growth Simulator nos ayudó a tomar decisiones basadas en datos. Redujimos costos de adquisición en un 35% mientras aumentamos conversiones.",
-        name: "Alejandro Torres",
-        company: "Digital Solutions",
-        initials: "AT"
-      }
-    ];
-
-    this.renderTestimonials();
-    this.setupSliderControls();
-    this.startAutoSlide();
-  }
-
-  renderTestimonials() {
-    const slider = this.shadowRoot.getElementById('testimonialsSlider');
-    const dotsContainer = this.shadowRoot.getElementById('sliderDots');
-
-    if (!slider || !dotsContainer) return;
-
-    slider.innerHTML = '';
-    dotsContainer.innerHTML = '';
-
-    this.testimonials.forEach((testimonial, index) => {
-      const slide = document.createElement('div');
-      slide.className = `testimonial-slide ${index === this.currentSlide ? 'active' : ''}`;
-      slide.innerHTML = `
-        <div class="testimonial-content">
-          <p class="testimonial-text">${testimonial.text}</p>
-          <div class="testimonial-author">
-            <div class="author-avatar">${testimonial.initials}</div>
-            <div class="author-info">
-              <div class="author-name">${testimonial.name}</div>
-              <div class="author-company">${testimonial.company}</div>
-            </div>
-          </div>
-        </div>
-      `;
-      slider.appendChild(slide);
-
-      const dot = document.createElement('div');
-      dot.className = `slider-dot ${index === this.currentSlide ? 'active' : ''}`;
-      dot.addEventListener('click', () => this.goToSlide(index));
-      dotsContainer.appendChild(dot);
-    });
-  }
-
-  setupSliderControls() {
-    const prevBtn = this.shadowRoot.getElementById('prevBtn');
-    const nextBtn = this.shadowRoot.getElementById('nextBtn');
-
-    if (prevBtn) {
-      prevBtn.addEventListener('click', () => this.prevSlide());
+    constructor() {
+        super();
+        this.currentTestimonial = 0;
     }
 
-    if (nextBtn) {
-      nextBtn.addEventListener('click', () => this.nextSlide());
+    connectedCallback() {
+        this.render();
+        this.setupEventListeners();
+        this.startTestimonialRotation();
     }
 
-    // Setup CTA button
-    const ctaButton = this.shadowRoot.getElementById('clubCTA');
-    if (ctaButton) {
-      ctaButton.addEventListener('click', () => {
-        this.handleClubJoin();
-      });
-    }
-  }
+    render() {
+        this.innerHTML = `
+            <section id="club" class="py-20 bg-white">
+                <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                    <!-- Section Header -->
+                    <div class="text-center mb-16">
+                        <h2 class="text-4xl md:text-5xl font-bold text-black mb-4">
+                            Club IA Boom
+                        </h2>
+                        <p class="text-xl text-gray-600 max-w-2xl mx-auto">
+                            Únete a nuestra comunidad exclusiva de empresas que transforman su negocio con IA
+                        </p>
+                    </div>
 
-  setupBenefits() {
-    const benefitCards = this.shadowRoot.querySelectorAll('.benefit-card');
-    const observer = new IntersectionObserver((entries) => {
-      entries.forEach((entry, index) => {
-        if (entry.isIntersecting) {
-          setTimeout(() => {
-            entry.target.classList.add('animate-in');
-          }, index * 200);
-          observer.unobserve(entry.target);
+                    <!-- Benefits Grid -->
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-16">
+                        <div class="text-center p-8 rounded-2xl bg-gradient-to-br from-blue-50 to-white border border-blue-100">
+                            <div class="w-16 h-16 bg-primary-blue rounded-full flex items-center justify-center mx-auto mb-6">
+                                <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
+                                </svg>
+                            </div>
+                            <h3 class="text-xl font-bold text-black mb-4">Acceso Exclusivo</h3>
+                            <p class="text-gray-600">
+                                Recibe actualizaciones premium, herramientas avanzadas y soporte prioritario 24/7
+                            </p>
+                        </div>
+
+                        <div class="text-center p-8 rounded-2xl bg-gradient-to-br from-blue-50 to-white border border-blue-100">
+                            <div class="w-16 h-16 bg-primary-blue rounded-full flex items-center justify-center mx-auto mb-6">
+                                <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
+                                </svg>
+                            </div>
+                            <h3 class="text-xl font-bold text-black mb-4">Comunidad Activa</h3>
+                            <p class="text-gray-600">
+                                Conecta con otros líderes empresariales y comparte mejores prácticas
+                            </p>
+                        </div>
+
+                        <div class="text-center p-8 rounded-2xl bg-gradient-to-br from-blue-50 to-white border border-blue-100">
+                            <div class="w-16 h-16 bg-primary-blue rounded-full flex items-center justify-center mx-auto mb-6">
+                                <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z" />
+                                </svg>
+                            </div>
+                            <h3 class="text-xl font-bold text-black mb-4">Early Access</h3>
+                            <p class="text-gray-600">
+                                Sé el primero en probar nuevas funcionalidades y productos antes del lanzamiento público
+                            </p>
+                        </div>
+                    </div>
+
+                    <!-- Testimonials -->
+                    <div class="bg-gradient-to-r from-gray-50 to-white rounded-2xl p-8 md:p-12 border border-gray-200">
+                        <div class="text-center mb-8">
+                            <h3 class="text-2xl md:text-3xl font-bold text-black mb-4">
+                                Lo que dicen nuestros miembros
+                            </h3>
+                            <p class="text-gray-600 max-w-2xl mx-auto">
+                                Empresas que ya están transformando sus operaciones con nuestras soluciones de IA
+                            </p>
+                        </div>
+
+                        <div class="max-w-4xl mx-auto">
+                            <div id="testimonialContent" class="text-center mb-8">
+                                <div class="text-center">
+                                    <div class="text-6xl mb-4">"</div>
+                                    <p class="text-xl text-gray-700 mb-6 italic">
+                                        Boom Digital revolucionó nuestro enfoque digital. La implementación de IA nos permitió escalar operaciones y mejorar significativamente nuestro ROI.
+                                    </p>
+                                    <div class="flex items-center justify-center">
+                                        <div class="text-left">
+                                            <div class="font-bold text-black">Carlos Rodríguez</div>
+                                            <div class="text-gray-600">CEO, TechStart Inc</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="flex justify-center items-center space-x-4">
+                                <button id="prevTestimonial" class="p-2 rounded-full bg-gray-100 hover:bg-gray-200 transition-colors duration-200">
+                                    <svg class="w-5 h-5 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+                                    </svg>
+                                </button>
+                                
+                                <div class="flex space-x-2">
+                                    <button class="testimonial-dot w-3 h-3 rounded-full bg-primary-blue" data-index="0"></button>
+                                    <button class="testimonial-dot w-3 h-3 rounded-full bg-gray-300" data-index="1"></button>
+                                    <button class="testimonial-dot w-3 h-3 rounded-full bg-gray-300" data-index="2"></button>
+                                </div>
+                                
+                                <button id="nextTestimonial" class="p-2 rounded-full bg-gray-100 hover:bg-gray-200 transition-colors duration-200">
+                                    <svg class="w-5 h-5 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+                                    </svg>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Membership Tiers -->
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mt-16">
+                        <div class="bg-white rounded-2xl p-8 border-2 border-gray-200">
+                            <div class="text-center mb-6">
+                                <h3 class="text-2xl font-bold text-black mb-2">Club Essential</h3>
+                                <div class="text-4xl font-bold text-primary-blue mb-4">$99<span class="text-lg text-gray-600">/mes</span></div>
+                                <p class="text-gray-600">Perfecto para startups y pequeñas empresas</p>
+                            </div>
+                            <ul class="space-y-3 mb-8">
+                                <li class="flex items-center text-gray-700">
+                                    <svg class="w-5 h-5 text-green-500 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                                    </svg>
+                                    Acceso a herramientas básicas de IA
+                                </li>
+                                <li class="flex items-center text-gray-700">
+                                    <svg class="w-5 h-5 text-green-500 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                                    </svg>
+                                    Soporte por email
+                                </li>
+                                <li class="flex items-center text-gray-700">
+                                    <svg class="w-5 h-5 text-green-500 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                                    </svg>
+                                    Webinars mensuales
+                                </li>
+                            </ul>
+                            <button class="w-full bg-gray-100 text-gray-700 py-3 rounded-full font-semibold hover:bg-gray-200 transition-colors duration-300">
+                                Comenzar Gratis
+                            </button>
+                        </div>
+
+                        <div class="bg-gradient-to-br from-primary-blue to-blue-500 rounded-2xl p-8 text-white">
+                            <div class="text-center mb-6">
+                                <div class="inline-flex items-center px-4 py-1 bg-white/20 rounded-full mb-4">
+                                    <span class="text-sm font-medium">MÁS POPULAR</span>
+                                </div>
+                                <h3 class="text-2xl font-bold mb-2">Club Premium</h3>
+                                <div class="text-4xl font-bold mb-4">$299<span class="text-lg text-blue-100">/mes</span></div>
+                                <p class="text-blue-100">Ideal para empresas en crecimiento</p>
+                            </div>
+                            <ul class="space-y-3 mb-8">
+                                <li class="flex items-center">
+                                    <svg class="w-5 h-5 text-white mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                                    </svg>
+                                    Todas las funciones de Essential
+                                </li>
+                                <li class="flex items-center">
+                                    <svg class="w-5 h-5 text-white mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                                    </svg>
+                                    Soporte prioritario 24/7
+                                </li>
+                                <li class="flex items-center">
+                                    <svg class="w-5 h-5 text-white mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                                    </svg>
+                                    Consultoría personalizada
+                                </li>
+                                <li class="flex items-center">
+                                    <svg class="w-5 h-5 text-white mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                                    </svg>
+                                    Early access a nuevas features
+                                </li>
+                            </ul>
+                            <button 
+                                id="premiumCtaBtn"
+                                class="w-full bg-white text-primary-blue py-3 rounded-full font-semibold hover:bg-gray-100 transition-colors duration-300"
+                            >
+                                Unirse al Club
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        `;
+    }
+
+    setupEventListeners() {
+        const prevBtn = this.querySelector('#prevTestimonial');
+        const nextBtn = this.querySelector('#nextTestimonial');
+        const dots = this.querySelectorAll('.testimonial-dot');
+        const premiumBtn = this.querySelector('#premiumCtaBtn');
+
+        if (prevBtn) {
+            prevBtn.addEventListener('click', () => this.previousTestimonial());
         }
-      });
-    }, { threshold: 0.1 });
 
-    benefitCards.forEach(card => {
-      observer.observe(card);
-    });
-  }
+        if (nextBtn) {
+            nextBtn.addEventListener('click', () => this.nextTestimonial());
+        }
 
-  goToSlide(index) {
-    this.currentSlide = index;
-    this.renderTestimonials();
-  }
+        dots.forEach(dot => {
+            dot.addEventListener('click', (e) => {
+                const index = parseInt(e.target.dataset.index);
+                this.goToTestimonial(index);
+            });
+        });
 
-  nextSlide() {
-    this.currentSlide = (this.currentSlide + 1) % this.testimonials.length;
-    this.renderTestimonials();
-  }
-
-  prevSlide() {
-    this.currentSlide = (this.currentSlide - 1 + this.testimonials.length) % this.testimonials.length;
-    this.renderTestimonials();
-  }
-
-  startAutoSlide() {
-    setInterval(() => {
-      this.nextSlide();
-    }, 5000);
-  }
-
-  handleClubJoin() {
-    const event = new CustomEvent('club-join-requested', {
-      bubbles: true,
-      detail: { action: 'join-club' }
-    });
-    this.dispatchEvent(event);
-  }
-
-  updateContent(content) {
-    if (content && content.club && content.club.testimonials) {
-      this.testimonials = content.club.testimonials;
-      this.renderTestimonials();
+        if (premiumBtn) {
+            premiumBtn.addEventListener('click', () => {
+                this.showAuthModal('register');
+            });
+        }
     }
-  }
+
+    startTestimonialRotation() {
+        setInterval(() => {
+            this.nextTestimonial();
+        }, 5000);
+    }
+
+    nextTestimonial() {
+        this.currentTestimonial = (this.currentTestimonial + 1) % 3;
+        this.updateTestimonialDisplay();
+    }
+
+    previousTestimonial() {
+        this.currentTestimonial = (this.currentTestimonial - 1 + 3) % 3;
+        this.updateTestimonialDisplay();
+    }
+
+    goToTestimonial(index) {
+        if (index >= 0 && index < 3) {
+            this.currentTestimonial = index;
+            this.updateTestimonialDisplay();
+        }
+    }
+
+    updateTestimonialDisplay() {
+        const contentElement = this.querySelector('#testimonialContent');
+        const dots = this.querySelectorAll('.testimonial-dot');
+
+        if (contentElement) {
+            const testimonials = [
+                {
+                    text: "Boom Digital revolucionó nuestro enfoque digital. La implementación de IA nos permitió escalar operaciones y mejorar significativamente nuestro ROI.",
+                    name: "Carlos Rodríguez",
+                    company: "CEO, TechStart Inc"
+                },
+                {
+                    text: "La automatización con IA nos ahorró 20 horas semanales en tareas repetitivas. El equipo de Boom Digital es excepcional.",
+                    name: "María González",
+                    company: "Ecommerce Pro"
+                },
+                {
+                    text: "Desde que implementamos las soluciones de Boom Digital, nuestro engagement ha aumentado un 300%. Recomendado 100%.",
+                    name: "Ana Martínez",
+                    company: "Growth Labs"
+                }
+            ];
+
+            const testimonial = testimonials[this.currentTestimonial];
+            contentElement.innerHTML = `
+                <div class="text-center">
+                    <div class="text-6xl mb-4">"</div>
+                    <p class="text-xl text-gray-700 mb-6 italic">
+                        ${testimonial.text}
+                    </p>
+                    <div class="flex items-center justify-center">
+                        <div class="text-left">
+                            <div class="font-bold text-black">${testimonial.name}</div>
+                            <div class="text-gray-600">${testimonial.company}</div>
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+
+        dots.forEach((dot, index) => {
+            if (index === this.currentTestimonial) {
+                dot.classList.remove('bg-gray-300');
+                dot.classList.add('bg-primary-blue');
+            } else {
+                dot.classList.remove('bg-primary-blue');
+                dot.classList.add('bg-gray-300');
+            }
+        });
+    }
+
+    showAuthModal(type) {
+        const authModal = document.querySelector('auth-modal');
+        if (authModal) {
+            authModal.open(type);
+        }
+    }
 }
 
 customElements.define('club-section', ClubSection);

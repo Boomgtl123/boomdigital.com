@@ -1,372 +1,204 @@
 // CTA Section Component
 class CTASection extends HTMLElement {
-  constructor() {
-    super();
-    this.attachShadow({ mode: 'open' });
-  }
+    constructor() {
+        super();
+    }
 
-  connectedCallback() {
-    this.render();
-    this.setupAnimations();
-    this.setupCTAButton();
-  }
+    connectedCallback() {
+        this.render();
+        this.setupAnimations();
+    }
 
-  render() {
-    this.shadowRoot.innerHTML = `
-      <style>
-        :host {
-          display: block;
-          background: #000000;
-          color: white;
+    render() {
+        this.innerHTML = `
+            <section id="cta" class="py-20 bg-black">
+                <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                    <div class="text-center animate-fade-in">
+                        <!-- Main Heading -->
+                        <h2 class="text-3xl md:text-5xl font-bold text-white mb-6">
+                            ¿Listo para Transformar tu Negocio?
+                        </h2>
+                        
+                        <!-- Subtitle -->
+                        <p class="text-xl text-gray-300 mb-12 max-w-3xl mx-auto">
+                            Únete a las empresas líderes que ya están revolucionando su presencia digital con nuestras soluciones de IA.
+                        </p>
+
+                        <!-- CTA Buttons -->
+                        <div class="flex flex-col sm:flex-row gap-6 justify-center items-center">
+                            <!-- Primary CTA -->
+                            <button class="cta-primary bg-primary-blue text-white px-8 py-4 rounded-full text-lg font-semibold hover:bg-blue-400 transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl flex items-center space-x-2">
+                                <span>Comenzar Ahora</span>
+                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6" />
+                                </svg>
+                            </button>
+
+                            <!-- Secondary CTA -->
+                            <button class="cta-secondary border-2 border-white text-white px-8 py-4 rounded-full text-lg font-semibold hover:bg-white hover:text-black transition-all duration-300 transform hover:scale-105">
+                                Agenda una Demo
+                            </button>
+                        </div>
+
+                        <!-- Trust Indicators -->
+                        <div class="mt-16 grid grid-cols-1 md:grid-cols-3 gap-8 text-white">
+                            <!-- Trust Item 1 -->
+                            <div class="text-center animate-slide-up">
+                                <div class="text-3xl font-bold text-primary-blue mb-2">+500</div>
+                                <div class="text-gray-300">Empresas Transformadas</div>
+                            </div>
+
+                            <!-- Trust Item 2 -->
+                            <div class="text-center animate-slide-up animation-delay-200">
+                                <div class="text-3xl font-bold text-primary-blue mb-2">+85%</div>
+                                <div class="text-gray-300">ROI Promedio</div>
+                            </div>
+
+                            <!-- Trust Item 3 -->
+                            <div class="text-center animate-slide-up animation-delay-400">
+                                <div class="text-3xl font-bold text-primary-blue mb-2">24/7</div>
+                                <div class="text-gray-300">Soporte Premium</div>
+                            </div>
+                        </div>
+
+                        <!-- Additional Info -->
+                        <div class="mt-12 text-center">
+                            <div class="flex flex-col sm:flex-row justify-center items-center space-y-4 sm:space-y-0 sm:space-x-8 text-gray-400">
+                                <div class="flex items-center space-x-2">
+                                    <svg class="w-5 h-5 text-green-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                                    </svg>
+                                    <span>Implementación en 48 horas</span>
+                                </div>
+                                <div class="flex items-center space-x-2">
+                                    <svg class="w-5 h-5 text-green-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                                    </svg>
+                                    <span>Garantía de resultados</span>
+                                </div>
+                                <div class="flex items-center space-x-2">
+                                    <svg class="w-5 h-5 text-green-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                                    </svg>
+                                    <span>Soporte técnico incluido</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Floating Elements -->
+                <div class="absolute inset-0 overflow-hidden pointer-events-none">
+                    <div class="floating-element-1 absolute w-4 h-4 bg-primary-blue rounded-full opacity-20 animate-pulse-slow" style="top: 20%; left: 10%;"></div>
+                    <div class="floating-element-2 absolute w-6 h-6 bg-primary-blue rounded-full opacity-30 animate-pulse-slow" style="top: 60%; right: 15%; animation-delay: 1s;"></div>
+                    <div class="floating-element-3 absolute w-3 h-3 bg-primary-blue rounded-full opacity-40 animate-pulse-slow" style="bottom: 30%; left: 20%; animation-delay: 2s;"></div>
+                </div>
+            </section>
+        `;
+
+        this.setupEventListeners();
+    }
+
+    setupEventListeners() {
+        // Primary CTA Button
+        const primaryCTA = this.querySelector('.cta-primary');
+        if (primaryCTA) {
+            primaryCTA.addEventListener('click', () => {
+                this.handlePrimaryCTA();
+            });
         }
 
-        .cta-section {
-          max-width: 1200px;
-          margin: 0 auto;
-          padding: 6rem 2rem;
-          text-align: center;
-          position: relative;
-          overflow: hidden;
+        // Secondary CTA Button
+        const secondaryCTA = this.querySelector('.cta-secondary');
+        if (secondaryCTA) {
+            secondaryCTA.addEventListener('click', () => {
+                this.handleSecondaryCTA();
+            });
         }
+    }
 
-        .cta-background {
-          position: absolute;
-          top: 0;
-          left: 0;
-          right: 0;
-          bottom: 0;
-          background: linear-gradient(135deg, #000000 0%, #1a1a1a 100%);
-          z-index: 1;
-        }
+    setupAnimations() {
+        // Add staggered animation delays for trust indicators
+        const trustItems = this.querySelectorAll('.animate-slide-up');
+        trustItems.forEach((item, index) => {
+            item.style.animationDelay = `${index * 200}ms`;
+        });
 
-        .cta-content {
-          position: relative;
-          z-index: 2;
-          opacity: 0;
-          transform: translateY(30px);
-        }
+        // Setup floating elements animation
+        this.animateFloatingElements();
+    }
 
-        .cta-title {
-          font-size: clamp(2.5rem, 5vw, 4rem);
-          font-weight: 800;
-          margin-bottom: 1.5rem;
-          line-height: 1.1;
-          background: linear-gradient(135deg, #FFFFFF 0%, #37C6FF 100%);
-          -webkit-background-clip: text;
-          -webkit-text-fill-color: transparent;
-          background-clip: text;
-        }
-
-        .cta-subtitle {
-          font-size: 1.3rem;
-          color: #94A3B8;
-          margin-bottom: 3rem;
-          max-width: 600px;
-          margin-left: auto;
-          margin-right: auto;
-          line-height: 1.6;
-        }
-
-        .cta-button {
-          background: #37C6FF;
-          color: white;
-          border: none;
-          padding: 1.25rem 3rem;
-          border-radius: 12px;
-          font-size: 1.2rem;
-          font-weight: 600;
-          cursor: pointer;
-          transition: all 0.3s ease;
-          position: relative;
-          overflow: hidden;
-        }
-
-        .cta-button::before {
-          content: '';
-          position: absolute;
-          top: 0;
-          left: -100%;
-          width: 100%;
-          height: 100%;
-          background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
-          transition: left 0.5s ease;
-        }
-
-        .cta-button:hover {
-          background: #2BA3D9;
-          transform: translateY(-3px);
-          box-shadow: 0 15px 35px rgba(55, 198, 255, 0.3);
-        }
-
-        .cta-button:hover::before {
-          left: 100%;
-        }
-
-        .cta-button:active {
-          transform: translateY(-1px);
-        }
-
-        .cta-stats {
-          display: flex;
-          justify-content: center;
-          gap: 4rem;
-          margin-top: 4rem;
-          opacity: 0;
-          transform: translateY(30px);
-        }
-
-        .stat-item {
-          text-align: center;
-        }
-
-        .stat-number {
-          font-size: 2.5rem;
-          font-weight: 800;
-          color: #37C6FF;
-          margin-bottom: 0.5rem;
-          display: block;
-        }
-
-        .stat-label {
-          color: #94A3B8;
-          font-size: 1rem;
-          font-weight: 500;
-        }
-
-        .floating-elements {
-          position: absolute;
-          top: 0;
-          left: 0;
-          right: 0;
-          bottom: 0;
-          pointer-events: none;
-          z-index: 1;
-        }
-
-        .floating-element {
-          position: absolute;
-          background: rgba(55, 198, 255, 0.1);
-          border-radius: 50%;
-          animation: float 6s ease-in-out infinite;
-        }
-
-        .floating-element:nth-child(1) {
-          width: 80px;
-          height: 80px;
-          top: 20%;
-          left: 10%;
-          animation-delay: 0s;
-        }
-
-        .floating-element:nth-child(2) {
-          width: 120px;
-          height: 120px;
-          top: 60%;
-          right: 15%;
-          animation-delay: 2s;
-        }
-
-        .floating-element:nth-child(3) {
-          width: 60px;
-          height: 60px;
-          bottom: 20%;
-          left: 20%;
-          animation-delay: 4s;
-        }
-
-        @keyframes float {
-          0%, 100% {
-            transform: translateY(0px) rotate(0deg);
-          }
-          50% {
-            transform: translateY(-20px) rotate(180deg);
-          }
-        }
-
-        .pulse-ring {
-          position: absolute;
-          top: 50%;
-          left: 50%;
-          transform: translate(-50%, -50%);
-          width: 200px;
-          height: 200px;
-          border: 2px solid rgba(55, 198, 255, 0.3);
-          border-radius: 50%;
-          animation: pulse-ring 3s ease-out infinite;
-          pointer-events: none;
-        }
-
-        @keyframes pulse-ring {
-          0% {
-            transform: translate(-50%, -50%) scale(0.8);
-            opacity: 1;
-          }
-          100% {
-            transform: translate(-50%, -50%) scale(1.5);
-            opacity: 0;
-          }
-        }
-
-        /* Animation classes */
-        .animate-in {
-          opacity: 1;
-          transform: translateY(0);
-          transition: all 0.8s ease;
-        }
-
-        @media (max-width: 768px) {
-          .cta-section {
-            padding: 4rem 1rem;
-          }
-
-          .cta-stats {
-            flex-direction: column;
-            gap: 2rem;
-          }
-
-          .stat-number {
-            font-size: 2rem;
-          }
-        }
-      </style>
-
-      <section class="cta-section" id="cta">
-        <div class="cta-background"></div>
+    animateFloatingElements() {
+        const floatingElements = this.querySelectorAll('.floating-element-1, .floating-element-2, .floating-element-3');
         
-        <div class="floating-elements">
-          <div class="floating-element"></div>
-          <div class="floating-element"></div>
-          <div class="floating-element"></div>
-        </div>
+        floatingElements.forEach((element, index) => {
+            // Add floating animation
+            element.style.animation = `float 6s ease-in-out infinite ${index * 2}s`;
+            
+            // Add custom floating keyframes
+            if (!document.querySelector('#floatingKeyframes')) {
+                const style = document.createElement('style');
+                style.id = 'floatingKeyframes';
+                style.textContent = `
+                    @keyframes float {
+                        0%, 100% { transform: translateY(0px) rotate(0deg); }
+                        50% { transform: translateY(-20px) rotate(180deg); }
+                    }
+                `;
+                document.head.appendChild(style);
+            }
+        });
+    }
 
-        <div class="cta-content">
-          <h2 class="cta-title">¿Listo para Transformar tu Negocio?</h2>
-          <p class="cta-subtitle">
-            Únete a más de 500 empresas que ya están revolucionando su presencia digital 
-            con nuestras soluciones de inteligencia artificial y automatización.
-          </p>
-          
-          <button class="cta-button" id="mainCTA">
-            Comenzar Ahora
-            <div class="pulse-ring"></div>
-          </button>
+    handlePrimaryCTA() {
+        // Show registration modal or redirect to registration page
+        const registrationEvent = new CustomEvent('show-registration', {
+            bubbles: true,
+            detail: { source: 'cta-primary' }
+        });
+        this.dispatchEvent(registrationEvent);
+        
+        // Alternative: Redirect to registration page
+        // window.location.href = '/register.html';
+    }
 
-          <div class="cta-stats">
-            <div class="stat-item">
-              <span class="stat-number" id="statClients">500+</span>
-              <span class="stat-label">Clientes Satisfechos</span>
-            </div>
-            <div class="stat-item">
-              <span class="stat-number" id="statROI">45%</span>
-              <span class="stat-label">ROI Promedio</span>
-            </div>
-            <div class="stat-item">
-              <span class="stat-number" id="statGrowth">3x</span>
-              <span class="stat-label">Crecimiento Acelerado</span>
-            </div>
-          </div>
-        </div>
-      </section>
-    `;
-  }
+    handleSecondaryCTA() {
+        // Show contact/demo modal
+        const demoEvent = new CustomEvent('show-demo', {
+            bubbles: true,
+            detail: { source: 'cta-secondary' }
+        });
+        this.dispatchEvent(demoEvent);
+        
+        // Alternative: Open contact form
+        // window.location.href = '/contact.html';
+    }
 
-  setupAnimations() {
-    const observer = new IntersectionObserver((entries) => {
-      entries.forEach((entry) => {
-        if (entry.isIntersecting) {
-          const content = this.shadowRoot.querySelector('.cta-content');
-          const stats = this.shadowRoot.querySelector('.cta-stats');
-          
-          if (content) {
-            setTimeout(() => {
-              content.classList.add('animate-in');
-            }, 200);
-          }
-          
-          if (stats) {
-            setTimeout(() => {
-              stats.classList.add('animate-in');
-            }, 800);
-          }
-
-          this.animateStats();
-          observer.unobserve(entry.target);
+    // Method to update CTA content dynamically
+    updateCTAContent(content) {
+        if (content.title) {
+            const titleElement = this.querySelector('h2');
+            if (titleElement) titleElement.textContent = content.title;
         }
-      });
-    }, { threshold: 0.3 });
-
-    observer.observe(this);
-  }
-
-  setupCTAButton() {
-    const ctaButton = this.shadowRoot.getElementById('mainCTA');
-    if (ctaButton) {
-      ctaButton.addEventListener('click', () => {
-        this.handleCTAClick();
-      });
+        
+        if (content.subtitle) {
+            const subtitleElement = this.querySelector('p.text-gray-300');
+            if (subtitleElement) subtitleElement.textContent = content.subtitle;
+        }
+        
+        if (content.primaryButton) {
+            const primaryButton = this.querySelector('.cta-primary span');
+            if (primaryButton) primaryButton.textContent = content.primaryButton;
+        }
+        
+        if (content.secondaryButton) {
+            const secondaryButton = this.querySelector('.cta-secondary');
+            if (secondaryButton) secondaryButton.textContent = content.secondaryButton;
+        }
     }
-  }
-
-  animateStats() {
-    const clientsStat = this.shadowRoot.getElementById('statClients');
-    const roiStat = this.shadowRoot.getElementById('statROI');
-    const growthStat = this.shadowRoot.getElementById('statGrowth');
-
-    if (clientsStat) this.animateCounter(clientsStat, 0, 500, 2000);
-    if (roiStat) this.animateCounter(roiStat, 0, 45, 1500);
-    if (growthStat) this.animateCounter(growthStat, 0, 3, 1000);
-  }
-
-  animateCounter(element, start, end, duration) {
-    let startTimestamp = null;
-    const step = (timestamp) => {
-      if (!startTimestamp) startTimestamp = timestamp;
-      const progress = Math.min((timestamp - startTimestamp) / duration, 1);
-      
-      let value;
-      if (element.id === 'statGrowth') {
-        value = Math.floor(progress * end);
-        element.textContent = value + 'x';
-      } else {
-        value = Math.floor(progress * (end - start) + start);
-        element.textContent = value + (element.id === 'statROI' ? '%' : '+');
-      }
-      
-      if (progress < 1) {
-        window.requestAnimationFrame(step);
-      }
-    };
-    window.requestAnimationFrame(step);
-  }
-
-  handleCTAClick() {
-    const event = new CustomEvent('cta-clicked', {
-      bubbles: true,
-      detail: { 
-        action: 'main-cta',
-        section: 'cta'
-      }
-    });
-    this.dispatchEvent(event);
-  }
-
-  updateContent(content) {
-    if (content && content.cta) {
-      const title = this.shadowRoot.querySelector('.cta-title');
-      const subtitle = this.shadowRoot.querySelector('.cta-subtitle');
-      const button = this.shadowRoot.querySelector('.cta-button');
-
-      if (content.cta.title && title) {
-        title.textContent = content.cta.title;
-      }
-      if (content.cta.subtitle && subtitle) {
-        subtitle.textContent = content.cta.subtitle;
-      }
-      if (content.cta.buttonText && button) {
-        button.textContent = content.cta.buttonText;
-      }
-    }
-  }
 }
 
+// Register the custom element
 customElements.define('cta-section', CTASection);
+
+export default CTASection;

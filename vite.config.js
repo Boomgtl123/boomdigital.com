@@ -6,14 +6,17 @@ export default defineConfig({
     host: true
   },
   build: {
-    target: 'esnext',
-    minify: 'esbuild',
+    outDir: 'dist',
+    sourcemap: true,
     rollupOptions: {
-      external: []
+      output: {
+        manualChunks: {
+          vendor: ['firebase']
+        }
+      }
     }
   },
   optimizeDeps: {
-    include: [],
-    exclude: ['firebase']
+    include: ['firebase']
   }
 })

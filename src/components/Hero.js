@@ -1,363 +1,216 @@
 // Hero Component
 class HeroSection extends HTMLElement {
-  constructor() {
-    super();
-    this.attachShadow({ mode: 'open' });
-  }
-
-  connectedCallback() {
-    this.render();
-    this.setupAnimations();
-  }
-
-  render() {
-    this.shadowRoot.innerHTML = `
-      <style>
-        :host {
-          display: block;
-          margin-top: 80px;
-        }
-
-        .hero-section {
-          min-height: 90vh;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          background: linear-gradient(135deg, #FFFFFF 0%, #F8FAFC 100%);
-          position: relative;
-          overflow: hidden;
-        }
-
-        .hero-background {
-          position: absolute;
-          top: 0;
-          left: 0;
-          right: 0;
-          bottom: 0;
-          background: 
-            radial-gradient(circle at 20% 80%, rgba(55, 198, 255, 0.1) 0%, transparent 50%),
-            radial-gradient(circle at 80% 20%, rgba(55, 198, 255, 0.05) 0%, transparent 50%);
-        }
-
-        .hero-container {
-          max-width: 1200px;
-          margin: 0 auto;
-          padding: 4rem 2rem;
-          text-align: center;
-          position: relative;
-          z-index: 2;
-        }
-
-        .hero-title {
-          font-size: clamp(2.5rem, 5vw, 4.5rem);
-          font-weight: 800;
-          line-height: 1.1;
-          color: #000;
-          margin-bottom: 1.5rem;
-          opacity: 0;
-          transform: translateY(30px);
-          animation: fadeInUp 1s ease-out 0.2s forwards;
-        }
-
-        .hero-subtitle {
-          font-size: clamp(1.1rem, 2vw, 1.4rem);
-          font-weight: 400;
-          line-height: 1.6;
-          color: #64748B;
-          max-width: 600px;
-          margin: 0 auto 3rem;
-          opacity: 0;
-          transform: translateY(30px);
-          animation: fadeInUp 1s ease-out 0.4s forwards;
-        }
-
-        .hero-cta {
-          display: flex;
-          gap: 1rem;
-          justify-content: center;
-          align-items: center;
-          flex-wrap: wrap;
-          opacity: 0;
-          transform: translateY(30px);
-          animation: fadeInUp 1s ease-out 0.6s forwards;
-        }
-
-        .btn-primary {
-          background: #37C6FF;
-          color: white;
-          border: none;
-          padding: 1rem 2.5rem;
-          border-radius: 12px;
-          font-weight: 600;
-          font-size: 1.1rem;
-          cursor: pointer;
-          transition: all 0.3s ease;
-          text-decoration: none;
-          display: inline-block;
-          position: relative;
-          overflow: hidden;
-        }
-
-        .btn-primary::before {
-          content: '';
-          position: absolute;
-          top: 0;
-          left: -100%;
-          width: 100%;
-          height: 100%;
-          background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
-          transition: left 0.5s;
-        }
-
-        .btn-primary:hover::before {
-          left: 100%;
-        }
-
-        .btn-primary:hover {
-          background: #2BA3D9;
-          transform: translateY(-3px);
-          box-shadow: 0 15px 30px rgba(55, 198, 255, 0.4);
-        }
-
-        .btn-secondary {
-          background: transparent;
-          color: #000;
-          border: 2px solid #000;
-          padding: 1rem 2.5rem;
-          border-radius: 12px;
-          font-weight: 600;
-          font-size: 1.1rem;
-          cursor: pointer;
-          transition: all 0.3s ease;
-          text-decoration: none;
-          display: inline-block;
-        }
-
-        .btn-secondary:hover {
-          background: #000;
-          color: white;
-          transform: translateY(-3px);
-          box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
-        }
-
-        .hero-stats {
-          display: flex;
-          justify-content: center;
-          gap: 3rem;
-          margin-top: 4rem;
-          opacity: 0;
-          animation: fadeInUp 1s ease-out 0.8s forwards;
-        }
-
-        .stat-item {
-          text-align: center;
-        }
-
-        .stat-number {
-          font-size: 2rem;
-          font-weight: 700;
-          color: #37C6FF;
-          display: block;
-        }
-
-        .stat-label {
-          font-size: 0.9rem;
-          color: #64748B;
-          font-weight: 500;
-        }
-
-        .floating-elements {
-          position: absolute;
-          top: 0;
-          left: 0;
-          right: 0;
-          bottom: 0;
-          pointer-events: none;
-        }
-
-        .floating-element {
-          position: absolute;
-          background: rgba(55, 198, 255, 0.1);
-          border-radius: 50%;
-          animation: float 6s ease-in-out infinite;
-        }
-
-        .floating-element:nth-child(1) {
-          width: 100px;
-          height: 100px;
-          top: 20%;
-          left: 10%;
-          animation-delay: 0s;
-        }
-
-        .floating-element:nth-child(2) {
-          width: 150px;
-          height: 150px;
-          top: 60%;
-          right: 10%;
-          animation-delay: 2s;
-        }
-
-        .floating-element:nth-child(3) {
-          width: 80px;
-          height: 80px;
-          bottom: 20%;
-          left: 20%;
-          animation-delay: 4s;
-        }
-
-        @keyframes fadeInUp {
-          to {
-            opacity: 1;
-            transform: translateY(0);
-          }
-        }
-
-        @keyframes float {
-          0%, 100% {
-            transform: translateY(0) rotate(0deg);
-          }
-          50% {
-            transform: translateY(-20px) rotate(180deg);
-          }
-        }
-
-        @media (max-width: 768px) {
-          .hero-container {
-            padding: 2rem 1rem;
-          }
-
-          .hero-stats {
-            gap: 2rem;
-            flex-wrap: wrap;
-          }
-
-          .stat-number {
-            font-size: 1.5rem;
-          }
-
-          .hero-cta {
-            flex-direction: column;
-            align-items: stretch;
-          }
-
-          .btn-primary, .btn-secondary {
-            width: 100%;
-            text-align: center;
-          }
-        }
-      </style>
-
-      <section class="hero-section" id="hero">
-        <div class="hero-background"></div>
-        
-        <div class="floating-elements">
-          <div class="floating-element"></div>
-          <div class="floating-element"></div>
-          <div class="floating-element"></div>
-        </div>
-
-        <div class="hero-container">
-          <h1 class="hero-title" id="heroTitle">
-            Transformamos tu Presencia Digital con IA
-          </h1>
-          
-          <p class="hero-subtitle" id="heroSubtitle">
-            Soluciones inteligentes que impulsan el crecimiento de tu empresa. 
-            Automatización, análisis predictivo y estrategias personalizadas.
-          </p>
-          
-          <div class="hero-cta">
-            <button class="btn-primary" id="ctaButton">
-              Comenzar Ahora
-            </button>
-            <button class="btn-secondary">
-              Ver Demostración
-            </button>
-          </div>
-
-          <div class="hero-stats">
-            <div class="stat-item">
-              <span class="stat-number" data-target="500">0</span>
-              <span class="stat-label">Clientes Satisfechos</span>
-            </div>
-            <div class="stat-item">
-              <span class="stat-number" data-target="150">0</span>
-              <span class="stat-label">Proyectos Exitosos</span>
-            </div>
-            <div class="stat-item">
-              <span class="stat-number" data-target="99">0</span>
-              <span class="stat-label">% Satisfacción</span>
-            </div>
-          </div>
-        </div>
-      </section>
-    `;
-  }
-
-  setupAnimations() {
-    // Animate counter numbers
-    this.animateNumbers();
-    
-    // Setup CTA button event
-    const ctaButton = this.shadowRoot.getElementById('ctaButton');
-    ctaButton.addEventListener('click', () => {
-      this.handleCTAClick();
-    });
-  }
-
-  animateNumbers() {
-    const counters = this.shadowRoot.querySelectorAll('.stat-number');
-    
-    counters.forEach(counter => {
-      const target = parseInt(counter.getAttribute('data-target'));
-      const duration = 2000;
-      const step = target / (duration / 16);
-      let current = 0;
-      
-      const updateCounter = () => {
-        current += step;
-        if (current < target) {
-          counter.textContent = Math.floor(current);
-          requestAnimationFrame(updateCounter);
-        } else {
-          counter.textContent = target;
-        }
-      };
-      
-      // Start animation when element is in viewport
-      const observer = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-          if (entry.isIntersecting) {
-            updateCounter();
-            observer.unobserve(entry.target);
-          }
-        });
-      });
-      
-      observer.observe(counter);
-    });
-  }
-
-  handleCTAClick() {
-    const event = new CustomEvent('cta-clicked', {
-      bubbles: true,
-      detail: { action: 'primary-cta' }
-    });
-    this.dispatchEvent(event);
-  }
-
-  updateContent(content) {
-    if (content && content.hero) {
-      const title = this.shadowRoot.getElementById('heroTitle');
-      const subtitle = this.shadowRoot.getElementById('heroSubtitle');
-      const ctaButton = this.shadowRoot.getElementById('ctaButton');
-      
-      if (title) title.textContent = content.hero.title;
-      if (subtitle) subtitle.textContent = content.hero.subtitle;
-      if (ctaButton) ctaButton.textContent = content.hero.ctaText;
+    constructor() {
+        super();
+        this.websiteContent = null;
     }
-  }
+
+    connectedCallback() {
+        this.loadContent();
+        this.setupIntersectionObserver();
+    }
+
+    async loadContent() {
+        try {
+            const { getWebsiteContent } = await import('../firebase.js');
+            this.websiteContent = await getWebsiteContent();
+            this.render();
+        } catch (error) {
+            console.error('Error loading hero content:', error);
+            this.renderWithDefaultContent();
+        }
+    }
+
+    render() {
+        const hero = this.websiteContent?.hero || {};
+        
+        this.innerHTML = `
+            <section class="relative min-h-screen flex items-center justify-center bg-white overflow-hidden">
+                <!-- Background Elements -->
+                <div class="absolute inset-0 bg-gradient-to-br from-blue-50 to-white"></div>
+                <div class="absolute top-20 left-10 w-72 h-72 bg-primary-blue/10 rounded-full blur-3xl"></div>
+                <div class="absolute bottom-20 right-10 w-96 h-96 bg-primary-blue/5 rounded-full blur-3xl"></div>
+
+                <div class="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+                    <!-- Main Content -->
+                    <div class="animate-fade-in">
+                        <!-- Badge -->
+                        <div class="inline-flex items-center px-4 py-2 rounded-full bg-primary-blue/10 border border-primary-blue/20 mb-8">
+                            <span class="text-sm font-medium text-primary-blue">✨ Potenciado por IA</span>
+                        </div>
+
+                        <!-- Main Heading -->
+                        <h1 class="text-4xl md:text-6xl lg:text-7xl font-bold text-black mb-6 leading-tight">
+                            ${hero.title || 'Transformamos tu Presencia Digital con IA'}
+                        </h1>
+
+                        <!-- Subtitle -->
+                        <p class="text-xl md:text-2xl text-gray-600 mb-8 max-w-3xl mx-auto leading-relaxed">
+                            ${hero.subtitle || 'Soluciones inteligentes que impulsan el crecimiento de tu empresa'}
+                        </p>
+
+                        <!-- CTA Buttons -->
+                        <div class="flex flex-col sm:flex-row gap-4 justify-center items-center mb-12">
+                            <button 
+                                id="heroCtaBtn"
+                                class="group relative bg-primary-blue text-white px-8 py-4 rounded-full text-lg font-semibold hover:bg-blue-400 transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl"
+                            >
+                                <span class="relative z-10">${hero.ctaText || 'Comenzar Ahora'}</span>
+                                <div class="absolute inset-0 bg-white/20 rounded-full scale-0 group-hover:scale-100 transition-transform duration-300"></div>
+                            </button>
+                            
+                            <button 
+                                id="learnMoreBtn"
+                                class="group border-2 border-black text-black px-8 py-4 rounded-full text-lg font-semibold hover:bg-black hover:text-white transition-all duration-300 transform hover:scale-105"
+                            >
+                                <span>Conocer Más</span>
+                            </button>
+                        </div>
+
+                        <!-- Stats -->
+                        <div class="grid grid-cols-2 md:grid-cols-4 gap-8 max-w-2xl mx-auto">
+                            <div class="text-center">
+                                <div class="text-2xl md:text-3xl font-bold text-black mb-1">+500</div>
+                                <div class="text-sm text-gray-600">Clientes Satisfechos</div>
+                            </div>
+                            <div class="text-center">
+                                <div class="text-2xl md:text-3xl font-bold text-black mb-1">+95%</div>
+                                <div class="text-sm text-gray-600">Tasa de Éxito</div>
+                            </div>
+                            <div class="text-center">
+                                <div class="text-2xl md:text-3xl font-bold text-black mb-1">24/7</div>
+                                <div class="text-sm text-gray-600">Soporte Activo</div>
+                            </div>
+                            <div class="text-center">
+                                <div class="text-2xl md:text-3xl font-bold text-black mb-1">+3M</div>
+                                <div class="text-sm text-gray-600">Interacciones IA</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Scroll Indicator -->
+                    <div class="absolute bottom-8 left-1/2 transform -translate-x-1/2 animate-bounce">
+                        <div class="w-6 h-10 border-2 border-gray-400 rounded-full flex justify-center">
+                            <div class="w-1 h-3 bg-gray-400 rounded-full mt-2"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Floating Elements -->
+                <div class="absolute top-1/4 right-1/4 w-4 h-4 bg-primary-blue rounded-full animate-pulse"></div>
+                <div class="absolute bottom-1/3 left-1/4 w-3 h-3 bg-primary-blue rounded-full animate-pulse delay-1000"></div>
+                <div class="absolute top-1/3 left-1/2 w-2 h-2 bg-primary-blue rounded-full animate-pulse delay-500"></div>
+            </section>
+        `;
+
+        this.setupEventListeners();
+    }
+
+    renderWithDefaultContent() {
+        this.innerHTML = `
+            <section class="relative min-h-screen flex items-center justify-center bg-white overflow-hidden">
+                <div class="absolute inset-0 bg-gradient-to-br from-blue-50 to-white"></div>
+                <div class="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+                    <div class="animate-fade-in">
+                        <div class="inline-flex items-center px-4 py-2 rounded-full bg-primary-blue/10 border border-primary-blue/20 mb-8">
+                            <span class="text-sm font-medium text-primary-blue">✨ Potenciado por IA</span>
+                        </div>
+                        <h1 class="text-4xl md:text-6xl lg:text-7xl font-bold text-black mb-6 leading-tight">
+                            Transformamos tu Presencia Digital con IA
+                        </h1>
+                        <p class="text-xl md:text-2xl text-gray-600 mb-8 max-w-3xl mx-auto leading-relaxed">
+                            Soluciones inteligentes que impulsan el crecimiento de tu empresa
+                        </p>
+                        <div class="flex flex-col sm:flex-row gap-4 justify-center items-center mb-12">
+                            <button 
+                                id="heroCtaBtn"
+                                class="group relative bg-primary-blue text-white px-8 py-4 rounded-full text-lg font-semibold hover:bg-blue-400 transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl"
+                            >
+                                <span class="relative z-10">Comenzar Ahora</span>
+                                <div class="absolute inset-0 bg-white/20 rounded-full scale-0 group-hover:scale-100 transition-transform duration-300"></div>
+                            </button>
+                            <button 
+                                id="learnMoreBtn"
+                                class="group border-2 border-black text-black px-8 py-4 rounded-full text-lg font-semibold hover:bg-black hover:text-white transition-all duration-300 transform hover:scale-105"
+                            >
+                                <span>Conocer Más</span>
+                            </button>
+                        </div>
+                        <div class="grid grid-cols-2 md:grid-cols-4 gap-8 max-w-2xl mx-auto">
+                            <div class="text-center">
+                                <div class="text-2xl md:text-3xl font-bold text-black mb-1">+500</div>
+                                <div class="text-sm text-gray-600">Clientes Satisfechos</div>
+                            </div>
+                            <div class="text-center">
+                                <div class="text-2xl md:text-3xl font-bold text-black mb-1">+95%</div>
+                                <div class="text-sm text-gray-600">Tasa de Éxito</div>
+                            </div>
+                            <div class="text-center">
+                                <div class="text-2xl md:text-3xl font-bold text-black mb-1">24/7</div>
+                                <div class="text-sm text-gray-600">Soporte Activo</div>
+                            </div>
+                            <div class="text-center">
+                                <div class="text-2xl md:text-3xl font-bold text-black mb-1">+3M</div>
+                                <div class="text-sm text-gray-600">Interacciones IA</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="absolute bottom-8 left-1/2 transform -translate-x-1/2 animate-bounce">
+                        <div class="w-6 h-10 border-2 border-gray-400 rounded-full flex justify-center">
+                            <div class="w-1 h-3 bg-gray-400 rounded-full mt-2"></div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        `;
+
+        this.setupEventListeners();
+    }
+
+    setupEventListeners() {
+        const ctaBtn = this.querySelector('#heroCtaBtn');
+        const learnMoreBtn = this.querySelector('#learnMoreBtn');
+
+        if (ctaBtn) {
+            ctaBtn.addEventListener('click', () => {
+                this.showAuthModal('register');
+            });
+        }
+
+        if (learnMoreBtn) {
+            learnMoreBtn.addEventListener('click', () => {
+                document.querySelector('#services').scrollIntoView({ 
+                    behavior: 'smooth' 
+                });
+            });
+        }
+    }
+
+    setupIntersectionObserver() {
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('animate-slide-up');
+                }
+            });
+        }, { threshold: 0.1 });
+
+        // Observe elements for animation
+        setTimeout(() => {
+            const animatedElements = this.querySelectorAll('.animate-fade-in, .animate-slide-up');
+            animatedElements.forEach(el => observer.observe(el));
+        }, 100);
+    }
+
+    showAuthModal(type) {
+        const authModal = document.querySelector('auth-modal');
+        if (authModal) {
+            authModal.open(type);
+        }
+    }
 }
 
+// Register the custom element
 customElements.define('hero-section', HeroSection);
+
+export default HeroSection;

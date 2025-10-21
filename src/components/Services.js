@@ -1,361 +1,273 @@
 // Services Component
 class ServicesSection extends HTMLElement {
-  constructor() {
-    super();
-    this.attachShadow({ mode: 'open' });
-  }
-
-  connectedCallback() {
-    this.render();
-    this.setupServiceCards();
-  }
-
-  render() {
-    this.shadowRoot.innerHTML = `
-      <style>
-        :host {
-          display: block;
-          padding: 6rem 0;
-          background: #FFFFFF;
-        }
-
-        .services-section {
-          max-width: 1200px;
-          margin: 0 auto;
-          padding: 0 2rem;
-        }
-
-        .section-header {
-          text-align: center;
-          margin-bottom: 4rem;
-          opacity: 0;
-          transform: translateY(30px);
-        }
-
-        .section-title {
-          font-size: clamp(2rem, 4vw, 3rem);
-          font-weight: 800;
-          color: #000;
-          margin-bottom: 1rem;
-        }
-
-        .section-subtitle {
-          font-size: 1.2rem;
-          color: #64748B;
-          max-width: 600px;
-          margin: 0 auto;
-          line-height: 1.6;
-        }
-
-        .services-grid {
-          display: grid;
-          grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-          gap: 2rem;
-          margin-top: 3rem;
-        }
-
-        .service-card {
-          background: #FFFFFF;
-          border: 1px solid #E2E8F0;
-          border-radius: 16px;
-          padding: 2.5rem 2rem;
-          text-align: center;
-          transition: all 0.4s ease;
-          cursor: pointer;
-          position: relative;
-          overflow: hidden;
-          opacity: 0;
-          transform: translateY(30px);
-        }
-
-        .service-card::before {
-          content: '';
-          position: absolute;
-          top: 0;
-          left: 0;
-          right: 0;
-          height: 4px;
-          background: linear-gradient(90deg, #37C6FF, #2BA3D9);
-          transform: scaleX(0);
-          transition: transform 0.3s ease;
-        }
-
-        .service-card:hover::before {
-          transform: scaleX(1);
-        }
-
-        .service-card:hover {
-          transform: translateY(-8px);
-          box-shadow: 0 20px 40px rgba(55, 198, 255, 0.15);
-          border-color: #37C6FF;
-        }
-
-        .service-icon {
-          width: 80px;
-          height: 80px;
-          margin: 0 auto 1.5rem;
-          background: linear-gradient(135deg, #37C6FF, #2BA3D9);
-          border-radius: 20px;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          font-size: 2rem;
-          color: white;
-          transition: all 0.3s ease;
-        }
-
-        .service-card:hover .service-icon {
-          transform: scale(1.1) rotate(5deg);
-        }
-
-        .service-title {
-          font-size: 1.4rem;
-          font-weight: 700;
-          color: #000;
-          margin-bottom: 1rem;
-        }
-
-        .service-description {
-          color: #64748B;
-          line-height: 1.6;
-          font-size: 0.95rem;
-        }
-
-        .service-features {
-          list-style: none;
-          padding: 0;
-          margin: 1.5rem 0 0;
-          text-align: left;
-        }
-
-        .service-feature {
-          display: flex;
-          align-items: center;
-          gap: 0.5rem;
-          margin-bottom: 0.5rem;
-          color: #475569;
-          font-size: 0.9rem;
-        }
-
-        .feature-check {
-          color: #37C6FF;
-          font-weight: bold;
-        }
-
-        .service-cta {
-          margin-top: 2rem;
-          padding: 0.75rem 1.5rem;
-          background: transparent;
-          border: 2px solid #37C6FF;
-          color: #37C6FF;
-          border-radius: 8px;
-          font-weight: 600;
-          cursor: pointer;
-          transition: all 0.3s ease;
-          display: inline-block;
-        }
-
-        .service-cta:hover {
-          background: #37C6FF;
-          color: white;
-          transform: translateY(-2px);
-        }
-
-        @media (max-width: 768px) {
-          .services-section {
-            padding: 0 1rem;
-          }
-
-          .services-grid {
-            grid-template-columns: 1fr;
-            gap: 1.5rem;
-          }
-
-          .service-card {
-            padding: 2rem 1.5rem;
-          }
-        }
-
-        /* Animation classes */
-        .animate-in {
-          opacity: 1;
-          transform: translateY(0);
-        }
-      </style>
-
-      <section class="services-section" id="services">
-        <div class="section-header">
-          <h2 class="section-title">Nuestros Servicios</h2>
-          <p class="section-subtitle">
-            Soluciones innovadoras impulsadas por inteligencia artificial 
-            para transformar tu negocio digital
-          </p>
-        </div>
-
-        <div class="services-grid">
-          <div class="service-card" data-service="ai-assistant">
-            <div class="service-icon">🤖</div>
-            <h3 class="service-title" id="service1Title">Asistente IA</h3>
-            <p class="service-description" id="service1Desc">
-              Asistente virtual inteligente que automatiza tareas, responde consultas 
-              y mejora la productividad de tu equipo 24/7.
-            </p>
-            <ul class="service-features">
-              <li class="service-feature">
-                <span class="feature-check">✓</span> Respuestas instantáneas
-              </li>
-              <li class="service-feature">
-                <span class="feature-check">✓</span> Integración multi-plataforma
-              </li>
-              <li class="service-feature">
-                <span class="feature-check">✓</span> Aprendizaje continuo
-              </li>
-            </ul>
-            <button class="service-cta">Más Información</button>
-          </div>
-
-          <div class="service-card" data-service="omnichannel-bots">
-            <div class="service-icon">💬</div>
-            <h3 class="service-title" id="service2Title">Bots Omnicanal</h3>
-            <p class="service-description" id="service2Desc">
-              Solución de chatbots integrada en todos tus canales de comunicación 
-              para una experiencia de cliente unificada y eficiente.
-            </p>
-            <ul class="service-features">
-              <li class="service-feature">
-                <span class="feature-check">✓</span> WhatsApp, Messenger, Web
-              </li>
-              <li class="service-feature">
-                <span class="feature-check">✓</span> Contexto conversacional
-              </li>
-              <li class="service-feature">
-                <span class="feature-check">✓</span> Escalación humana
-              </li>
-            </ul>
-            <button class="service-cta">Más Información</button>
-          </div>
-
-          <div class="service-card" data-service="guaranteed-campaigns">
-            <div class="service-icon">🎯</div>
-            <h3 class="service-title" id="service3Title">Campañas Garantizadas</h3>
-            <p class="service-description" id="service3Desc">
-              Estrategias de marketing digital con resultados medibles y garantizados. 
-              Maximiza tu ROI con nuestro enfoque data-driven.
-            </p>
-            <ul class="service-features">
-              <li class="service-feature">
-                <span class="feature-check">✓</span> KPI específicos
-              </li>
-              <li class="service-feature">
-                <span class="feature-check">✓</span> Optimización en tiempo real
-              </li>
-              <li class="service-feature">
-                <span class="feature-check">✓</span> Reportes detallados
-              </li>
-            </ul>
-            <button class="service-cta">Más Información</button>
-          </div>
-
-          <div class="service-card" data-service="growth-simulator">
-            <div class="service-icon">📈</div>
-            <h3 class="service-title" id="service4Title">Growth Simulator</h3>
-            <p class="service-description" id="service4Desc">
-              Simulación predictiva que analiza múltiples escenarios para optimizar 
-              tu estrategia de crecimiento y tomar decisiones informadas.
-            </p>
-            <ul class="service-features">
-              <li class="service-feature">
-                <span class="feature-check">✓</span> Análisis predictivo
-              </li>
-              <li class="service-feature">
-                <span class="feature-check">✓</span> Escenarios múltiples
-              </li>
-              <li class="service-feature">
-                <span class="feature-check">✓</span> Recomendaciones accionables
-              </li>
-            </ul>
-            <button class="service-cta">Más Información</button>
-          </div>
-        </div>
-      </section>
-    `;
-  }
-
-  setupServiceCards() {
-    const serviceCards = this.shadowRoot.querySelectorAll('.service-card');
-    
-    // Add intersection observer for animations
-    const observer = new IntersectionObserver((entries) => {
-      entries.forEach((entry, index) => {
-        if (entry.isIntersecting) {
-          setTimeout(() => {
-            entry.target.classList.add('animate-in');
-          }, index * 200);
-          observer.unobserve(entry.target);
-        }
-      });
-    }, { threshold: 0.1 });
-
-    serviceCards.forEach(card => {
-      observer.observe(card);
-      
-      // Add click event for service cards
-      card.addEventListener('click', (e) => {
-        if (!e.target.classList.contains('service-cta')) {
-          this.handleServiceClick(card.getAttribute('data-service'));
-        }
-      });
-
-      // Add CTA button events
-      const ctaButton = card.querySelector('.service-cta');
-      ctaButton.addEventListener('click', (e) => {
-        e.stopPropagation();
-        this.handleServiceCTAClick(card.getAttribute('data-service'));
-      });
-    });
-  }
-
-  handleServiceClick(serviceType) {
-    const event = new CustomEvent('service-selected', {
-      bubbles: true,
-      detail: { 
-        service: serviceType,
-        action: 'view-details'
-      }
-    });
-    this.dispatchEvent(event);
-  }
-
-  handleServiceCTAClick(serviceType) {
-    const event = new CustomEvent('service-cta-clicked', {
-      bubbles: true,
-      detail: { 
-        service: serviceType,
-        action: 'get-info'
-      }
-    });
-    this.dispatchEvent(event);
-  }
-
-  updateContent(content) {
-    if (content && content.services) {
-      const services = content.services;
-      
-      // Update service titles and descriptions
-      for (let i = 1; i <= 4; i++) {
-        const titleElement = this.shadowRoot.getElementById(`service${i}Title`);
-        const descElement = this.shadowRoot.getElementById(`service${i}Desc`);
-        
-        if (titleElement && services[`service${i}`]) {
-          titleElement.textContent = services[`service${i}`].title;
-        }
-        
-        if (descElement && services[`service${i}`]) {
-          descElement.textContent = services[`service${i}`].description;
-        }
-      }
+    constructor() {
+        super();
+        this.websiteContent = null;
     }
-  }
+
+    connectedCallback() {
+        this.loadContent();
+        this.setupIntersectionObserver();
+    }
+
+    async loadContent() {
+        try {
+            const { getWebsiteContent } = await import('../firebase.js');
+            this.websiteContent = await getWebsiteContent();
+            this.render();
+        } catch (error) {
+            console.error('Error loading services content:', error);
+            this.renderWithDefaultContent();
+        }
+    }
+
+    render() {
+        const services = this.websiteContent?.services || {};
+        
+        this.innerHTML = `
+            <section id="services" class="py-20 bg-white">
+                <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                    <!-- Section Header -->
+                    <div class="text-center mb-16 animate-fade-in">
+                        <h2 class="text-4xl md:text-5xl font-bold text-black mb-4">
+                            Nuestros Servicios
+                        </h2>
+                        <p class="text-xl text-gray-600 max-w-2xl mx-auto">
+                            Soluciones innovadoras diseñadas para impulsar tu crecimiento digital
+                        </p>
+                    </div>
+
+                    <!-- Services Grid -->
+                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+                        <!-- Service 1: Asistente IA -->
+                        <div class="group relative bg-white rounded-2xl p-8 shadow-lg hover:shadow-2xl transition-all duration-500 transform hover:-translate-y-2 border border-gray-100 animate-slide-up">
+                            <div class="absolute top-4 right-4 w-12 h-12 bg-primary-blue/10 rounded-full flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
+                                <svg class="w-6 h-6 text-primary-blue" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z" />
+                                </svg>
+                            </div>
+                            <h3 class="text-2xl font-bold text-black mb-4 group-hover:text-primary-blue transition-colors duration-300">
+                                ${services.service1?.title || 'Asistente IA'}
+                            </h3>
+                            <p class="text-gray-600 mb-6 leading-relaxed">
+                                ${services.service1?.description || 'Asistente virtual inteligente que automatiza tareas y mejora la productividad de tu equipo.'}
+                            </p>
+                            <div class="flex items-center text-primary-blue font-medium group-hover:translate-x-2 transition-transform duration-300">
+                                <span>Descubrir más</span>
+                                <svg class="w-4 h-4 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+                                </svg>
+                            </div>
+                            <div class="absolute inset-0 bg-gradient-to-r from-primary-blue/5 to-transparent rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                        </div>
+
+                        <!-- Service 2: Bots Omnicanal -->
+                        <div class="group relative bg-white rounded-2xl p-8 shadow-lg hover:shadow-2xl transition-all duration-500 transform hover:-translate-y-2 border border-gray-100 animate-slide-up" style="animation-delay: 100ms">
+                            <div class="absolute top-4 right-4 w-12 h-12 bg-primary-blue/10 rounded-full flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
+                                <svg class="w-6 h-6 text-primary-blue" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
+                                </svg>
+                            </div>
+                            <h3 class="text-2xl font-bold text-black mb-4 group-hover:text-primary-blue transition-colors duration-300">
+                                ${services.service2?.title || 'Bots Omnicanal'}
+                            </h3>
+                            <p class="text-gray-600 mb-6 leading-relaxed">
+                                ${services.service2?.description || 'Solución de chatbots integrada en todos tus canales de comunicación para una experiencia unificada.'}
+                            </p>
+                            <div class="flex items-center text-primary-blue font-medium group-hover:translate-x-2 transition-transform duration-300">
+                                <span>Descubrir más</span>
+                                <svg class="w-4 h-4 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+                                </svg>
+                            </div>
+                            <div class="absolute inset-0 bg-gradient-to-r from-primary-blue/5 to-transparent rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                        </div>
+
+                        <!-- Service 3: Campañas Garantizadas -->
+                        <div class="group relative bg-white rounded-2xl p-8 shadow-lg hover:shadow-2xl transition-all duration-500 transform hover:-translate-y-2 border border-gray-100 animate-slide-up" style="animation-delay: 200ms">
+                            <div class="absolute top-4 right-4 w-12 h-12 bg-primary-blue/10 rounded-full flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
+                                <svg class="w-6 h-6 text-primary-blue" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                </svg>
+                            </div>
+                            <h3 class="text-2xl font-bold text-black mb-4 group-hover:text-primary-blue transition-colors duration-300">
+                                ${services.service3?.title || 'Campañas Garantizadas'}
+                            </h3>
+                            <p class="text-gray-600 mb-6 leading-relaxed">
+                                ${services.service3?.description || 'Estrategias de marketing con resultados medibles y garantizados para maximizar tu ROI.'}
+                            </p>
+                            <div class="flex items-center text-primary-blue font-medium group-hover:translate-x-2 transition-transform duration-300">
+                                <span>Descubrir más</span>
+                                <svg class="w-4 h-4 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+                                </svg>
+                            </div>
+                            <div class="absolute inset-0 bg-gradient-to-r from-primary-blue/5 to-transparent rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                        </div>
+
+                        <!-- Service 4: Growth Simulator -->
+                        <div class="group relative bg-white rounded-2xl p-8 shadow-lg hover:shadow-2xl transition-all duration-500 transform hover:-translate-y-2 border border-gray-100 animate-slide-up" style="animation-delay: 300ms">
+                            <div class="absolute top-4 right-4 w-12 h-12 bg-primary-blue/10 rounded-full flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
+                                <svg class="w-6 h-6 text-primary-blue" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6" />
+                                </svg>
+                            </div>
+                            <h3 class="text-2xl font-bold text-black mb-4 group-hover:text-primary-blue transition-colors duration-300">
+                                ${services.service4?.title || 'Growth Simulator'}
+                            </h3>
+                            <p class="text-gray-600 mb-6 leading-relaxed">
+                                ${services.service4?.description || 'Simulación predictiva y análisis avanzado para optimizar tu estrategia de crecimiento.'}
+                            </p>
+                            <div class="flex items-center text-primary-blue font-medium group-hover:translate-x-2 transition-transform duration-300">
+                                <span>Descubrir más</span>
+                                <svg class="w-4 h-4 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+                                </svg>
+                            </div>
+                            <div class="absolute inset-0 bg-gradient-to-r from-primary-blue/5 to-transparent rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                        </div>
+                    </div>
+
+                    <!-- CTA Section -->
+                    <div class="text-center mt-16 animate-fade-in" style="animation-delay: 400ms">
+                        <div class="bg-gradient-to-r from-primary-blue/5 to-blue-50 rounded-2xl p-8 max-w-2xl mx-auto">
+                            <h3 class="text-2xl font-bold text-black mb-4">
+                                ¿Listo para transformar tu negocio?
+                            </h3>
+                            <p class="text-gray-600 mb-6">
+                                Únete a más de 500 empresas que ya confían en nuestras soluciones de IA
+                            </p>
+                            <button 
+                                id="servicesCtaBtn"
+                                class="bg-primary-blue text-white px-8 py-3 rounded-full font-semibold hover:bg-blue-400 transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl"
+                            >
+                                Solicitar Demo Gratuita
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        `;
+
+        this.setupEventListeners();
+    }
+
+    renderWithDefaultContent() {
+        this.innerHTML = `
+            <section id="services" class="py-20 bg-white">
+                <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                    <div class="text-center mb-16 animate-fade-in">
+                        <h2 class="text-4xl md:text-5xl font-bold text-black mb-4">
+                            Nuestros Servicios
+                        </h2>
+                        <p class="text-xl text-gray-600 max-w-2xl mx-auto">
+                            Soluciones innovadoras diseñadas para impulsar tu crecimiento digital
+                        </p>
+                    </div>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+                        <!-- Default services content would go here -->
+                    </div>
+
+                    <div class="text-center mt-16 animate-fade-in" style="animation-delay: 400ms">
+                        <div class="bg-gradient-to-r from-primary-blue/5 to-blue-50 rounded-2xl p-8 max-w-2xl mx-auto">
+                            <h3 class="text-2xl font-bold text-black mb-4">
+                                ¿Listo para transformar tu negocio?
+                            </h3>
+                            <p class="text-gray-600 mb-6">
+                                Únete a más de 500 empresas que ya confían en nuestras soluciones de IA
+                            </p>
+                            <button 
+                                id="servicesCtaBtn"
+                                class="bg-primary-blue text-white px-8 py-3 rounded-full font-semibold hover:bg-blue-400 transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl"
+                            >
+                                Solicitar Demo Gratuita
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        `;
+
+        this.setupEventListeners();
+    }
+
+    setupEventListeners() {
+        const ctaBtn = this.querySelector('#servicesCtaBtn');
+        const serviceCards = this.querySelectorAll('.group');
+
+        if (ctaBtn) {
+            ctaBtn.addEventListener('click', () => {
+                this.showAuthModal('register');
+            });
+        }
+
+        // Add hover effects and click handlers for service cards
+        serviceCards.forEach((card, index) => {
+            card.addEventListener('click', () => {
+                this.showServiceDetails(index);
+            });
+        });
+    }
+
+    setupIntersectionObserver() {
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.animationPlayState = 'running';
+                }
+            });
+        }, { threshold: 0.1 });
+
+        setTimeout(() => {
+            const animatedElements = this.querySelectorAll('.animate-fade-in, .animate-slide-up');
+            animatedElements.forEach(el => observer.observe(el));
+        }, 100);
+    }
+
+    showServiceDetails(serviceIndex) {
+        const serviceNames = [
+            'Asistente IA',
+            'Bots Omnicanal', 
+            'Campañas Garantizadas',
+            'Growth Simulator'
+        ];
+        
+        this.showNotification(`Redirigiendo a detalles de: ${serviceNames[serviceIndex]}`, 'info');
+        
+        // In a real implementation, this would navigate to service detail page
+        setTimeout(() => {
+            this.showAuthModal('register');
+        }, 1000);
+    }
+
+    showAuthModal(type) {
+        const authModal = document.querySelector('auth-modal');
+        if (authModal) {
+            authModal.open(type);
+        }
+    }
+
+    showNotification(message, type = 'info') {
+        const notification = document.createElement('div');
+        const colors = {
+            success: 'bg-green-500',
+            error: 'bg-red-500',
+            info: 'bg-primary-blue'
+        };
+
+        notification.className = `fixed top-4 right-4 ${colors[type]} text-white px-6 py-3 rounded-lg shadow-lg z-50 transform transition-all duration-300 translate-x-0`;
+        notification.textContent = message;
+        document.body.appendChild(notification);
+
+        setTimeout(() => {
+            notification.style.transform = 'translateX(100%)';
+            setTimeout(() => notification.remove(), 300);
+        }, 3000);
+    }
 }
 
+// Register the custom element
 customElements.define('services-section', ServicesSection);
+
+export default ServicesSection;

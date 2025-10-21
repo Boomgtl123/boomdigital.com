@@ -1,189 +1,252 @@
-# Guía de Configuración - Boom Digital Agency
+# 🚀 Guía de Configuración - Boom Digital Agency
 
-Esta guía te ayudará a configurar y desplegar el proyecto Boom Digital Agency.
+Guía paso a paso para configurar y desplegar el proyecto Boom Digital Agency.
 
-## 🚀 Configuración Rápida
+## 📋 Prerrequisitos
 
-### 1. Instalación de Dependencias
+- **Node.js** 16.0 o superior
+- **Cuenta Google** para Firebase
+- **Git** para control de versiones
+
+## 🔧 Configuración Paso a Paso
+
+### 1. Configuración Inicial del Proyecto
+
 ```bash
+# Clonar o descargar el proyecto
+cd boom-digital-agency
+
+# Instalar dependencias
 npm install
-```
 
-### 2. Configuración Firebase
-
-#### Paso 1: Crear Proyecto Firebase
-1. Ve a [Firebase Console](https://console.firebase.google.com)
-2. Crea un nuevo proyecto llamado "boom-digital-agency"
-3. Anota el **Project ID**
-
-#### Paso 2: Configurar Authentication
-1. En el menú lateral, ve a "Authentication"
-2. Haz clic en "Get started"
-3. Ve a la pestaña "Sign-in method"
-4. Habilita "Email/Password"
-5. Guarda los cambios
-
-#### Paso 3: Configurar Firestore
-1. En el menú lateral, ve a "Firestore Database"
-2. Haz clic en "Create database"
-3. Elige "Start in test mode" (puedes cambiar las reglas después)
-4. Selecciona una ubicación cercana
-5. Haz clic en "Done"
-
-#### Paso 4: Obtener Configuración
-1. Ve a Configuración del proyecto (engranaje) → Configuración del proyecto
-2. En "Tus apps", haz clic en "Web" (</>)
-3. Registra la app con nombre "Boom Digital Agency Web"
-4. Copia la configuración que aparece
-
-#### Paso 5: Actualizar Configuración
-1. Abre `src/firebase.js`
-2. Reemplaza la configuración con tus datos:
-
-```javascript
-const firebaseConfig = {
-  apiKey: "tu-api-key-real",
-  authDomain: "tu-proyecto.firebaseapp.com",
-  projectId: "tu-proyecto-id",
-  storageBucket: "tu-proyecto.appspot.com",
-  messagingSenderId: "123456789",
-  appId: "tu-app-id-real"
-};
-```
-
-### 3. Configurar Usuario CEO
-1. En Firebase Console → Authentication → Users
-2. Haz clic en "Add user"
-3. Email: `boomdigitaleeuu@gmail.com`
-4. Establece una contraseña segura
-5. Haz clic en "Add user"
-
-### 4. Ejecutar en Desarrollo
-```bash
+# Verificar instalación
 npm run dev
 ```
 
-El sitio estará disponible en `http://localhost:5173`
+El servidor de desarrollo debería iniciar en `http://localhost:3000`
 
-## 🔧 Configuración Avanzada
+### 2. Configuración Firebase
 
-### Variables de Entorno (Opcional)
-Crea un archivo `.env` basado en `.env.example`:
+#### Paso 2.1: Crear Proyecto Firebase
+1. Ir a [Firebase Console](https://console.firebase.google.com)
+2. Click "Crear proyecto"
+3. Nombre: `boom-digital-agency`
+4. Deshabilitar Google Analytics (opcional)
+5. Click "Crear proyecto"
 
-```bash
-cp .env.example .env
+#### Paso 2.2: Configurar Authentication
+1. En Firebase Console → Authentication
+2. Click "Comenzar"
+3. Ir a pestaña "Sign-in method"
+4. Habilitar "Correo electrónico/contraseña"
+5. Guardar cambios
+
+#### Paso 2.3: Configurar Firestore
+1. En Firebase Console → Firestore Database
+2. Click "Crear base de datos"
+3. Modo "Modo de prueba" (puedes cambiar después)
+4. Elegir ubicación (us-east1 recomendado)
+5. Click "Listo"
+
+#### Paso 2.4: Obtener Configuración
+1. En Firebase Console → Configuración del proyecto
+2. Ir a "Tus apps" → "Web"
+3. Registrar app: `boom-digital-agency-web`
+4. Copiar configuración
+
+### 3. Configurar Credenciales Firebase
+
+Editar archivo `src/firebase.js`:
+
+```javascript
+const firebaseConfig = {
+  apiKey: "tu-api-key-aqui",
+  authDomain: "tu-proyecto.firebaseapp.com",
+  projectId: "tu-project-id",
+  storageBucket: "tu-proyecto.appspot.com",
+  messagingSenderId: "123456789",
+  appId: "tu-app-id"
+};
 ```
 
-### Reglas de Seguridad Firestore
-Después del setup inicial, actualiza las reglas de Firestore en la consola:
+### 4. Configurar Usuario CEO
+
+#### Paso 4.1: Agregar Usuario CEO
+1. Firebase Console → Authentication → Users
+2. Click "Agregar usuario"
+3. Email: `boomdigitaleeuu@gmail.com`
+4. Contraseña: [crear contraseña segura]
+5. Click "Agregar usuario"
+
+#### Paso 4.2: Configurar Reglas de Seguridad
+
+En Firebase Console → Firestore Database → Reglas:
 
 ```javascript
 rules_version = '2';
 service cloud.firestore {
   match /databases/{database}/documents {
+    // Permitir lectura pública del contenido del sitio
     match /website/content {
       allow read: if true;
-      allow write: if request.auth != null && request.auth.token.email == 'boomdigitaleeuu@gmail.com';
+      allow write: if request.auth != null && 
+                   request.auth.token.email == "boomdigitaleeuu@gmail.com";
     }
+    
+    // Analytics - lectura pública, escritura solo para CEO
     match /analytics/{document} {
-      allow read: if request.auth != null && request.auth.token.email == 'boomdigitaleeuu@gmail.com';
-      allow write: if true;
+      allow read: if request.auth != null && 
+                   request.auth.token.email == "boomdigitaleeuu@gmail.com";
+      allow write: if true; // Para tracking automático
     }
   }
 }
 ```
 
-## 🌐 Deployment
+### 5. Configuración de Dominio (Opcional)
 
-### Firebase Hosting (Recomendado)
+#### Para Custom Domain:
+1. Firebase Console → Hosting
+2. Click "Agregar dominio personalizado"
+3. Seguir instrucciones para verificar propiedad
 
-#### Instalar Firebase CLI
+#### Para Subdominio Firebase:
+- Tu sitio estará en: `https://tu-proyecto.web.app`
+
+### 6. Configuración de Entorno (Opcional)
+
+Crear archivo `.env` en la raíz:
+
+```env
+VITE_FIREBASE_API_KEY=tu-api-key
+VITE_FIREBASE_AUTH_DOMAIN=tu-proyecto.firebaseapp.com
+VITE_FIREBASE_PROJECT_ID=tu-project-id
+VITE_FIREBASE_STORAGE_BUCKET=tu-proyecto.appspot.com
+VITE_FIREBASE_MESSAGING_SENDER_ID=123456789
+VITE_FIREBASE_APP_ID=tu-app-id
+```
+
+Y modificar `src/firebase.js` para usar variables de entorno:
+
+```javascript
+const firebaseConfig = {
+  apiKey: import.meta.env.VITE_FIREBASE_API_KEY,
+  authDomain: import.meta.env.VITE_FIREBASE_AUTH_DOMAIN,
+  projectId: import.meta.env.VITE_FIREBASE_PROJECT_ID,
+  storageBucket: import.meta.env.VITE_FIREBASE_STORAGE_BUCKET,
+  messagingSenderId: import.meta.env.VITE_FIREBASE_MESSAGING_SENDER_ID,
+  appId: import.meta.env.VITE_FIREBASE_APP_ID
+};
+```
+
+## 🚀 Deployment
+
+### Opción 1: Firebase Hosting (Recomendado)
+
 ```bash
+# Instalar CLI de Firebase
 npm install -g firebase-tools
-```
 
-#### Login y Configuración
-```bash
+# Login
 firebase login
-firebase init hosting
-```
 
-#### Seleccionar opciones:
-- ¿Qué quieres hacer? → Hosting
-- Proyecto público → `dist`
-- Configurar como SPA → Sí
-- Sobrescribir index.html → No
+# Inicializar proyecto
+firebase init
 
-#### Build y Deploy
-```bash
+# Seleccionar:
+# - Hosting
+# - Usar proyecto existente
+# - Directorio público: dist
+# - Single-page app: Yes
+# - No sobreescribir index.html
+
+# Construir y desplegar
 npm run build
 firebase deploy
 ```
 
-### Netlify
-1. Conecta tu repositorio GitHub en Netlify
-2. Configura:
-   - Build command: `npm run build`
-   - Publish directory: `dist`
-3. Haz clic en "Deploy site"
+### Opción 2: Vercel
 
-### Vercel
-```bash
-npm install -g vercel
-vercel
-```
+1. Conectar repositorio GitHub a Vercel
+2. Configurar:
+   - Build Command: `npm run build`
+   - Output Directory: `dist`
+   - Install Command: `npm install`
 
-## 📊 Panel CEO
+### Opción 3: Netlify
 
-### Acceso
-1. Ejecuta el proyecto en desarrollo o producción
-2. Haz clic en "CEO Panel" en el header
-3. Ingresa con:
-   - Email: `boomdigitaleeuu@gmail.com`
-   - Contraseña: [la que configuraste en Firebase]
+1. Arrastrar carpeta `dist` a Netlify
+2. O conectar repositorio GitHub
 
-### Funcionalidades Disponibles
-- **Gestión de Contenido**: Modificar textos del Hero, Servicios, Testimonios
-- **Analytics**: Ver estadísticas de visitas y conversiones
-- **Personalización**: Cambiar colores del sitio
-- **Exportación**: Descargar datos en JSON
+## 🔍 Verificación Post-Deployment
 
-## 🐛 Solución de Problemas Comunes
+### 1. Verificar Sitio Web
+- Navegar a tu dominio
+- Verificar que todas las secciones carguen
+- Probar responsive design
 
-### Error: "vite: command not found"
-```bash
-npm install
-```
+### 2. Verificar Panel CEO
+1. Click en "Panel CEO" en el footer
+2. Login con `boomdigitaleeuu@gmail.com`
+3. Verificar que todas las funciones funcionen:
+   - Edición de contenido
+   - Cambio de colores
+   - Visualización de analytics
+   - Exportación de datos
 
-### Error de Firebase: "Missing or insufficient permissions"
-- Verifica que las reglas de Firestore estén configuradas correctamente
-- Asegúrate de que el usuario CEO esté creado en Authentication
+### 3. Verificar Firebase
+1. Firebase Console → Authentication → Users
+   - Verificar que el usuario CEO existe
+2. Firebase Console → Firestore → Data
+   - Verificar que se creó la colección `website/content`
 
-### Error: "Failed to load resource"
-- Verifica la configuración de Firebase en `src/firebase.js`
-- Asegúrate de que el proyecto Firebase esté activo
+## 🛠️ Solución de Problemas Comunes
 
-### El sitio no carga correctamente
-```bash
-npm run build
-npm run preview
-```
+### Error: "Firebase App named '[DEFAULT]' already exists"
+- Solución: Reiniciar el servidor de desarrollo
 
-## 🔒 Consideraciones de Seguridad
+### Error: "Permission denied" en Firestore
+- Solución: Verificar reglas de seguridad en Firebase Console
 
-- Nunca commits datos sensibles (API keys, contraseñas)
-- Usa variables de entorno para configuración sensible
-- Mantén las reglas de Firestore actualizadas
-- Monitorea el uso de la API de Firebase
+### Error: Authentication failed
+- Solución: Verificar que el usuario CEO existe en Authentication
+
+### El sitio no carga en producción
+- Solución: Verificar que `npm run build` se ejecutó correctamente
+
+### Panel CEO no se abre
+- Solución: Verificar que Firebase está configurado correctamente
+
+## 📈 Próximos Pasos
+
+### 1. Personalizar Contenido
+- Usar Panel CEO para modificar textos
+- Cambiar colores según branding
+- Agregar testimonios reales
+
+### 2. Configurar Analytics Avanzado
+- Integrar Google Analytics
+- Configurar eventos personalizados
+- Monitorear conversiones
+
+### 3. Optimizar Performance
+- Comprimir imágenes
+- Implementar CDN
+- Optimizar bundle size
+
+### 4. Seguridad Adicional
+- Configurar HTTPS
+- Implementar rate limiting
+- Monitorear logs de seguridad
 
 ## 📞 Soporte
 
-Si encuentras problemas durante la configuración:
-1. Revisa la consola del navegador para errores
-2. Verifica que todas las dependencias estén instaladas
-3. Confirma que la configuración de Firebase sea correcta
-4. Revisa que el usuario CEO esté creado en Authentication
+Si encuentras problemas:
+1. Revisar esta guía
+2. Verificar configuración Firebase
+3. Revisar consola del navegador para errores
+4. Contactar: boomdigitaleeuu@gmail.com
 
 ---
 
-**¡Listo!** Tu sitio Boom Digital Agency está configurado y listo para usar. 🎉
+**¡Listo! Tu sitio Boom Digital Agency está funcionando 🎉**

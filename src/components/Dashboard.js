@@ -1,431 +1,319 @@
 // Dashboard Component
 class DashboardSection extends HTMLElement {
-  constructor() {
-    super();
-    this.attachShadow({ mode: 'open' });
-    this.metrics = {
-      users: 0,
-      campaigns: 0,
-      revenue: 0,
-      growth: 0
-    };
-  }
+    constructor() {
+        super();
+        this.metrics = {
+            activeUsers: 0,
+            campaigns: 0,
+            conversions: 0,
+            revenue: 0
+        };
+        this.interval = null;
+    }
 
-  connectedCallback() {
-    this.render();
-    this.setupDashboard();
-    this.startLiveUpdates();
-  }
+    connectedCallback() {
+        this.render();
+        this.startLiveUpdates();
+        this.setupIntersectionObserver();
+    }
 
-  render() {
-    this.shadowRoot.innerHTML = `
-      <style>
-        :host {
-          display: block;
-          padding: 6rem 0;
-          background: linear-gradient(135deg, #0F172A 0%, #1E293B 100%);
-          color: white;
+    disconnectedCallback() {
+        if (this.interval) {
+            clearInterval(this.interval);
+        }
+    }
+
+    render() {
+        this.innerHTML = `
+            <section id="dashboard" class="py-20 bg-gradient-to-br from-gray-50 to-white">
+                <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                    <!-- Section Header -->
+                    <div class="text-center mb-16 animate-fade-in">
+                        <h2 class="text-4xl md:text-5xl font-bold text-black mb-4">
+                            Dashboard en Tiempo Real
+                        </h2>
+                        <p class="text-xl text-gray-600 max-w-2xl mx-auto">
+                            Monitorea el rendimiento de tus campañas con nuestra plataforma de IA
+                        </p>
+                    </div>
+
+                    <!-- Live Metrics Grid -->
+                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-12">
+                        <!-- Active Users -->
+                        <div class="bg-white rounded-2xl p-6 shadow-lg border border-gray-100 animate-slide-up">
+                            <div class="flex items-center justify-between mb-4">
+                                <h3 class="text-lg font-semibold text-gray-700">Usuarios Activos</h3>
+                                <div class="w-10 h-10 bg-green-100 rounded-full flex items-center justify-center">
+                                    <svg class="w-5 h-5 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197m13.5-9a2.5 2.5 0 11-5 0 2.5 2.5 0 015 0z" />
+                                    </svg>
+                                </div>
+                            </div>
+                            <div class="flex items-baseline">
+                                <span id="activeUsers" class="text-3xl font-bold text-black">2,847</span>
+                                <span class="ml-2 text-sm text-green-600 font-medium flex items-center">
+                                    <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 10l7-7m0 0l7 7m-7-7v18" />
+                                    </svg>
+                                    +12%
+                                </span>
+                            </div>
+                            <p class="text-sm text-gray-500 mt-2">En línea ahora</p>
+                        </div>
+
+                        <!-- Active Campaigns -->
+                        <div class="bg-white rounded-2xl p-6 shadow-lg border border-gray-100 animate-slide-up" style="animation-delay: 100ms">
+                            <div class="flex items-center justify-between mb-4">
+                                <h3 class="text-lg font-semibold text-gray-700">Campañas Activas</h3>
+                                <div class="w-10 h-10 bg-blue-100 rounded-full flex items-center justify-center">
+                                    <svg class="w-5 h-5 text-primary-blue" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6" />
+                                    </svg>
+                                </div>
+                            </div>
+                            <div class="flex items-baseline">
+                                <span id="activeCampaigns" class="text-3xl font-bold text-black">47</span>
+                                <span class="ml-2 text-sm text-green-600 font-medium flex items-center">
+                                    <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 10l7-7m0 0l7 7m-7-7v18" />
+                                    </svg>
+                                    +3
+                                </span>
+                            </div>
+                            <p class="text-sm text-gray-500 mt-2">Este mes</p>
+                        </div>
+
+                        <!-- Conversions -->
+                        <div class="bg-white rounded-2xl p-6 shadow-lg border border-gray-100 animate-slide-up" style="animation-delay: 200ms">
+                            <div class="flex items-center justify-between mb-4">
+                                <h3 class="text-lg font-semibold text-gray-700">Conversiones</h3>
+                                <div class="w-10 h-10 bg-purple-100 rounded-full flex items-center justify-center">
+                                    <svg class="w-5 h-5 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                    </svg>
+                                </div>
+                            </div>
+                            <div class="flex items-baseline">
+                                <span id="conversions" class="text-3xl font-bold text-black">1,284</span>
+                                <span class="ml-2 text-sm text-green-600 font-medium flex items-center">
+                                    <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 10l7-7m0 0l7 7m-7-7v18" />
+                                    </svg>
+                                    +8%
+                                </span>
+                            </div>
+                            <p class="text-sm text-gray-500 mt-2">Hoy</p>
+                        </div>
+
+                        <!-- Revenue -->
+                        <div class="bg-white rounded-2xl p-6 shadow-lg border border-gray-100 animate-slide-up" style="animation-delay: 300ms">
+                            <div class="flex items-center justify-between mb-4">
+                                <h3 class="text-lg font-semibold text-gray-700">Ingresos</h3>
+                                <div class="w-10 h-10 bg-yellow-100 rounded-full flex items-center justify-center">
+                                    <svg class="w-5 h-5 text-yellow-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1" />
+                                    </svg>
+                                </div>
+                            </div>
+                            <div class="flex items-baseline">
+                                <span id="revenue" class="text-3xl font-bold text-black">$24.7K</span>
+                                <span class="ml-2 text-sm text-green-600 font-medium flex items-center">
+                                    <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 10l7-7m0 0l7 7m-7-7v18" />
+                                    </svg>
+                                    +15%
+                                </span>
+                            </div>
+                            <p class="text-sm text-gray-500 mt-2">Este mes</p>
+                        </div>
+                    </div>
+
+                    <!-- Chart Visualization -->
+                    <div class="bg-white rounded-2xl p-8 shadow-lg border border-gray-100 animate-fade-in" style="animation-delay: 400ms">
+                        <div class="flex items-center justify-between mb-6">
+                            <h3 class="text-2xl font-bold text-black">Rendimiento de Campañas</h3>
+                            <div class="flex items-center space-x-2">
+                                <span class="text-sm text-gray-500">Actualizado hace 2 min</span>
+                                <div class="w-3 h-3 bg-green-500 rounded-full animate-pulse"></div>
+                            </div>
+                        </div>
+                        
+                        <!-- Simulated Chart -->
+                        <div class="relative h-64 bg-gradient-to-b from-gray-50 to-white rounded-xl border border-gray-200 overflow-hidden">
+                            <!-- Chart Grid -->
+                            <div class="absolute inset-0 flex items-end justify-between px-4 pb-4">
+                                <!-- Chart Bars -->
+                                <div class="flex items-end space-x-2 h-48 w-full justify-between">
+                                    <div class="flex flex-col items-center">
+                                        <div class="w-8 bg-primary-blue rounded-t-lg transition-all duration-1000" style="height: 60%"></div>
+                                        <span class="text-xs text-gray-500 mt-2">Lun</span>
+                                    </div>
+                                    <div class="flex flex-col items-center">
+                                        <div class="w-8 bg-primary-blue rounded-t-lg transition-all duration-1000" style="height: 75%"></div>
+                                        <span class="text-xs text-gray-500 mt-2">Mar</span>
+                                    </div>
+                                    <div class="flex flex-col items-center">
+                                        <div class="w-8 bg-primary-blue rounded-t-lg transition-all duration-1000" style="height: 45%"></div>
+                                        <span class="text-xs text-gray-500 mt-2">Mié</span>
+                                    </div>
+                                    <div class="flex flex-col items-center">
+                                        <div class="w-8 bg-primary-blue rounded-t-lg transition-all duration-1000" style="height: 85%"></div>
+                                        <span class="text-xs text-gray-500 mt-2">Jue</span>
+                                    </div>
+                                    <div class="flex flex-col items-center">
+                                        <div class="w-8 bg-primary-blue rounded-t-lg transition-all duration-1000" style="height: 65%"></div>
+                                        <span class="text-xs text-gray-500 mt-2">Vie</span>
+                                    </div>
+                                    <div class="flex flex-col items-center">
+                                        <div class="w-8 bg-primary-blue rounded-t-lg transition-all duration-1000" style="height: 95%"></div>
+                                        <span class="text-xs text-gray-500 mt-2">Sáb</span>
+                                    </div>
+                                    <div class="flex flex-col items-center">
+                                        <div class="w-8 bg-primary-blue rounded-t-lg transition-all duration-1000" style="height: 70%"></div>
+                                        <span class="text-xs text-gray-500 mt-2">Dom</span>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- Y-axis labels -->
+                            <div class="absolute left-4 top-4 flex flex-col justify-between h-48 text-xs text-gray-400">
+                                <span>100%</span>
+                                <span>75%</span>
+                                <span>50%</span>
+                                <span>25%</span>
+                                <span>0%</span>
+                            </div>
+                        </div>
+
+                        <!-- Chart Legend -->
+                        <div class="flex justify-center mt-6 space-x-6">
+                            <div class="flex items-center">
+                                <div class="w-3 h-3 bg-primary-blue rounded-full mr-2"></div>
+                                <span class="text-sm text-gray-600">Conversiones</span>
+                            </div>
+                            <div class="flex items-center">
+                                <div class="w-3 h-3 bg-green-500 rounded-full mr-2"></div>
+                                <span class="text-sm text-gray-600">Ingresos</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- CTA Section -->
+                    <div class="text-center mt-12 animate-fade-in" style="animation-delay: 600ms">
+                        <div class="bg-gradient-to-r from-primary-blue to-blue-500 rounded-2xl p-8 text-white">
+                            <h3 class="text-2xl font-bold mb-4">
+                                Accede a tu Dashboard Personalizado
+                            </h3>
+                            <p class="text-blue-100 mb-6 max-w-2xl mx-auto">
+                                Obtén insights detallados, métricas en tiempo real y recomendaciones de IA para optimizar tus campañas
+                            </p>
+                            <button 
+                                id="dashboardCtaBtn"
+                                class="bg-white text-primary-blue px-8 py-3 rounded-full font-semibold hover:bg-gray-100 transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl"
+                            >
+                                Acceder al Dashboard
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        `;
+
+        this.setupEventListeners();
+        this.animateChart();
+    }
+
+    setupEventListeners() {
+        const ctaBtn = this.querySelector('#dashboardCtaBtn');
+        
+        if (ctaBtn) {
+            ctaBtn.addEventListener('click', () => {
+                this.showAuthModal('register');
+            });
+        }
+    }
+
+    startLiveUpdates() {
+        // Simulate live data updates
+        this.interval = setInterval(() => {
+            this.updateMetrics();
+        }, 3000);
+
+        // Initial update
+        this.updateMetrics();
+    }
+
+    updateMetrics() {
+        // Simulate random metric updates
+        const randomIncrement = (min, max) => Math.floor(Math.random() * (max - min + 1)) + min;
+        
+        const usersElement = this.querySelector('#activeUsers');
+        const campaignsElement = this.querySelector('#activeCampaigns');
+        const conversionsElement = this.querySelector('#conversions');
+        const revenueElement = this.querySelector('#revenue');
+
+        if (usersElement) {
+            const current = parseInt(usersElement.textContent.replace(',', '')) || 2847;
+            const newValue = current + randomIncrement(-2, 5);
+            usersElement.textContent = newValue.toLocaleString();
         }
 
-        .dashboard-section {
-          max-width: 1200px;
-          margin: 0 auto;
-          padding: 0 2rem;
+        if (campaignsElement) {
+            const current = parseInt(campaignsElement.textContent) || 47;
+            const newValue = current + randomIncrement(-1, 1);
+            campaignsElement.textContent = Math.max(45, newValue);
         }
 
-        .section-header {
-          text-align: center;
-          margin-bottom: 4rem;
-          opacity: 0;
-          transform: translateY(30px);
+        if (conversionsElement) {
+            const current = parseInt(conversionsElement.textContent.replace(',', '')) || 1284;
+            const newValue = current + randomIncrement(1, 8);
+            conversionsElement.textContent = newValue.toLocaleString();
         }
 
-        .section-title {
-          font-size: clamp(2rem, 4vw, 3rem);
-          font-weight: 800;
-          color: white;
-          margin-bottom: 1rem;
+        if (revenueElement) {
+            const current = parseFloat(revenueElement.textContent.replace('$', '').replace('K', '')) || 24.7;
+            const increment = randomIncrement(1, 3) / 10;
+            const newValue = current + increment;
+            revenueElement.textContent = `$${newValue.toFixed(1)}K`;
         }
+    }
 
-        .section-subtitle {
-          font-size: 1.2rem;
-          color: #94A3B8;
-          max-width: 600px;
-          margin: 0 auto;
-          line-height: 1.6;
+    animateChart() {
+        // Animate chart bars on load
+        setTimeout(() => {
+            const bars = this.querySelectorAll('.bg-primary-blue');
+            bars.forEach((bar, index) => {
+                setTimeout(() => {
+                    bar.style.transition = 'height 1s ease-in-out';
+                }, index * 100);
+            });
+        }, 500);
+    }
+
+    setupIntersectionObserver() {
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.animationPlayState = 'running';
+                }
+            });
+        }, { threshold: 0.1 });
+
+        setTimeout(() => {
+            const animatedElements = this.querySelectorAll('.animate-fade-in, .animate-slide-up');
+            animatedElements.forEach(el => observer.observe(el));
+        }, 100);
+    }
+
+    showAuthModal(type) {
+        const authModal = document.querySelector('auth-modal');
+        if (authModal) {
+            authModal.open(type);
         }
-
-        .dashboard-grid {
-          display: grid;
-          grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-          gap: 2rem;
-          margin-bottom: 4rem;
-        }
-
-        .metric-card {
-          background: rgba(255, 255, 255, 0.05);
-          border: 1px solid rgba(255, 255, 255, 0.1);
-          border-radius: 16px;
-          padding: 2rem;
-          text-align: center;
-          backdrop-filter: blur(10px);
-          transition: all 0.3s ease;
-          opacity: 0;
-          transform: translateY(30px);
-        }
-
-        .metric-card:hover {
-          background: rgba(255, 255, 255, 0.1);
-          border-color: rgba(55, 198, 255, 0.3);
-          transform: translateY(-5px);
-        }
-
-        .metric-icon {
-          width: 60px;
-          height: 60px;
-          margin: 0 auto 1rem;
-          background: linear-gradient(135deg, #37C6FF, #2BA3D9);
-          border-radius: 12px;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          font-size: 1.5rem;
-        }
-
-        .metric-value {
-          font-size: 2.5rem;
-          font-weight: 700;
-          color: #37C6FF;
-          margin-bottom: 0.5rem;
-          font-family: 'Inter', sans-serif;
-        }
-
-        .metric-label {
-          color: #94A3B8;
-          font-weight: 500;
-          font-size: 0.9rem;
-        }
-
-        .metric-trend {
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          gap: 0.5rem;
-          margin-top: 0.5rem;
-          font-size: 0.8rem;
-          font-weight: 600;
-        }
-
-        .trend-up {
-          color: #10B981;
-        }
-
-        .trend-down {
-          color: #EF4444;
-        }
-
-        .charts-container {
-          display: grid;
-          grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-          gap: 2rem;
-          margin-top: 3rem;
-        }
-
-        .chart-card {
-          background: rgba(255, 255, 255, 0.05);
-          border: 1px solid rgba(255, 255, 255, 0.1);
-          border-radius: 16px;
-          padding: 2rem;
-          backdrop-filter: blur(10px);
-        }
-
-        .chart-title {
-          font-size: 1.2rem;
-          font-weight: 600;
-          margin-bottom: 1.5rem;
-          color: white;
-        }
-
-        .chart-placeholder {
-          height: 200px;
-          background: rgba(255, 255, 255, 0.02);
-          border-radius: 8px;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          color: #64748B;
-          font-size: 0.9rem;
-        }
-
-        .live-indicator {
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          gap: 0.5rem;
-          margin-top: 2rem;
-          color: #37C6FF;
-          font-weight: 500;
-        }
-
-        .pulse-dot {
-          width: 8px;
-          height: 8px;
-          background: #37C6FF;
-          border-radius: 50%;
-          animation: pulse 2s infinite;
-        }
-
-        @keyframes pulse {
-          0% {
-            transform: scale(0.95);
-            box-shadow: 0 0 0 0 rgba(55, 198, 255, 0.7);
-          }
-          70% {
-            transform: scale(1);
-            box-shadow: 0 0 0 10px rgba(55, 198, 255, 0);
-          }
-          100% {
-            transform: scale(0.95);
-            box-shadow: 0 0 0 0 rgba(55, 198, 255, 0);
-          }
-        }
-
-        .dashboard-cta {
-          text-align: center;
-          margin-top: 4rem;
-        }
-
-        .btn-dashboard {
-          background: #37C6FF;
-          color: white;
-          border: none;
-          padding: 1rem 2.5rem;
-          border-radius: 12px;
-          font-weight: 600;
-          font-size: 1.1rem;
-          cursor: pointer;
-          transition: all 0.3s ease;
-        }
-
-        .btn-dashboard:hover {
-          background: #2BA3D9;
-          transform: translateY(-2px);
-          box-shadow: 0 10px 25px rgba(55, 198, 255, 0.3);
-        }
-
-        @media (max-width: 768px) {
-          .dashboard-section {
-            padding: 0 1rem;
-          }
-
-          .dashboard-grid {
-            grid-template-columns: 1fr;
-            gap: 1.5rem;
-          }
-
-          .charts-container {
-            grid-template-columns: 1fr;
-          }
-
-          .metric-card {
-            padding: 1.5rem;
-          }
-        }
-
-        /* Animation classes */
-        .animate-in {
-          opacity: 1;
-          transform: translateY(0);
-        }
-      </style>
-
-      <section class="dashboard-section" id="dashboard">
-        <div class="section-header">
-          <h2 class="section-title">Dashboard IA en Tiempo Real</h2>
-          <p class="section-subtitle">
-            Monitorea el rendimiento de tu negocio con métricas actualizadas 
-            y análisis predictivo impulsado por inteligencia artificial
-          </p>
-        </div>
-
-        <div class="dashboard-grid">
-          <div class="metric-card" data-metric="users">
-            <div class="metric-icon">👥</div>
-            <div class="metric-value" id="usersValue">0</div>
-            <div class="metric-label">Usuarios Activos</div>
-            <div class="metric-trend trend-up">
-              <span>↑</span>
-              <span id="usersTrend">12%</span>
-            </div>
-          </div>
-
-          <div class="metric-card" data-metric="campaigns">
-            <div class="metric-icon">📊</div>
-            <div class="metric-value" id="campaignsValue">0</div>
-            <div class="metric-label">Campañas Activas</div>
-            <div class="metric-trend trend-up">
-              <span>↑</span>
-              <span id="campaignsTrend">8%</span>
-            </div>
-          </div>
-
-          <div class="metric-card" data-metric="revenue">
-            <div class="metric-icon">💰</div>
-            <div class="metric-value" id="revenueValue">$0</div>
-            <div class="metric-label">Ingresos Mensuales</div>
-            <div class="metric-trend trend-up">
-              <span>↑</span>
-              <span id="revenueTrend">15%</span>
-            </div>
-          </div>
-
-          <div class="metric-card" data-metric="growth">
-            <div class="metric-icon">📈</div>
-            <div class="metric-value" id="growthValue">0%</div>
-            <div class="metric-label">Crecimiento Trimestral</div>
-            <div class="metric-trend trend-up">
-              <span>↑</span>
-              <span id="growthTrend">5%</span>
-            </div>
-          </div>
-        </div>
-
-        <div class="charts-container">
-          <div class="chart-card">
-            <h3 class="chart-title">Rendimiento de Campañas</h3>
-            <div class="chart-placeholder">
-              Gráfico de rendimiento interactivo
-            </div>
-          </div>
-
-          <div class="chart-card">
-            <h3 class="chart-title">Tendencias de Usuarios</h3>
-            <div class="chart-placeholder">
-              Gráfico de tendencias en tiempo real
-            </div>
-          </div>
-        </div>
-
-        <div class="live-indicator">
-          <div class="pulse-dot"></div>
-          <span>Datos actualizados en tiempo real</span>
-        </div>
-
-        <div class="dashboard-cta">
-          <button class="btn-dashboard" id="dashboardCTA">
-            Acceder al Dashboard Completo
-          </button>
-        </div>
-      </section>
-    `;
-  }
-
-  setupDashboard() {
-    // Initialize metrics with realistic values
-    this.metrics = {
-      users: 12457,
-      campaigns: 342,
-      revenue: 125000,
-      growth: 23.5
-    };
-
-    // Animate metric cards
-    const metricCards = this.shadowRoot.querySelectorAll('.metric-card');
-    const observer = new IntersectionObserver((entries) => {
-      entries.forEach((entry, index) => {
-        if (entry.isIntersecting) {
-          setTimeout(() => {
-            entry.target.classList.add('animate-in');
-            this.animateMetricValue(entry.target.getAttribute('data-metric'));
-          }, index * 200);
-          observer.unobserve(entry.target);
-        }
-      });
-    }, { threshold: 0.1 });
-
-    metricCards.forEach(card => {
-      observer.observe(card);
-    });
-
-    // Setup CTA button
-    const ctaButton = this.shadowRoot.getElementById('dashboardCTA');
-    ctaButton.addEventListener('click', () => {
-      this.handleDashboardAccess();
-    });
-  }
-
-  animateMetricValue(metricType) {
-    const valueElement = this.shadowRoot.getElementById(`${metricType}Value`);
-    if (!valueElement) return;
-
-    const targetValue = this.metrics[metricType];
-    const duration = 2000;
-    const step = targetValue / (duration / 16);
-    let current = 0;
-
-    const updateValue = () => {
-      current += step;
-      if (current < targetValue) {
-        if (metricType === 'revenue') {
-          valueElement.textContent = `$${Math.floor(current).toLocaleString()}`;
-        } else if (metricType === 'growth') {
-          valueElement.textContent = `${Math.floor(current)}%`;
-        } else {
-          valueElement.textContent = Math.floor(current).toLocaleString();
-        }
-        requestAnimationFrame(updateValue);
-      } else {
-        if (metricType === 'revenue') {
-          valueElement.textContent = `$${targetValue.toLocaleString()}`;
-        } else if (metricType === 'growth') {
-          valueElement.textContent = `${targetValue}%`;
-        } else {
-          valueElement.textContent = targetValue.toLocaleString();
-        }
-      }
-    };
-
-    updateValue();
-  }
-
-  startLiveUpdates() {
-    // Simulate live data updates
-    setInterval(() => {
-      this.updateLiveMetrics();
-    }, 5000);
-  }
-
-  updateLiveMetrics() {
-    // Simulate small fluctuations in metrics
-    const fluctuation = (base, maxChange) => {
-      const change = (Math.random() - 0.5) * maxChange;
-      return Math.max(0, base + change);
-    };
-
-    this.metrics.users = fluctuation(12457, 50);
-    this.metrics.campaigns = fluctuation(342, 5);
-    this.metrics.revenue = fluctuation(125000, 1000);
-    this.metrics.growth = fluctuation(23.5, 0.5);
-
-    // Update display values
-    const usersValue = this.shadowRoot.getElementById('usersValue');
-    const campaignsValue = this.shadowRoot.getElementById('campaignsValue');
-    const revenueValue = this.shadowRoot.getElementById('revenueValue');
-    const growthValue = this.shadowRoot.getElementById('growthValue');
-
-    if (usersValue) usersValue.textContent = Math.floor(this.metrics.users).toLocaleString();
-    if (campaignsValue) campaignsValue.textContent = Math.floor(this.metrics.campaigns).toLocaleString();
-    if (revenueValue) revenueValue.textContent = `$${Math.floor(this.metrics.revenue).toLocaleString()}`;
-    if (growthValue) growthValue.textContent = `${this.metrics.growth.toFixed(1)}%`;
-  }
-
-  handleDashboardAccess() {
-    const event = new CustomEvent('dashboard-access-requested', {
-      bubbles: true,
-      detail: { action: 'access-dashboard' }
-    });
-    this.dispatchEvent(event);
-  }
+    }
 }
 
+// Register the custom element
 customElements.define('dashboard-section', DashboardSection);
+
+export default DashboardSection;

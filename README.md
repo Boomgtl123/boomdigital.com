@@ -4,21 +4,20 @@ Una plataforma web moderna y profesional para agencia digital, construida con te
 
 ## 🚀 Características
 
-- **Diseño Premium**: Estilo minimalista inspirado en Nike.com.ar
-- **Totalmente Responsive**: Mobile-first design
-- **Panel CEO Exclusivo**: Gestión de contenido y analytics
+- **Diseño Moderno**: Estética minimalista y profesional inspirada en Nike
+- **Totalmente Responsive**: Diseño mobile-first optimizado para todos los dispositivos
+- **Panel CEO Exclusivo**: Sistema de administración seguro para el CEO
 - **Integración Firebase**: Autenticación y base de datos en tiempo real
 - **SEO Optimizado**: Meta tags, Open Graph y structured data
-- **Animaciones Suaves**: Fade-in y slide-up al hacer scroll
-- **Performance**: Lighthouse score >95
+- **Animaciones Suaves**: Efectos de scroll y microinteracciones
+- **Performance**: Carga rápida y optimizada para Core Web Vitals
 
 ## 🛠️ Tecnologías
 
 - **Frontend**: HTML5, TailwindCSS 4.x, JavaScript ES6+
-- **Build Tool**: Vite
 - **Backend**: Firebase (Auth + Firestore)
-- **Animaciones**: CSS3 + Intersection Observer API
-- **Componentes**: Web Components nativos
+- **Build Tool**: Vite
+- **Hosting**: Preparado para Vercel, Netlify o Firebase Hosting
 
 ## 📁 Estructura del Proyecto
 
@@ -26,120 +25,80 @@ Una plataforma web moderna y profesional para agencia digital, construida con te
 boom-digital-agency/
 ├── index.html                 # Página principal
 ├── package.json              # Dependencias y scripts
-├── vite.config.js            # Configuración Vite
-├── tailwind.config.js        # Configuración TailwindCSS
-├── postcss.config.js         # Configuración PostCSS
-├── .gitignore                # Archivos ignorados por Git
+├── tailwind.config.js        # Configuración de TailwindCSS
+├── postcss.config.js         # Configuración de PostCSS
+├── vite.config.js            # Configuración de Vite
 ├── src/
 │   ├── main.js               # Punto de entrada de la aplicación
-│   ├── firebase.js           # Configuración y funciones Firebase
+│   ├── firebase.js           # Configuración y funciones de Firebase
+│   ├── style.css             # Estilos personalizados
 │   └── components/
-│       ├── Header.js         # Navegación y header
+│       ├── Header.js         # Componente de navegación
 │       ├── Hero.js           # Sección hero principal
-│       ├── Services.js       # Servicios de la agencia
+│       ├── Services.js       # Sección de servicios
 │       ├── Dashboard.js      # Panel de métricas IA
 │       ├── Club.js           # Sección Club IA Boom
-│       ├── CTASection.js     # Call-to-action final
-│       ├── Footer.js         # Footer con redes sociales
+│       ├── Footer.js         # Pie de página
+│       ├── AuthModal.js      # Modal de autenticación
 │       └── CEOPanel.js       # Panel exclusivo CEO
 └── assets/
-    ├── images/               # Imágenes del sitio
-    └── videos/               # Videos (opcional)
+    ├── images/               # Imágenes del proyecto
+    └── videos/               # Videos (si los hay)
 ```
 
 ## 🚀 Instalación y Uso
 
 ### Prerrequisitos
 - Node.js 16+ 
-- Cuenta de Firebase
+- npm o yarn
 
-### Pasos de Instalación
+### Instalación
 
 1. **Clonar el repositorio**
-   ```bash
-   git clone https://github.com/tu-usuario/boom-digital-agency.git
-   cd boom-digital-agency
-   ```
+```bash
+git clone https://github.com/tu-usuario/boom-digital-agency.git
+cd boom-digital-agency
+```
 
 2. **Instalar dependencias**
-   ```bash
-   npm install
-   ```
+```bash
+npm install
+```
 
 3. **Configurar Firebase**
    - Crear proyecto en [Firebase Console](https://console.firebase.google.com)
-   - Habilitar Authentication (Email/Password) y Firestore
-   - Copiar configuración a `src/firebase.js`
+   - Habilitar Authentication (Email/Password)
+   - Crear base de datos Firestore
+   - Copiar configuración en `src/firebase.js`
 
 4. **Ejecutar en desarrollo**
-   ```bash
-   npm run dev
-   ```
+```bash
+npm run dev
+```
 
-5. **Build para producción**
-   ```bash
-   npm run build
-   ```
-
-## 🔐 Panel CEO
-
-El panel exclusivo para el CEO está disponible solo para `boomdigitaleeuu@gmail.com` y permite:
-
-- **Gestión de Contenido**: Modificar textos del sitio web
-- **Analytics**: Ver estadísticas de visitas y conversiones
-- **Personalización**: Cambiar colores y diseño
-- **Exportación**: Descargar datos en formato JSON
-
-### Acceso al Panel CEO
-1. Hacer clic en "CEO Panel" en el header
-2. Ingresar con `boomdigitaleeuu@gmail.com`
-3. Gestionar contenido y diseño del sitio
-
-## 🎨 Personalización
-
-### Colores Principales
-- **Azul Celeste**: `#37C6FF`
-- **Negro**: `#000000`
-- **Blanco**: `#FFFFFF`
-
-### Tipografía
-- **Familia**: Inter (sans-serif)
-- **Pesos**: 400, 500, 600, 700, 800
-
-## 📊 SEO y Performance
-
-- Meta tags optimizados
-- Open Graph tags para redes sociales
-- Structured data (Schema.org)
-- Lazy loading de imágenes
-- Core Web Vitals optimizados
-
-## 🌐 Deployment
-
-### Firebase Hosting (Recomendado)
+5. **Construir para producción**
 ```bash
 npm run build
-firebase deploy
 ```
 
-### Netlify
-- Conectar repositorio GitHub
-- Configurar build command: `npm run build`
-- Publish directory: `dist`
+## 🔐 Configuración Firebase
 
-### Vercel
-```bash
-npm install -g vercel
-vercel
-```
+### 1. Crear Proyecto Firebase
+- Ir a [Firebase Console](https://console.firebase.google.com)
+- Crear nuevo proyecto "Boom Digital Agency"
 
-## 🔧 Configuración Firebase
+### 2. Configurar Authentication
+- Ir a Authentication > Sign-in method
+- Habilitar "Email/Password"
+- Agregar `boomdigitaleeuu@gmail.com` como usuario autorizado
 
-1. **Crear Proyecto** en Firebase Console
-2. **Habilitar Authentication** (Email/Password)
-3. **Configurar Firestore** con reglas básicas
-4. **Actualizar configuración** en `src/firebase.js`:
+### 3. Configurar Firestore
+- Ir a Firestore Database > Crear base de datos
+- Configurar en modo de prueba
+- Las reglas de seguridad se configurarán automáticamente
 
+### 4. Actualizar Configuración
+Reemplazar en `src/firebase.js`:
 ```javascript
 const firebaseConfig = {
   apiKey: "tu-api-key",
@@ -151,13 +110,69 @@ const firebaseConfig = {
 };
 ```
 
-## 📈 Analytics
+## 🎨 Personalización
 
-El sitio incluye tracking básico de:
-- Visitas totales
-- Visitantes únicos
-- Tasa de conversión
-- Tasa de rebote
+### Colores Principales
+- **Azul Primario**: `#37C6FF`
+- **Negro**: `#000000` 
+- **Blanco**: `#FFFFFF`
+
+### Tipografía
+- **Fuente Principal**: Inter
+- **Pesos**: 400, 500, 600, 700, 800
+
+## 📊 Panel CEO
+
+### Acceso Exclusivo
+- **Email**: `boomdigitaleeuu@gmail.com`
+- **Funcionalidades**:
+  - Modificar banners y textos del website
+  - Actualizar anuncios y colores
+  - Ver estadísticas de la landing page
+  - Descargar reportes
+
+### Seguridad
+- Autenticación por email específico
+- Validación en tiempo real
+- Sesiones seguras
+
+## 🌐 Deployment
+
+### Vercel
+```bash
+npm install -g vercel
+vercel --prod
+```
+
+### Netlify
+```bash
+npm run build
+# Subir carpeta dist a Netlify
+```
+
+### Firebase Hosting
+```bash
+npm install -g firebase-tools
+firebase login
+firebase init hosting
+npm run build
+firebase deploy
+```
+
+## 📈 SEO y Performance
+
+### Optimizaciones Incluidas
+- Meta tags optimizados
+- Open Graph tags
+- Structured data (Schema.org)
+- Lazy loading de imágenes
+- Compresión de assets
+- Cache headers
+
+### Core Web Vitals
+- LCP optimizado
+- FID mejorado  
+- CLS minimizado
 
 ## 🤝 Contribución
 
@@ -169,12 +184,15 @@ El sitio incluye tracking básico de:
 
 ## 📄 Licencia
 
-Distribuido bajo licencia MIT. Ver `LICENSE` para más información.
+Distribuido bajo Licencia MIT. Ver `LICENSE` para más información.
 
 ## 📞 Soporte
 
-Para soporte técnico o consultas sobre el proyecto, contactar al equipo de desarrollo.
+Para soporte técnico, contactar a:
+- **Email**: boomdigitaleeuu@gmail.com
+- **GitHub Issues**: [Reportar problema](https://github.com/tu-usuario/boom-digital-agency/issues)
 
 ---
 
-**Boom Digital Agency** - Transformando la presencia digital con IA y automatización inteligente.
+**Boom Digital Agency** - Transformando la presencia digital de empresas modernas 🚀
+# boomdigital.com

@@ -14,7 +14,7 @@
     ],
     "headers": [
       {
-        "source": "**/*.@(js|css)",
+        "source": "**/*.@(jpg|jpeg|gif|png|svg|webp|js|css)",
         "headers": [
           {
             "key": "Cache-Control",
@@ -23,15 +23,17 @@
         ]
       },
       {
-        "source": "**/*.@(jpg|jpeg|gif|png|svg|webp|ico)",
+        "source": "**/*.html",
         "headers": [
           {
             "key": "Cache-Control",
-            "value": "max-age=31536000"
+            "value": "no-cache, no-store, must-revalidate"
           }
         ]
       }
-    ]
+    ],
+    "cleanUrls": true,
+    "trailingSlash": false
   },
   "firestore": {
     "rules": "firestore.rules",

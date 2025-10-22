@@ -37,8 +37,6 @@
     <link rel="icon" type="image/x-icon" href="./assets/favicon-B_SY1GJM.ico">
     
     <!-- TailwindCSS via CDN for GitHub Pages compatibility -->
-    <script src="https://cdn.tailwindcss.com?plugins=forms,typography,aspect-ratio"></script>
-
     <script>
       // Suppress Tailwind CDN warning for production
       const originalWarn = console.warn;
@@ -48,9 +46,12 @@
         }
         originalWarn.apply(console, args);
       };
+    </script>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,typography,aspect-ratio"></script>
 
+    <script>
       // Configure Tailwind after CDN loads
-      setTimeout(() => {
+      function configureTailwind() {
         if (typeof tailwind !== 'undefined') {
           tailwind.config = {
             theme: {
@@ -88,8 +89,23 @@
               }
             }
           };
+          return true;
         }
-      }, 100);
+        return false;
+      }
+
+      // Try to configure immediately
+      if (!configureTailwind()) {
+        // If not ready, wait for it
+        let attempts = 0;
+        const maxAttempts = 50;
+        const checkInterval = setInterval(() => {
+          attempts++;
+          if (configureTailwind() || attempts >= maxAttempts) {
+            clearInterval(checkInterval);
+          }
+        }, 100);
+      }
     </script>
 
     <!-- Custom Styles -->

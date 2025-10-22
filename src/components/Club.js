@@ -141,7 +141,10 @@ class ClubSection extends HTMLElement {
                                     Webinars mensuales
                                 </li>
                             </ul>
-                            <button class="w-full bg-gray-100 text-gray-700 py-3 rounded-full font-semibold hover:bg-gray-200 transition-colors duration-300">
+                            <button
+                                id="essentialCtaBtn"
+                                class="w-full bg-gray-100 text-gray-700 py-3 rounded-full font-semibold hover:bg-gray-200 transition-colors duration-300"
+                            >
                                 Comenzar Gratis
                             </button>
                         </div>
@@ -199,6 +202,7 @@ class ClubSection extends HTMLElement {
         const nextBtn = this.querySelector('#nextTestimonial');
         const dots = this.querySelectorAll('.testimonial-dot');
         const premiumBtn = this.querySelector('#premiumCtaBtn');
+        const essentialBtn = this.querySelector('#essentialCtaBtn');
 
         if (prevBtn) {
             prevBtn.addEventListener('click', () => this.previousTestimonial());
@@ -217,10 +221,15 @@ class ClubSection extends HTMLElement {
 
         if (premiumBtn) {
             premiumBtn.addEventListener('click', () => {
-                // Scroll to contact section instead of showing auth modal
-                document.querySelector('#contact').scrollIntoView({
-                    behavior: 'smooth'
-                });
+                const message = encodeURIComponent("Hola! Me interesa unirme al Club Premium de Boom Digital. ¿Podemos hablar sobre los beneficios y cómo comenzar?");
+                window.open(`https://wa.me/542923560623?text=${message}`, '_blank');
+            });
+        }
+
+        if (essentialBtn) {
+            essentialBtn.addEventListener('click', () => {
+                const message = encodeURIComponent("Hola! Me interesa comenzar con el Club Essential de Boom Digital. ¿Podemos hablar sobre las opciones disponibles?");
+                window.open(`https://wa.me/542923560623?text=${message}`, '_blank');
             });
         }
     }

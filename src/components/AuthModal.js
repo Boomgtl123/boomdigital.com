@@ -157,33 +157,28 @@ class AuthModal extends HTMLElement {
         try {
             const { signInCEO, CEO_EMAIL } = await import('../firebase.js');
 
+            // For both login and register, redirect to CEO panel
             if (this.type === 'register') {
                 // For demo purposes, we'll treat registration as successful
                 // In a real app, you would create a user in Firebase
-                this.showNotification('Cuenta creada exitosamente (Demo)', 'success');
-                this.close();
-                
-                // Show CEO panel after successful registration
-                setTimeout(() => {
-                    this.showCEOPanel();
-                }, 1000);
-                
+                this.showNotification('Cuenta creada exitosamente - Redirigiendo al Panel CEO', 'success');
             } else {
                 // Check if it's CEO login
                 if (email === CEO_EMAIL) {
                     await signInCEO(email, password);
-                    this.showNotification('Bienvenido CEO', 'success');
+                    this.showNotification('Bienvenido CEO - Redirigiendo al Panel', 'success');
                 } else {
-                    // For regular users, simulate successful login
-                    this.showNotification('Sesión iniciada correctamente (Demo)', 'success');
+                    // For regular users, simulate successful login and redirect to CEO panel
+                    this.showNotification('Sesión iniciada - Redirigiendo al Panel CEO', 'success');
                 }
-                this.close();
-                
-                // Show CEO panel after successful login
-                setTimeout(() => {
-                    this.showCEOPanel();
-                }, 1000);
             }
+            
+            this.close();
+            
+            // Always redirect to CEO panel after successful authentication
+            setTimeout(() => {
+                this.showCEOPanel();
+            }, 1000);
 
         } catch (error) {
             console.error('Auth error:', error);

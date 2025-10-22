@@ -9,12 +9,17 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "firebase": "^12.4.0"
   },
   "devDependencies": {
-    "vite": "^5.0.8",
-    "@tailwindcss/vite": "^4.0.0-alpha.25"
+    "@tailwindcss/vite": "^4.0.0-alpha.25",
+    "vite": "^5.0.8"
   },
-  "keywords": ["digital-agency", "web-development", "tailwindcss"],
+  "keywords": [
+    "digital-agency",
+    "web-development",
+    "tailwindcss"
+  ],
   "author": "Boom Digital Agency",
   "license": "MIT"
 }

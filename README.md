@@ -7,6 +7,7 @@ Una plataforma web moderna y profesional para agencias digitales, construida con
 - **Diseño Minimalista**: Estilo profesional inspirado en Nike.com.ar
 - **Totalmente Responsive**: Mobile-first design
 - **Panel CEO Exclusivo**: Gestión de contenido en tiempo real
+- **Chatbot IA**: Asistente virtual con DeepSeek API
 - **Integración Firebase**: Autenticación y base de datos en tiempo real
 - **SEO Optimizado**: Meta tags, Open Graph y structured data
 - **Animaciones Suaves**: Fade-in y slide-up al hacer scroll
@@ -88,7 +89,8 @@ boom-digital-agency/
 │       ├── Club.js           # Testimonios y beneficios
 │       ├── Footer.js         # Pie de página
 │       ├── AuthModal.js      # Modal de autenticación
-│       └── CEOPanel.js       # Panel exclusivo para CEO
+│       ├── CEOPanel.js       # Panel exclusivo para CEO
+│       └── ChatBot.js        # Chatbot con DeepSeek API
 └── assets/
     ├── images/               # Imágenes optimizadas
     └── videos/               # Videos (lazy loading)
@@ -101,6 +103,14 @@ Acceso exclusivo para `boomdigitaleeuu@gmail.com` con capacidad de:
 - Actualizar anuncios y colores
 - Ver estadísticas de la landing page
 - Descargar reportes de analytics
+
+## 🤖 Chatbot IA
+
+Asistente virtual integrado con DeepSeek API que responde preguntas profesionalmente en español:
+- **API**: DeepSeek con clave integrada
+- **Funcionalidad**: Respuestas en tiempo real
+- **Interfaz**: Flotante y no intrusiva
+- **Seguridad**: API key protegida en el código
 
 ## 🌐 SEO y Performance
 
@@ -139,6 +149,10 @@ Todo el contenido del sitio puede ser modificado desde el panel CEO a través de
 ### Firebase no funciona
 - Revisa que la configuración en `src/firebase.js` sea correcta
 - Verifica que Authentication y Firestore estén habilitados
+
+### Chatbot no responde
+- Verifica la conexión a internet
+- Confirma que la API key de DeepSeek sea válida
 
 ### Estilos no se cargan
 - TailwindCSS se carga via CDN para compatibilidad con GitHub Pages

@@ -1,182 +1,183 @@
-// Mock Authentication System using localStorage
-// This simulates Firebase functionality for development
+// Firebase Configuration with Real Credentials
+import { initializeApp } from 'firebase/app';
+import { getAuth, signInWithEmailAndPassword, signOut, onAuthStateChanged } from 'firebase/auth';
+import { getFirestore, doc, getDoc, setDoc, updateDoc } from 'firebase/firestore';
+
+// Firebase configuration - Real credentials provided
+const firebaseConfig = {
+  apiKey: "AIzaSyB5JtqqMJgWzZrua42z_n2Vu-7ZNWanlE4",
+  authDomain: "boomdigital-f6a06.firebaseapp.com",
+  databaseURL: "https://boomdigital-f6a06-default-rtdb.firebaseio.com",
+  projectId: "boomdigital-f6a06",
+  storageBucket: "boomdigital-f6a06.firebasestorage.app",
+  messagingSenderId: "398341141",
+  appId: "1:398341141:web:d895a031215defcdb88a1c",
+  measurementId: "G-ELW9J8B9J6"
+};
+
+// Initialize Firebase
+const app = initializeApp(firebaseConfig);
+
+// Initialize Firebase services
+export const auth = getAuth(app);
+export const db = getFirestore(app);
 
 // CEO Email constant
 export const CEO_EMAIL = 'boomdigitaleeuu@gmail.com';
 
-// Mock authentication state
-let currentUser = null;
-
-// Initialize mock auth
-export const initializeAuth = () => {
-  const savedUser = localStorage.getItem('boom_ceo_user');
-  if (savedUser) {
-    currentUser = JSON.parse(savedUser);
-  }
-  return currentUser;
-};
-
 // Authentication functions
 export const signInCEO = async (email, password) => {
-  return new Promise((resolve, reject) => {
-    setTimeout(() => {
-      if (email !== CEO_EMAIL) {
-        reject(new Error('Acceso restringido. Solo disponible para el CEO.'));
-        return;
-      }
-      
-      // Mock successful login (in real scenario, verify password)
-      const user = {
-        uid: 'ceo-user-001',
-        email: email,
-        displayName: 'CEO Boom Digital',
-        emailVerified: true,
-        isCEO: true
-      };
-      
-      currentUser = user;
-      localStorage.setItem('boom_ceo_user', JSON.stringify(user));
-      resolve(user);
-    }, 1000);
-  });
+  try {
+    if (email !== CEO_EMAIL) {
+      throw new Error('Acceso restringido. Solo disponible para el CEO.');
+    }
+    
+    const userCredential = await signInWithEmailAndPassword(auth, email, password);
+    return userCredential.user;
+  } catch (error) {
+    throw error;
+  }
 };
 
 export const signOutCEO = async () => {
-  return new Promise((resolve) => {
-    setTimeout(() => {
-      currentUser = null;
-      localStorage.removeItem('boom_ceo_user');
-      resolve();
-    }, 500);
-  });
+  try {
+    await signOut(auth);
+  } catch (error) {
+    throw error;
+  }
 };
 
-// Mock Firestore functions for dynamic content
+// Firestore functions for dynamic content
 export const getWebsiteContent = async () => {
-  return new Promise((resolve) => {
-    setTimeout(() => {
-      const savedContent = localStorage.getItem('boom_website_content');
-      if (savedContent) {
-        resolve(JSON.parse(savedContent));
-      } else {
-        // Default content
-        const defaultContent = {
-          hero: {
-            title: "Transformamos tu Presencia Digital con IA",
-            subtitle: "Soluciones inteligentes que impulsan el crecimiento de tu empresa",
-            ctaText: "Comenzar Ahora"
+  try {
+    const docRef = doc(db, 'website', 'content');
+    const docSnap = await getDoc(docRef);
+    
+    if (docSnap.exists()) {
+      return docSnap.data();
+    } else {
+      // Create default content if it doesn't exist
+      const defaultContent = {
+        hero: {
+          title: "Transformamos tu Presencia Digital con IA",
+          subtitle: "Soluciones inteligentes que impulsan el crecimiento de tu empresa",
+          ctaText: "Comenzar Ahora"
+        },
+        services: {
+          service1: {
+            title: "Asistente IA",
+            description: "Asistente virtual inteligente que automatiza tareas y mejora la productividad"
           },
-          services: {
-            service1: {
-              title: "Asistente IA",
-              description: "Asistente virtual inteligente que automatiza tareas y mejora la productividad"
-            },
-            service2: {
-              title: "Bots Omnicanal",
-              description: "Solución de chatbots integrada en todos tus canales de comunicación"
-            },
-            service3: {
-              title: "Campañas Garantizadas",
-              description: "Estrategias de marketing con resultados medibles y garantizados"
-            },
-            service4: {
-              title: "Growth Simulator",
-              description: "Simulación predictiva para optimizar tu estrategia de crecimiento"
-            }
+          service2: {
+            title: "Bots Omnicanal",
+            description: "Solución de chatbots integrada en todos tus canales de comunicación"
           },
-          club: {
-            testimonials: [
-              {
-                name: "Carlos Rodríguez",
-                company: "TechStart Inc",
-                text: "Boom Digital revolucionó nuestro enfoque digital. Increíble ROI."
-              },
-              {
-                name: "María González",
-                company: "Ecommerce Pro",
-                text: "La automatización con IA nos ahorró 20 horas semanales."
-              }
-            ]
+          service3: {
+            title: "Campañas Garantizadas",
+            description: "Estrategias de marketing con resultados medibles y garantizados"
           },
-          colors: {
-            primary: '#37C6FF',
-            background: '#FFFFFF',
-            text: '#000000'
-          },
-          banners: {
-            main: "¡Nuevo: Asistente IA Pro ahora disponible!",
-            secondary: "Oferta especial por tiempo limitado"
+          service4: {
+            title: "Growth Simulator",
+            description: "Simulación predictiva para optimizar tu estrategia de crecimiento"
           }
-        };
-        
-        localStorage.setItem('boom_website_content', JSON.stringify(defaultContent));
-        resolve(defaultContent);
-      }
-    }, 500);
-  });
+        },
+        club: {
+          testimonials: [
+            {
+              name: "Carlos Rodríguez",
+              company: "TechStart Inc",
+              text: "Boom Digital revolucionó nuestro enfoque digital. Increíble ROI."
+            },
+            {
+              name: "María González",
+              company: "Ecommerce Pro",
+              text: "La automatización con IA nos ahorró 20 horas semanales."
+            }
+          ]
+        },
+        colors: {
+          primary: '#37C6FF',
+          background: '#FFFFFF',
+          text: '#000000'
+        },
+        banners: {
+          main: "¡Nuevo: Asistente IA Pro ahora disponible!",
+          secondary: "Oferta especial por tiempo limitado"
+        }
+      };
+      
+      await setDoc(docRef, defaultContent);
+      return defaultContent;
+    }
+  } catch (error) {
+    console.error('Error getting website content:', error);
+    throw error;
+  }
 };
 
 export const updateWebsiteContent = async (updates) => {
-  return new Promise((resolve) => {
-    setTimeout(async () => {
-      const currentContent = await getWebsiteContent();
-      const updatedContent = { ...currentContent, ...updates };
-      localStorage.setItem('boom_website_content', JSON.stringify(updatedContent));
-      resolve(true);
-    }, 500);
-  });
+  try {
+    const docRef = doc(db, 'website', 'content');
+    await updateDoc(docRef, updates);
+    return true;
+  } catch (error) {
+    console.error('Error updating website content:', error);
+    throw error;
+  }
 };
 
 // Analytics functions
 export const trackPageView = async (page) => {
-  return new Promise((resolve) => {
-    setTimeout(() => {
-      const analytics = JSON.parse(localStorage.getItem('boom_analytics') || '{}');
-      analytics[page] = (analytics[page] || 0) + 1;
-      analytics.total = (analytics.total || 0) + 1;
-      analytics.lastUpdated = new Date().toISOString();
-      localStorage.setItem('boom_analytics', JSON.stringify(analytics));
-      resolve();
-    }, 100);
-  });
+  try {
+    const analyticsRef = doc(db, 'analytics', 'pageViews');
+    const analyticsSnap = await getDoc(analyticsRef);
+    
+    if (analyticsSnap.exists()) {
+      const data = analyticsSnap.data();
+      const updatedViews = {
+        ...data,
+        [page]: (data[page] || 0) + 1,
+        total: (data.total || 0) + 1,
+        lastUpdated: new Date().toISOString()
+      };
+      await setDoc(analyticsRef, updatedViews);
+    } else {
+      await setDoc(analyticsRef, {
+        [page]: 1,
+        total: 1,
+        lastUpdated: new Date().toISOString()
+      });
+    }
+  } catch (error) {
+    console.error('Error tracking page view:', error);
+  }
 };
 
 export const getAnalytics = async () => {
-  return new Promise((resolve) => {
-    setTimeout(() => {
-      const analytics = JSON.parse(localStorage.getItem('boom_analytics') || '{}');
-      resolve(analytics);
-    }, 100);
-  });
-};
-
-// Auth state management
-export const getCurrentUser = () => currentUser;
-
-export const setupAuthListener = (callback) => {
-  // Mock auth state changes
-  const checkAuthState = () => {
-    const user = getCurrentUser();
-    callback(user);
-  };
-  
-  // Check initial state
-  checkAuthState();
-  
-  // Listen for storage changes (simulate auth state changes)
-  const handleStorageChange = (e) => {
-    if (e.key === 'boom_ceo_user') {
-      checkAuthState();
+  try {
+    const analyticsRef = doc(db, 'analytics', 'pageViews');
+    const analyticsSnap = await getDoc(analyticsRef);
+    
+    if (analyticsSnap.exists()) {
+      return analyticsSnap.data();
+    } else {
+      return {
+        total: 0,
+        lastUpdated: new Date().toISOString()
+      };
     }
-  };
-  
-  window.addEventListener('storage', handleStorageChange);
-  
-  // Return unsubscribe function
-  return () => {
-    window.removeEventListener('storage', handleStorageChange);
-  };
+  } catch (error) {
+    console.error('Error getting analytics:', error);
+    throw error;
+  }
 };
 
-// Initialize auth on module load
-initializeAuth();
+// Auth state listener
+export const setupAuthListener = (callback) => {
+  return onAuthStateChanged(auth, callback);
+};
+
+// Get current user
+export const getCurrentUser = () => {
+  return auth.currentUser;
+};

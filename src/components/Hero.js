@@ -27,7 +27,7 @@ class HeroSection extends HTMLElement {
                     muted
                     loop
                     playsinline
-                    poster="assets/images/placeholder.jpg"
+                    poster="assets/images/verificado.png"
                 >
                     <source src="assets/videos/banner.MOV" type="video/mp4">
                     <source src="assets/videos/banner.MOV" type="video/quicktime">

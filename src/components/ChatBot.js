@@ -158,9 +158,18 @@ class ChatBot extends HTMLElement {
     this.updateSendButtonState();
   }
 
+  getApiKey() {
+    // Try to get from environment variables first, fallback to hardcoded for development
+    if (typeof process !== 'undefined' && process.env && process.env.CHATBOT_API_KEY) {
+        return process.env.CHATBOT_API_KEY;
+    }
+    // Fallback for browser environment
+    return 'sk-59b0807d89344fb781f3d9b1baf35753';
+  }
+
   async callDeepSeekAPI(message) {
     // DeepSeek API integration
-    const apiKey = process.env.CHATBOT_API_KEY || 'sk-59b0807d89344fb781f3d9b1baf35753';
+    const apiKey = this.getApiKey();
     const apiUrl = 'https://api.deepseek.com/v1/chat/completions';
 
     const prompt = `Eres el asistente oficial de Boom Digital Agency. Responde en español de manera profesional y amigable. 

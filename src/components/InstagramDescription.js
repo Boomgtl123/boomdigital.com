@@ -183,13 +183,22 @@ class InstagramDescriptionComponent extends HTMLElement {
         }
     }
 
+    getApiKey() {
+        // Try to get from environment variables first, fallback to hardcoded for development
+        if (typeof process !== 'undefined' && process.env && process.env.DEEPSEEK_API_KEY) {
+            return process.env.DEEPSEEK_API_KEY;
+        }
+        // Fallback for browser environment
+        return 'sk-0617e0618310453f92852ecfd933143c';
+    }
+
     async generateAIDescription(productName) {
         try {
             const response = await fetch('https://api.deepseek.com/v1/chat/completions', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${process.env.DEEPSEEK_API_KEY || 'sk-0617e0618310453f92852ecfd933143c'}`
+                    'Authorization': `Bearer ${this.getApiKey()}`
                 },
                 body: JSON.stringify({
                     model: 'deepseek-chat',

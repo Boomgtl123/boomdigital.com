@@ -1,5 +1,5 @@
 // Main Application Entry Point
-import './style.css';
+// Note: CSS is now loaded via CDN in index.html for GitHub Pages compatibility
 
 // Import components
 import './components/Header.js';

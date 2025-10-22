@@ -36,8 +36,74 @@
     <!-- Favicon -->
     <link rel="icon" type="image/x-icon" href="./assets/images/favicon.ico">
     
-    <!-- Main CSS -->
-    <link rel="stylesheet" href="https://boomdigital.com/src/style.css">
+    <!-- TailwindCSS via CDN for GitHub Pages compatibility -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            colors: {
+              primary: {
+                blue: '#37C6FF',
+                black: '#000000',
+                white: '#FFFFFF',
+              },
+              accent: {
+                light: '#F8FAFC',
+                gray: '#64748B',
+                dark: '#1E293B'
+              }
+            },
+            fontFamily: {
+              sans: ['Inter', 'system-ui', 'sans-serif'],
+            },
+            animation: {
+              'fade-in': 'fadeIn 0.8s ease-in-out',
+              'slide-up': 'slideUp 0.8s ease-out',
+              'pulse-slow': 'pulse 3s infinite',
+            },
+            keyframes: {
+              fadeIn: {
+                '0%': { opacity: '0' },
+                '100%': { opacity: '1' },
+              },
+              slideUp: {
+                '0%': { transform: 'translateY(30px)', opacity: '0' },
+                '100%': { transform: 'translateY(0)', opacity: '1' },
+              },
+            },
+          }
+        }
+      }
+    </script>
+    <!-- Custom Styles -->
+    <style>
+      @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
+      
+      .btn-primary {
+        @apply bg-primary-blue text-white px-8 py-3 rounded-lg font-semibold transition-all duration-300 hover:bg-blue-500 hover:scale-105;
+      }
+      
+      .btn-secondary {
+        @apply bg-transparent border-2 border-primary-blue text-primary-blue px-8 py-3 rounded-lg font-semibold transition-all duration-300 hover:bg-primary-blue hover:text-white;
+      }
+      
+      .service-card {
+        @apply bg-white p-8 rounded-2xl shadow-lg border border-gray-100 transition-all duration-300 hover:shadow-xl hover:scale-105;
+      }
+      
+      .dashboard-card {
+        @apply bg-gradient-to-br from-primary-blue to-blue-400 text-white p-6 rounded-2xl shadow-lg;
+      }
+      
+      .animate-fade-in {
+        animation: fadeIn 0.8s ease-in-out;
+      }
+      
+      .animate-slide-up {
+        animation: slideUp 0.8s ease-out;
+      }
+    </style>
 </head>
 <body class="font-sans antialiased bg-white text-black">
     <div id="app">
@@ -69,6 +135,6 @@
     </div>
 
     <!-- Main Application -->
-    <script type="module" src="https://boomdigital.com/src/main.js"></script>
+    <script type="module" src="./src/main.js"></script>
 </body>
 </html>

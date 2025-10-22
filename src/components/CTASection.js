@@ -151,17 +151,13 @@ class CTASection extends HTMLElement {
     }
 
     handlePrimaryCTA() {
-        // Scroll to contact section instead of showing registration modal
-        document.querySelector('#contact').scrollIntoView({
-            behavior: 'smooth'
-        });
+        const message = encodeURIComponent("Hola! Quiero comenzar con sus servicios de IA y automatización. ¿Podemos hablar sobre cómo transformar mi negocio?");
+        window.open(`https://wa.me/542923560623?text=${message}`, '_blank');
     }
 
     handleSecondaryCTA() {
-        // Scroll to contact section for demo requests
-        document.querySelector('#contact').scrollIntoView({
-            behavior: 'smooth'
-        });
+        const message = encodeURIComponent("Hola! Me gustaría agendar una demo gratuita para conocer sus soluciones de IA. ¿Cuándo podríamos tener una reunión?");
+        window.open(`https://wa.me/542923560623?text=${message}`, '_blank');
     }
 
     // Method to update CTA content dynamically

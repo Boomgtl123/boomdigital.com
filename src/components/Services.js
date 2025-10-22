@@ -165,10 +165,8 @@ class ServicesSection extends HTMLElement {
 
         if (ctaBtn) {
             ctaBtn.addEventListener('click', () => {
-                // Scroll to contact section instead of showing auth modal
-                document.querySelector('#contact').scrollIntoView({
-                    behavior: 'smooth'
-                });
+                const message = encodeURIComponent("Hola! Me gustaría solicitar una demo gratuita de sus servicios de IA y automatización. ¿Podemos agendar una reunión?");
+                window.open(`https://wa.me/542923560623?text=${message}`, '_blank');
             });
         }
 
@@ -196,21 +194,20 @@ class ServicesSection extends HTMLElement {
     }
 
     showServiceDetails(serviceIndex) {
-        const serviceNames = [
-            'E-commerce',
-            'IT Solutions',
-            'IA Solutions',
-            'Desarrollo Web',
-            'Marketing Digital',
-            'SEO Optimization',
-            'Coaching Empresarial',
-            'Consultoría Técnica'
+        const services = [
+            { name: 'E-commerce', message: 'Hola! Me interesa su servicio de E-commerce. Me gustaría conocer más sobre las tiendas online con integración de pagos.' },
+            { name: 'IT Solutions', message: 'Hola! Necesito soluciones IT para mi empresa. ¿Podemos hablar sobre infraestructura tecnológica?' },
+            { name: 'IA Solutions', message: 'Hola! Me gustaría conocer sus soluciones de IA y automatización inteligente.' },
+            { name: 'Desarrollo Web', message: 'Hola! Estoy interesado en desarrollo web moderno. ¿Podemos discutir mi proyecto?' },
+            { name: 'Marketing Digital', message: 'Hola! Quiero mejorar mi presencia digital. ¿Cómo pueden ayudarme con marketing online?' },
+            { name: 'SEO Optimization', message: 'Hola! Necesito mejorar mi posicionamiento web. ¿Ofrecen servicios de SEO?' },
+            { name: 'Coaching Empresarial', message: 'Hola! Busco coaching empresarial para hacer crecer mi negocio.' },
+            { name: 'Consultoría Técnica', message: 'Hola! Necesito consultoría especializada en tecnología y transformación digital.' }
         ];
 
-        // Scroll to contact section for service inquiries
-        document.querySelector('#contact').scrollIntoView({
-            behavior: 'smooth'
-        });
+        const service = services[serviceIndex];
+        const message = encodeURIComponent(service.message);
+        window.open(`https://wa.me/542923560623?text=${message}`, '_blank');
     }
 }
 

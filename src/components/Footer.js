@@ -48,10 +48,10 @@ class FooterComponent extends HTMLElement {
                         <div>
                             <h3 class="text-lg font-semibold mb-4">Servicios</h3>
                             <ul class="space-y-2">
-                                <li><a href="#services" class="text-gray-400 hover:text-primary-blue transition-colors duration-300">Asistente IA</a></li>
-                                <li><a href="#services" class="text-gray-400 hover:text-primary-blue transition-colors duration-300">Bots Omnicanal</a></li>
-                                <li><a href="#services" class="text-gray-400 hover:text-primary-blue transition-colors duration-300">Campañas Garantizadas</a></li>
-                                <li><a href="#services" class="text-gray-400 hover:text-primary-blue transition-colors duration-300">Growth Simulator</a></li>
+                                <li><a href="#services" class="text-gray-400 hover:text-primary-blue transition-colors duration-300 cursor-pointer" data-service="ia">Asistente IA</a></li>
+                                <li><a href="#services" class="text-gray-400 hover:text-primary-blue transition-colors duration-300 cursor-pointer" data-service="bots">Bots Omnicanal</a></li>
+                                <li><a href="#services" class="text-gray-400 hover:text-primary-blue transition-colors duration-300 cursor-pointer" data-service="campanas">Campañas Garantizadas</a></li>
+                                <li><a href="#services" class="text-gray-400 hover:text-primary-blue transition-colors duration-300 cursor-pointer" data-service="growth">Growth Simulator</a></li>
                             </ul>
                         </div>
 
@@ -106,13 +106,43 @@ class FooterComponent extends HTMLElement {
                 e.preventDefault();
                 const targetId = link.getAttribute('href').substring(1);
                 const targetElement = document.getElementById(targetId);
-                
+
                 if (targetElement) {
                     targetElement.scrollIntoView({
                         behavior: 'smooth',
                         block: 'start'
                     });
                 }
+            });
+        });
+
+        // WhatsApp integration for service links
+        const serviceLinks = this.querySelectorAll('[data-service]');
+        serviceLinks.forEach(link => {
+            link.addEventListener('click', (e) => {
+                e.preventDefault();
+                const serviceType = link.getAttribute('data-service');
+                let message = '';
+
+                switch(serviceType) {
+                    case 'ia':
+                        message = 'Hola! Me interesa su Asistente IA. ¿Podemos hablar sobre cómo implementar inteligencia artificial en mi negocio?';
+                        break;
+                    case 'bots':
+                        message = 'Hola! Quiero conocer más sobre sus Bots Omnicanal. ¿Cómo pueden ayudarme con la automatización de atención al cliente?';
+                        break;
+                    case 'campanas':
+                        message = 'Hola! Me gustaría saber más sobre sus Campañas Garantizadas. ¿Cómo funcionan y cuáles son los resultados esperados?';
+                        break;
+                    case 'growth':
+                        message = 'Hola! El Growth Simulator me parece muy interesante. ¿Podemos discutir cómo simular el crecimiento de mi negocio?';
+                        break;
+                    default:
+                        message = 'Hola! Me gustaría obtener más información sobre sus servicios.';
+                }
+
+                const encodedMessage = encodeURIComponent(message);
+                window.open(`https://wa.me/542923560623?text=${encodedMessage}`, '_blank');
             });
         });
     }

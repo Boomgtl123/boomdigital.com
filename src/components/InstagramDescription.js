@@ -184,38 +184,90 @@ class InstagramDescriptionComponent extends HTMLElement {
     }
 
     async generateAIDescription(productName) {
-        // This is a mock implementation. In a real scenario, this would call an AI API
-        // For now, we'll generate a template-based description
+        try {
+            const response = await fetch('https://api.deepseek.com/v1/chat/completions', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': 'Bearer sk-0617e0618310453f92852ecfd933143c'
+                },
+                body: JSON.stringify({
+                    model: 'deepseek-chat',
+                    messages: [
+                        {
+                            role: 'system',
+                            content: `Eres un experto en marketing digital y copywriting para redes sociales. Tu tarea es generar una descripción de Instagram optimizada para un producto siguiendo estas instrucciones:
 
-        const templates = [
-            {
-                title: `${productName} – Innovación que Transforma`,
-                description: `Descubre el poder de ${productName}. Una solución revolucionaria que combina tecnología avanzada con diseño intuitivo. Ideal para quienes buscan calidad superior y resultados excepcionales. ¿Listo para experimentar la diferencia?`,
-                hashtags: ['#Innovacion2025', '#TecnologiaAvanzada', '#SolucionesInteligentes', '#CalidadSuperior', '#TransformacionDigital', '#ProductoRevolucionario']
-            },
-            {
-                title: `${productName} – Elegancia que Inspira`,
-                description: `Experimenta la perfección con ${productName}. Diseñado para elevar tus estándares y superar expectativas. Cada detalle pensado para ofrecer una experiencia incomparable. ¿Qué esperas para vivir la excelencia?`,
-                hashtags: ['#Elegancia2025', '#DisenoPremium', '#ExperienciaIncomparable', '#CalidadInigualable', '#EstiloModerno', '#PerfeccionAbsoluta']
-            },
-            {
-                title: `${productName} – Potencia y Rendimiento`,
-                description: `Libera todo el potencial con ${productName}. Tecnología de vanguardia que garantiza rendimiento óptimo y durabilidad excepcional. Para quienes exigen lo mejor y no se conforman con menos. ¡Hazlo tuyo ahora!`,
-                hashtags: ['#Potencia2025', '#RendimientoMaximo', '#TecnologiaVanguardia', '#DurabilidadSuperior', '#CalidadGarantizada', '#PerformanceElite']
+1. Nombre del producto: {NOMBRE_DEL_PRODUCTO}
+2. La descripción debe ser atractiva, persuasiva y con gancho, enfocada en marketing y SEO.
+3. Incluye los hashtags más virales y relevantes del 2025 relacionados con el producto y su categoría.
+4. La descripción debe motivar a los usuarios a interactuar, comentar o comprar.
+5. Máximo 2 emojis si refuerzan el mensaje, no más.
+6. Entrega el resultado en formato listo para Instagram, con título opcional, descripción y hashtags.
+
+Ejemplo de salida:
+---
+Título: Armaf Odissey Baha – Elegancia que Inspira
+Descripción: Descubre la esencia de la sofisticación con Armaf Odissey Baha. Un aroma único que te acompaña en cada momento especial. Ideal para quienes buscan destacar y dejar huella.
+Hashtags: #Perfumes2025 #AromasUnicos #EstiloYElegancia #FraganciasVirales #ArmafOdissey #LuxuryPerfume
+---
+Genera solo el texto final listo para publicar en Instagram.`
+                        },
+                        {
+                            role: 'user',
+                            content: `Genera una descripción optimizada para Instagram del producto: ${productName}`
+                        }
+                    ],
+                    max_tokens: 500,
+                    temperature: 0.7
+                })
+            });
+
+            if (!response.ok) {
+                throw new Error(`API request failed: ${response.status}`);
             }
-        ];
 
-        // Randomly select a template
-        const selectedTemplate = templates[Math.floor(Math.random() * templates.length)];
+            const data = await response.json();
+            const generatedContent = data.choices[0].message.content.trim();
 
-        // Format the output
-        const formattedOutput = `---
+            // Validate and format the response
+            if (!generatedContent.includes('---') || !generatedContent.includes('Título:') || !generatedContent.includes('Descripción:') || !generatedContent.includes('Hashtags:')) {
+                throw new Error('Invalid response format from AI');
+            }
+
+            return generatedContent;
+
+        } catch (error) {
+            console.error('Error calling DeepSeek API:', error);
+
+            // Fallback to template-based generation
+            const templates = [
+                {
+                    title: `${productName} – Innovación que Transforma`,
+                    description: `Descubre el poder de ${productName}. Una solución revolucionaria que combina tecnología avanzada con diseño intuitivo. Ideal para quienes buscan calidad superior y resultados excepcionales. ¿Listo para experimentar la diferencia?`,
+                    hashtags: ['#Innovacion2025', '#TecnologiaAvanzada', '#SolucionesInteligentes', '#CalidadSuperior', '#TransformacionDigital', '#ProductoRevolucionario']
+                },
+                {
+                    title: `${productName} – Elegancia que Inspira`,
+                    description: `Experimenta la perfección con ${productName}. Diseñado para elevar tus estándares y superar expectativas. Cada detalle pensado para ofrecer una experiencia incomparable. ¿Qué esperas para vivir la excelencia?`,
+                    hashtags: ['#Elegancia2025', '#DisenoPremium', '#ExperienciaIncomparable', '#CalidadInigualable', '#EstiloModerno', '#PerfeccionAbsoluta']
+                },
+                {
+                    title: `${productName} – Potencia y Rendimiento`,
+                    description: `Libera todo el potencial con ${productName}. Tecnología de vanguardia que garantiza rendimiento óptimo y durabilidad excepcional. Para quienes exigen lo mejor y no se conforman con menos. ¡Hazlo tuyo ahora!`,
+                    hashtags: ['#Potencia2025', '#RendimientoMaximo', '#TecnologiaVanguardia', '#DurabilidadSuperior', '#CalidadGarantizada', '#PerformanceElite']
+                }
+            ];
+
+            const selectedTemplate = templates[Math.floor(Math.random() * templates.length)];
+            const formattedOutput = `---
 Título: ${selectedTemplate.title}
 Descripción: ${selectedTemplate.description}
 Hashtags: ${selectedTemplate.hashtags.join(' ')}
 ---`;
 
-        return formattedOutput;
+            return formattedOutput;
+        }
     }
 
     showLoading(show) {

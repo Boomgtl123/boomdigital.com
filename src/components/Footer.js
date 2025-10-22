@@ -76,7 +76,7 @@ class FooterComponent extends HTMLElement {
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/>
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/>
                                     </svg>
-                                    <span>Jr. Uniob 208 Comas Km 11<br>Lima, Peru</span>
+                                    <span>Jr. Unio 208 Comas Km 11<br>Lima, Peru</span>
                                 </li>
                             </ul>
                         </div>
@@ -85,7 +85,7 @@ class FooterComponent extends HTMLElement {
                     <!-- Bottom Bar -->
                     <div class="border-t border-gray-800 mt-8 pt-8 flex flex-col md:flex-row justify-between items-center">
                         <p class="text-gray-400 text-sm">
-                            © 2024 Boom Digital Agency. Todos los derechos reservados.
+                            © 2025 Boom Digital Agency. Todos los derechos reservados.
                         </p>
                         <div class="flex space-x-6 mt-4 md:mt-0">
                             <a href="#" class="text-gray-400 hover:text-primary-blue text-sm transition-colors duration-300">Privacidad</a>

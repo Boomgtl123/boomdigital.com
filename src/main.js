@@ -7,6 +7,7 @@ import './components/Hero.js';
 import './components/Services.js';
 import './components/Dashboard.js';
 import './components/Club.js';
+import './components/CTASection.js';
 import './components/Footer.js';
 import './components/ChatBot.js';
 

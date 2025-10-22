@@ -37,7 +37,6 @@
     <link rel="icon" type="image/x-icon" href="assets/images/favicon.ico">
     
     <!-- TailwindCSS via CDN for GitHub Pages compatibility -->
-    <script src="https://cdn.tailwindcss.com"></script>
     <script>
       // Suppress Tailwind CDN warning for production
       const originalWarn = console.warn;
@@ -47,6 +46,8 @@
         }
         originalWarn.apply(console, args);
       };
+    </script>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,typography,aspect-ratio"></script>
       
       tailwind.config = {
         theme: {

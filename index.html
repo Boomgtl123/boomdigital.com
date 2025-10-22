@@ -10,7 +10,7 @@
     <meta property="og:title" content="Boom Digital Agency - Transformamos tu Presencia Digital">
     <meta property="og:description" content="Soluciones de IA, automatización y crecimiento digital para empresas modernas">
     <meta property="og:type" content="website">
-    <meta property="og:image" content="/assets/images/og-image.jpg">
+    <meta property="og:image" content="assets/images/og-image.jpg">
     
     <!-- Structured Data -->
     <script type="application/ld+json">
@@ -20,7 +20,7 @@
       "name": "Boom Digital Agency",
       "description": "Agencia digital especializada en soluciones de IA y automatización",
       "url": "https://boomdigitalagency.com",
-      "logo": "/assets/images/logo.png",
+      "logo": "assets/images/logo.png",
       "sameAs": [
         "https://instagram.com/boomdigitalagency",
         "https://linkedin.com/company/boomdigitalagency"
@@ -76,24 +76,66 @@
         }
       }
     </script>
+    <!-- Suppress CDN warning -->
+    <script>
+      // Suppress Tailwind CDN warning for production
+      console.log = function() {};
+      console.warn = function() {};
+    </script>
+
     <!-- Custom Styles -->
     <style>
       @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
       
       .btn-primary {
-        @apply bg-primary-blue text-white px-8 py-3 rounded-lg font-semibold transition-all duration-300 hover:bg-blue-500 hover:scale-105;
+        background-color: #37C6FF;
+        color: white;
+        padding: 12px 32px;
+        border-radius: 8px;
+        font-weight: 600;
+        transition: all 0.3s;
+      }
+      
+      .btn-primary:hover {
+        background-color: #2ba8d9;
+        transform: scale(1.05);
       }
       
       .btn-secondary {
-        @apply bg-transparent border-2 border-primary-blue text-primary-blue px-8 py-3 rounded-lg font-semibold transition-all duration-300 hover:bg-primary-blue hover:text-white;
+        background-color: transparent;
+        border: 2px solid #37C6FF;
+        color: #37C6FF;
+        padding: 12px 32px;
+        border-radius: 8px;
+        font-weight: 600;
+        transition: all 0.3s;
+      }
+      
+      .btn-secondary:hover {
+        background-color: #37C6FF;
+        color: white;
       }
       
       .service-card {
-        @apply bg-white p-8 rounded-2xl shadow-lg border border-gray-100 transition-all duration-300 hover:shadow-xl hover:scale-105;
+        background-color: white;
+        padding: 32px;
+        border-radius: 16px;
+        box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+        border: 1px solid #f1f5f9;
+        transition: all 0.3s;
+      }
+      
+      .service-card:hover {
+        box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+        transform: scale(1.05);
       }
       
       .dashboard-card {
-        @apply bg-gradient-to-br from-primary-blue to-blue-400 text-white p-6 rounded-2xl shadow-lg;
+        background: linear-gradient(135deg, #37C6FF, #2ba8d9);
+        color: white;
+        padding: 24px;
+        border-radius: 16px;
+        box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
       }
       
       .animate-fade-in {
@@ -102,6 +144,22 @@
       
       .animate-slide-up {
         animation: slideUp 0.8s ease-out;
+      }
+      
+      @keyframes fadeIn {
+        from { opacity: 0; }
+        to { opacity: 1; }
+      }
+      
+      @keyframes slideUp {
+        from { 
+          transform: translateY(30px); 
+          opacity: 0; 
+        }
+        to { 
+          transform: translateY(0); 
+          opacity: 1; 
+        }
       }
     </style>
 </head>
@@ -138,10 +196,9 @@
     </div>
 
     <!-- Firebase SDK -->
-    <script type="module" src="/src/firebase.js"></script>
+    <script type="module" src="src/firebase.js"></script>
     
     <!-- Main Application -->
-    <script type="module" src="/src/main.js"></script>
+    <script type="module" src="src/main.js"></script>
 </body>
-
 </html>

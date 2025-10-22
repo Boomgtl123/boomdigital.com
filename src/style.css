@@ -1,4 +1,6 @@
-@import 'tailwindcss';
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 
 /* Custom Styles for Boom Digital Agency */
 :root {
@@ -151,7 +153,8 @@ body {
 
 /* Service Card Hover Effects */
 .service-card {
-  @apply relative overflow-hidden group;
+  position: relative;
+  overflow: hidden;
 }
 
 .service-card::before {

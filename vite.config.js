@@ -1,22 +1,27 @@
 import { defineConfig } from 'vite'
 
 export default defineConfig({
-  server: {
-    port: 3000,
-    host: true
-  },
+  base: './',
   build: {
     outDir: 'dist',
-    sourcemap: true,
+    assetsDir: 'assets',
     rollupOptions: {
       output: {
-        manualChunks: {
-          vendor: ['firebase']
-        }
-      }
-    }
+        manualChunks: undefined,
+        assetFileNames: (assetInfo) => {
+          let extType = assetInfo.name.split('.').at(1);
+          if (/png|jpe?g|svg|gif|tiff|bmp|ico/i.test(extType)) {
+            extType = 'images';
+          }
+          return `assets/${extType}/[name]-[hash][extname]`;
+        },
+        chunkFileNames: 'assets/js/[name]-[hash].js',
+        entryFileNames: 'assets/js/[name]-[hash].js',
+      },
+    },
   },
-  optimizeDeps: {
-    include: ['firebase']
+  server: {
+    port: 3000,
+    open: true
   }
 })

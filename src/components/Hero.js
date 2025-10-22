@@ -20,16 +20,29 @@ class HeroSection extends HTMLElement {
     renderWithDefaultContent() {
         this.innerHTML = `
             <section class="relative min-h-screen flex items-center justify-center bg-white overflow-hidden">
-                <div class="absolute inset-0 bg-gradient-to-br from-blue-50 to-white"></div>
+                <!-- Video Background -->
+                <video
+                    class="absolute inset-0 w-full h-full object-cover"
+                    autoplay
+                    muted
+                    loop
+                    playsinline
+                    poster="assets/images/placeholder.jpg"
+                >
+                    <source src="assets/videos/banner.MOV" type="video/mp4">
+                    <source src="assets/videos/banner.MOV" type="video/quicktime">
+                    Tu navegador no soporta el elemento de video.
+                </video>
+                <div class="absolute inset-0 bg-black bg-opacity-50"></div>
                 <div class="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
                     <div class="animate-fade-in">
                         <div class="inline-flex items-center px-4 py-2 rounded-full bg-primary-blue/10 border border-primary-blue/20 mb-8">
                             <span class="text-sm font-medium text-primary-blue">✨ Potenciado por IA</span>
                         </div>
-                        <h1 class="text-4xl md:text-6xl lg:text-7xl font-bold text-black mb-6 leading-tight">
+                        <h1 class="text-4xl md:text-6xl lg:text-7xl font-bold text-white mb-6 leading-tight drop-shadow-lg">
                             Transformamos tu Presencia Digital con IA
                         </h1>
-                        <p class="text-xl md:text-2xl text-gray-600 mb-8 max-w-3xl mx-auto leading-relaxed">
+                        <p class="text-xl md:text-2xl text-white mb-8 max-w-3xl mx-auto leading-relaxed drop-shadow-lg">
                             Soluciones inteligentes que impulsan el crecimiento de tu empresa
                         </p>
                         <div class="flex flex-col sm:flex-row gap-4 justify-center items-center mb-12">
@@ -49,26 +62,26 @@ class HeroSection extends HTMLElement {
                         </div>
                         <div class="grid grid-cols-2 md:grid-cols-4 gap-8 max-w-2xl mx-auto">
                             <div class="text-center">
-                                <div class="text-2xl md:text-3xl font-bold text-black mb-1">+500</div>
-                                <div class="text-sm text-gray-600">Clientes Satisfechos</div>
+                                <div class="text-2xl md:text-3xl font-bold text-white mb-1 drop-shadow-lg">+500</div>
+                                <div class="text-sm text-white drop-shadow-lg">Clientes Satisfechos</div>
                             </div>
                             <div class="text-center">
-                                <div class="text-2xl md:text-3xl font-bold text-black mb-1">+95%</div>
-                                <div class="text-sm text-gray-600">Tasa de Éxito</div>
+                                <div class="text-2xl md:text-3xl font-bold text-white mb-1 drop-shadow-lg">+95%</div>
+                                <div class="text-sm text-white drop-shadow-lg">Tasa de Éxito</div>
                             </div>
                             <div class="text-center">
-                                <div class="text-2xl md:text-3xl font-bold text-black mb-1">24/7</div>
-                                <div class="text-sm text-gray-600">Soporte Activo</div>
+                                <div class="text-2xl md:text-3xl font-bold text-white mb-1 drop-shadow-lg">24/7</div>
+                                <div class="text-sm text-white drop-shadow-lg">Soporte Activo</div>
                             </div>
                             <div class="text-center">
-                                <div class="text-2xl md:text-3xl font-bold text-black mb-1">+3M</div>
-                                <div class="text-sm text-gray-600">Interacciones IA</div>
+                                <div class="text-2xl md:text-3xl font-bold text-white mb-1 drop-shadow-lg">+3M</div>
+                                <div class="text-sm text-white drop-shadow-lg">Interacciones IA</div>
                             </div>
                         </div>
                     </div>
                     <div class="absolute bottom-8 left-1/2 transform -translate-x-1/2 animate-bounce">
-                        <div class="w-6 h-10 border-2 border-gray-400 rounded-full flex justify-center">
-                            <div class="w-1 h-3 bg-gray-400 rounded-full mt-2"></div>
+                        <div class="w-6 h-10 border-2 border-white rounded-full flex justify-center">
+                            <div class="w-1 h-3 bg-white rounded-full mt-2"></div>
                         </div>
                     </div>
                 </div>

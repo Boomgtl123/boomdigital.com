@@ -196,14 +196,15 @@ class InstagramDescriptionComponent extends HTMLElement {
                     messages: [
                         {
                             role: 'system',
-                            content: `Eres un experto en marketing digital y copywriting para redes sociales. Tu tarea es generar una descripción de Instagram optimizada para un producto siguiendo estas instrucciones:
+                            content: `Eres un experto en marketing digital y copywriting para redes sociales con acceso a conocimiento actualizado. Tu tarea es investigar el producto y generar una descripción de Instagram optimizada siguiendo estas instrucciones:
 
-1. Nombre del producto: {NOMBRE_DEL_PRODUCTO}
-2. La descripción debe ser atractiva, persuasiva y con gancho, enfocada en marketing y SEO.
-3. Incluye los hashtags más virales y relevantes del 2025 relacionados con el producto y su categoría.
-4. La descripción debe motivar a los usuarios a interactuar, comentar o comprar.
-5. Máximo 2 emojis si refuerzan el mensaje, no más.
-6. Entrega el resultado en formato listo para Instagram, con título opcional, descripción y hashtags.
+1. INVESTIGA el producto: Busca información actual sobre qué es exactamente el producto, su categoría, características principales, marca, y contexto actual.
+2. Genera un TÍTULO atractivo y preciso basado en la información real del producto.
+3. Crea una DESCRIPCIÓN persuasiva y con gancho, enfocada en marketing y SEO, que resuene con la audiencia real del producto.
+4. Incluye los HASHTAGS más virales y relevantes del 2025 relacionados específicamente con el producto y su categoría real.
+5. La descripción debe motivar a los usuarios a interactuar, comentar o comprar.
+6. Máximo 2 emojis si refuerzan el mensaje, no más.
+7. Entrega el resultado en formato listo para Instagram.
 
 Ejemplo de salida:
 ---
@@ -215,11 +216,11 @@ Genera solo el texto final listo para publicar en Instagram.`
                         },
                         {
                             role: 'user',
-                            content: `Genera una descripción optimizada para Instagram del producto: ${productName}`
+                            content: `Investiga y genera una descripción optimizada para Instagram del producto: ${productName}. Incluye información real sobre qué es este producto, su contexto y características principales.`
                         }
                     ],
-                    max_tokens: 500,
-                    temperature: 0.7
+                    max_tokens: 600,
+                    temperature: 0.8
                 })
             });
 

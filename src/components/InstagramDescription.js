@@ -189,7 +189,7 @@ class InstagramDescriptionComponent extends HTMLElement {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
-                    'Authorization': 'Bearer sk-0617e0618310453f92852ecfd933143c'
+                    'Authorization': `Bearer ${process.env.DEEPSEEK_API_KEY || 'sk-0617e0618310453f92852ecfd933143c'}`
                 },
                 body: JSON.stringify({
                     model: 'deepseek-chat',

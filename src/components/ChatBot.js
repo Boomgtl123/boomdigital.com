@@ -160,7 +160,7 @@ class ChatBot extends HTMLElement {
 
   async callDeepSeekAPI(message) {
     // DeepSeek API integration
-    const apiKey = 'sk-59b0807d89344fb781f3d9b1baf35753';
+    const apiKey = process.env.CHATBOT_API_KEY || 'sk-59b0807d89344fb781f3d9b1baf35753';
     const apiUrl = 'https://api.deepseek.com/v1/chat/completions';
 
     const prompt = `Eres el asistente oficial de Boom Digital Agency. Responde en español de manera profesional y amigable. 

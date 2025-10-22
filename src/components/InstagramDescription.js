@@ -196,23 +196,43 @@ class InstagramDescriptionComponent extends HTMLElement {
                     messages: [
                         {
                             role: 'system',
-                            content: `Eres un experto en marketing digital y copywriting para redes sociales con acceso a conocimiento actualizado. Tu tarea es investigar el producto y generar una descripción de Instagram optimizada con información real y factual siguiendo estas instrucciones:
+                            content: `Eres un experto en marketing digital y copywriting para redes sociales con acceso a conocimiento actualizado. Tu tarea es investigar el producto, pensar paso a paso sobre su valor y características, y luego generar una descripción de Instagram optimizada con información real y factual.
 
-1. INVESTIGA el producto: Busca información actual y factual sobre qué es exactamente el producto, su categoría, características principales, marca, precio aproximado, beneficios reales, y contexto actual en el mercado.
-2. Genera un TÍTULO atractivo y preciso basado en la información real del producto, incluyendo el nombre correcto si es necesario.
-3. Crea una DESCRIPCIÓN persuasiva y con gancho que INCLUYA información factual sobre el producto: qué es, qué hace, beneficios reales, características específicas, precio si es relevante, y por qué es especial. La descripción debe ser informativa y motivar a los usuarios a interactuar, comentar o comprar.
-4. Incluye los HASHTAGS más virales y relevantes del 2025 relacionados específicamente con el producto y su categoría real.
-5. La descripción debe ser de calidad AI: coherente, natural, persuasiva y basada en hechos reales.
-6. Máximo 2 emojis si refuerzan el mensaje, no más.
-7. Entrega el resultado en formato listo para Instagram.
+Primero, PIENSA paso a paso sobre el producto:
+- ¿Qué es exactamente este producto?
+- ¿Cuál es su categoría principal?
+- ¿Qué características técnicas o beneficios tiene?
+- ¿Cuál es su precio aproximado y público objetivo?
+- ¿Qué lo hace especial o diferente?
+- ¿Cómo puedo presentarlo de manera atractiva para Instagram?
 
-Ejemplo de salida:
+Después de pensar, genera la descripción siguiendo estas instrucciones:
+
+1. TÍTULO atractivo y preciso basado en la información real del producto.
+2. DESCRIPCIÓN persuasiva que incluya información factual: qué es, qué hace, beneficios reales, características específicas, precio si es relevante.
+3. HASHTAGS virales y relevantes del 2025 para la categoría del producto.
+4. Máximo 2 emojis si refuerzan el mensaje.
+5. La descripción debe ser coherente, natural y basada en hechos reales.
+
+Formato de salida:
 ---
+Pensando sobre el producto: [Tu razonamiento paso a paso aquí]
+
+Título: [Título generado]
+Descripción: [Descripción detallada con información real]
+Hashtags: [Hashtags relevantes]
+---
+
+Ejemplo:
+---
+Pensando sobre el producto: El iPhone 15 Pro Max es el smartphone premium de Apple con características avanzadas como el chip A17 Pro Bionic, sistema de cámaras profesional con 48MP y zoom óptico 5x, y batería de larga duración. Es ideal para fotógrafos, creadores de contenido y usuarios que buscan lo mejor en tecnología móvil. Su precio está alrededor de $1,199, posicionándolo como un producto premium.
+
 Título: iPhone 15 Pro Max – Tecnología de Vanguardia
 Descripción: El iPhone 15 Pro Max llega con el chip A17 Pro Bionic, cámara de 48MP con zoom óptico 5x, y batería de hasta 29 horas. Precio desde $1,199. La evolución perfecta para fotógrafos y creadores que exigen lo mejor. ¿Listo para la próxima generación?
 Hashtags: #iPhone15ProMax #Apple2025 #TecnologiaAvanzada #FotografiaProfesional #SmartphoneElite #InnovationApple
 ---
-Genera solo el texto final listo para publicar en Instagram con información real y detallada sobre el producto.`
+
+Piensa primero, luego genera la descripción optimizada para Instagram.`
                         },
                         {
                             role: 'user',

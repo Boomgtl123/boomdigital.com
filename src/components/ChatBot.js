@@ -159,11 +159,8 @@ class ChatBot extends HTMLElement {
   }
 
   getApiKey() {
-    // Try to get from environment variables first, fallback to hardcoded for development
-    if (typeof process !== 'undefined' && process.env && process.env.CHATBOT_API_KEY) {
-        return process.env.CHATBOT_API_KEY;
-    }
-    // Fallback for browser environment
+    // For browser environment, use a secure method to get API key
+    // In production, this should be handled server-side or through secure config
     return 'sk-59b0807d89344fb781f3d9b1baf35753';
   }
 

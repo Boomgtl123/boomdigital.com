@@ -35,8 +35,8 @@
     
     <!-- Favicon -->
     <link rel="icon" type="image/x-icon" href="assets/images/favicon.ico">
-    
-    <!-- TailwindCSS via CDN for GitHub Pages compatibility -->
+
+    <!-- Configure Tailwind before CDN loads -->
     <script>
       // Suppress Tailwind CDN warning for production
       const originalWarn = console.warn;
@@ -46,23 +46,19 @@
         }
         originalWarn.apply(console, args);
       };
-    </script>
 
-    <script>
-      tailwind.config = {
+      // Set Tailwind config before CDN loads
+      window.tailwind = window.tailwind || {};
+      window.tailwind.config = {
         theme: {
           extend: {
             colors: {
-              primary: {
-                blue: '#f97109',
-                black: '#000000',
-                white: '#FFFFFF',
-              },
-              accent: {
-                light: '#F8FAFC',
-                gray: '#64748B',
-                dark: '#1E293B'
-              }
+              'primary-blue': '#f97109',
+              'primary-black': '#000000',
+              'primary-white': '#FFFFFF',
+              'accent-light': '#F8FAFC',
+              'accent-gray': '#64748B',
+              'accent-dark': '#1E293B'
             },
             fontFamily: {
               sans: ['Inter', 'system-ui', 'sans-serif'],
@@ -84,9 +80,11 @@
             },
           }
         }
-      }
+      };
+      console.log('Tailwind config set before CDN load');
     </script>
 
+    <!-- TailwindCSS via CDN for GitHub Pages compatibility -->
     <script src="https://cdn.tailwindcss.com?plugins=forms,typography,aspect-ratio"></script>
 
     <!-- Custom Styles -->

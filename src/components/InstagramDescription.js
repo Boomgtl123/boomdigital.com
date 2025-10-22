@@ -196,23 +196,23 @@ class InstagramDescriptionComponent extends HTMLElement {
                     messages: [
                         {
                             role: 'system',
-                            content: `Eres un experto en marketing digital y copywriting para redes sociales con acceso a conocimiento actualizado. Tu tarea es investigar el producto y generar una descripción de Instagram optimizada siguiendo estas instrucciones:
+                            content: `Eres un experto en marketing digital y copywriting para redes sociales con acceso a conocimiento actualizado. Tu tarea es investigar el producto y generar una descripción de Instagram optimizada con información real y factual siguiendo estas instrucciones:
 
-1. INVESTIGA el producto: Busca información actual sobre qué es exactamente el producto, su categoría, características principales, marca, y contexto actual.
-2. Genera un TÍTULO atractivo y preciso basado en la información real del producto.
-3. Crea una DESCRIPCIÓN persuasiva y con gancho, enfocada en marketing y SEO, que resuene con la audiencia real del producto.
+1. INVESTIGA el producto: Busca información actual y factual sobre qué es exactamente el producto, su categoría, características principales, marca, precio aproximado, beneficios reales, y contexto actual en el mercado.
+2. Genera un TÍTULO atractivo y preciso basado en la información real del producto, incluyendo el nombre correcto si es necesario.
+3. Crea una DESCRIPCIÓN persuasiva y con gancho que INCLUYA información factual sobre el producto: qué es, qué hace, beneficios reales, características específicas, precio si es relevante, y por qué es especial. La descripción debe ser informativa y motivar a los usuarios a interactuar, comentar o comprar.
 4. Incluye los HASHTAGS más virales y relevantes del 2025 relacionados específicamente con el producto y su categoría real.
-5. La descripción debe motivar a los usuarios a interactuar, comentar o comprar.
+5. La descripción debe ser de calidad AI: coherente, natural, persuasiva y basada en hechos reales.
 6. Máximo 2 emojis si refuerzan el mensaje, no más.
 7. Entrega el resultado en formato listo para Instagram.
 
 Ejemplo de salida:
 ---
-Título: Armaf Odissey Baha – Elegancia que Inspira
-Descripción: Descubre la esencia de la sofisticación con Armaf Odissey Baha. Un aroma único que te acompaña en cada momento especial. Ideal para quienes buscan destacar y dejar huella.
-Hashtags: #Perfumes2025 #AromasUnicos #EstiloYElegancia #FraganciasVirales #ArmafOdissey #LuxuryPerfume
+Título: iPhone 15 Pro Max – Tecnología de Vanguardia
+Descripción: El iPhone 15 Pro Max llega con el chip A17 Pro Bionic, cámara de 48MP con zoom óptico 5x, y batería de hasta 29 horas. Precio desde $1,199. La evolución perfecta para fotógrafos y creadores que exigen lo mejor. ¿Listo para la próxima generación?
+Hashtags: #iPhone15ProMax #Apple2025 #TecnologiaAvanzada #FotografiaProfesional #SmartphoneElite #InnovationApple
 ---
-Genera solo el texto final listo para publicar en Instagram.`
+Genera solo el texto final listo para publicar en Instagram con información real y detallada sobre el producto.`
                         },
                         {
                             role: 'user',

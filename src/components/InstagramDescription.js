@@ -251,12 +251,45 @@ Piensa primero, luego genera la descripción optimizada para Instagram.`
             const data = await response.json();
             const generatedContent = data.choices[0].message.content.trim();
 
-            // Validate and format the response
-            if (!generatedContent.includes('---') || !generatedContent.includes('Título:') || !generatedContent.includes('Descripción:') || !generatedContent.includes('Hashtags:')) {
-                throw new Error('Invalid response format from AI');
+            // Parse and format the response more flexibly
+            let title = '';
+            let description = '';
+            let hashtags = '';
+
+            // Try to extract title
+            const titleMatch = generatedContent.match(/Título:\s*(.+?)(?:\n|$)/i);
+            if (titleMatch) {
+                title = titleMatch[1].trim();
             }
 
-            return generatedContent;
+            // Try to extract description
+            const descMatch = generatedContent.match(/Descripción:\s*(.+?)(?:\nHashtags:|$)/is);
+            if (descMatch) {
+                description = descMatch[1].trim();
+            }
+
+            // Try to extract hashtags
+            const hashtagMatch = generatedContent.match(/Hashtags:\s*(.+?)(?:\n|$)/is);
+            if (hashtagMatch) {
+                hashtags = hashtagMatch[1].trim();
+            }
+
+            // If we couldn't parse properly, use the raw content
+            if (!title || !description) {
+                // Fallback: use the entire content as description
+                description = generatedContent;
+                title = `${productName} – Descubre la Diferencia`;
+                hashtags = '#Innovacion2025 #ProductoPremium #CalidadSuperior';
+            }
+
+            // Format the final output
+            const formattedOutput = `---
+Título: ${title}
+Descripción: ${description}
+Hashtags: ${hashtags}
+---`;
+
+            return formattedOutput;
 
         } catch (error) {
             console.error('Error calling DeepSeek API:', error);

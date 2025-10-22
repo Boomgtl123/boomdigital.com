@@ -163,9 +163,9 @@ class AuthModal extends HTMLElement {
                 this.showNotification('Cuenta creada exitosamente (Demo)', 'success');
                 this.close();
                 
-                // Redirect to dashboard after successful registration
+                // Show CEO panel after successful registration
                 setTimeout(() => {
-                    window.location.href = '/dashboard.html';
+                    this.showCEOPanel();
                 }, 1000);
                 
             } else {
@@ -179,9 +179,9 @@ class AuthModal extends HTMLElement {
                 }
                 this.close();
                 
-                // Redirect to dashboard after successful login
+                // Show CEO panel after successful login
                 setTimeout(() => {
-                    window.location.href = '/dashboard.html';
+                    this.showCEOPanel();
                 }, 1000);
             }
 
@@ -236,6 +236,17 @@ class AuthModal extends HTMLElement {
             notification.style.transform = 'translateX(100%)';
             setTimeout(() => notification.remove(), 300);
         }, 3000);
+    }
+
+    showCEOPanel() {
+        // Show CEO panel modal
+        const ceoPanel = document.querySelector('ceo-panel-modal');
+        if (ceoPanel) {
+            ceoPanel.open();
+        } else {
+            // Fallback: show notification that CEO panel is available
+            this.showNotification('Panel CEO disponible - Use el botón "Panel CEO" en el header', 'success');
+        }
     }
 }
 

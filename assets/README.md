@@ -1,97 +1,65 @@
-# Assets - Boom Digital Agency
+# Assets Directory
 
-Esta carpeta contiene todos los recursos multimedia del proyecto.
+Esta carpeta contiene todos los recursos estáticos del proyecto Boom Digital Agency.
 
 ## Estructura Recomendada
 
 ```
 assets/
 ├── images/
-│   ├── logo.png                    # Logo principal de la agencia
-│   ├── favicon.ico                 # Favicon del sitio
-│   ├── og-image.jpg                # Imagen para Open Graph
-│   ├── verificado.png              # Badge de verificación para CEO
-│   ├── hero/
-│   │   ├── hero-bg.jpg             # Imagen de fondo del hero
-│   │   └── hero-illustration.svg   # Ilustración del hero
-│   ├── services/
-│   │   ├── service-1.svg           # Icono Asistente IA
-│   │   ├── service-2.svg           # Icono Bots Omnicanal
-│   │   ├── service-3.svg           # Icono Campañas Garantizadas
-│   │   └── service-4.svg           # Icono Growth Simulator
-│   ├── dashboard/
-│   │   ├── metrics-chart.svg       # Gráfico de métricas
-│   │   └── analytics-icon.svg      # Icono de analytics
-│   └── testimonials/
-│       ├── testimonial-1.jpg       # Foto testimonio 1
-│       ├── testimonial-2.jpg       # Foto testimonio 2
-│       └── testimonial-3.jpg       # Foto testimonio 3
+│   ├── logo.png              # Logo principal de la agencia
+│   ├── favicon.ico           # Icono del sitio
+│   ├── og-image.jpg          # Imagen para redes sociales
+│   ├── verificado.png        # Icono de verificación para CEO
+│   ├── hero-background.jpg   # Imagen de fondo para hero section
+│   └── service-icons/        # Iconos para servicios
+│       ├── ai-assistant.svg
+│       ├── omnichannel.svg
+│       ├── campaigns.svg
+│       └── growth-simulator.svg
 └── videos/
-    ├── hero-video.mp4              # Video de fondo opcional
-    └── demo-video.mp4              # Video demostrativo
+    ├── hero-video.mp4        # Video de fondo opcional
+    └── demo-videos/          # Videos demostrativos
 ```
 
-## Especificaciones Técnicas
+## Optimización de Imágenes
 
-### Imágenes
-- **Formatos**: PNG, JPG, SVG, WebP
-- **Resolución**: Mínimo 1920x1080 para imágenes de fondo
-- **Optimización**: Comprimir para web
-- **Peso máximo**: 500KB por imagen
+Para mejor performance, recomendamos:
 
-### Videos
-- **Formatos**: MP4, WebM
-- **Duración**: Máximo 30 segundos para videos de fondo
-- **Compresión**: H.264 para compatibilidad
-- **Peso máximo**: 5MB por video
+1. **Formatos**: Usar WebP cuando sea posible, con fallback a PNG/JPG
+2. **Tamaños**: 
+   - Hero images: 1920x1080px (máximo)
+   - Service icons: 64x64px o 128x128px
+   - Logo: 200x60px (responsive)
+3. **Compresión**: Optimizar todas las imágenes antes de subir
 
-### Iconos
-- **Formatos**: SVG preferido, PNG para compatibilidad
-- **Tamaño**: 24x24px a 64x64px
-- **Estilo**: Coherente con la identidad visual
+## Lazy Loading
 
-## Guías de Uso
+Todas las imágenes y videos implementan lazy loading automático para mejor performance.
 
-### Logo
-- Usar siempre en alta resolución
-- Mantener proporciones originales
-- Versiones: color, blanco y negro
+## Uso en el Código
 
-### Imágenes de Servicios
-- Ilustraciones vectoriales preferidas
-- Estilo minimalista y profesional
-- Coherencia en paleta de colores
+```html
+<!-- Imagen optimizada con lazy loading -->
+<img 
+  src="/assets/images/hero-background.jpg" 
+  alt="Boom Digital Agency" 
+  loading="lazy"
+  class="w-full h-auto"
+>
 
-### Imágenes de Testimonios
-- Fotos de perfil profesional
-- Tamaño consistente: 80x80px
-- Formato circular o cuadrado
-
-## Optimización
-
-### Para Desarrollo
-```bash
-# Instalar herramientas de optimización
-npm install -g imagemin-cli
-
-# Optimizar imágenes
-imagemin assets/images/* --out-dir=dist/assets/images
+<!-- Video con lazy loading -->
+<video 
+  src="/assets/videos/hero-video.mp4" 
+  autoplay muted loop 
+  loading="lazy"
+  class="w-full"
+></video>
 ```
-
-### Para Producción
-- Usar formatos WebP cuando sea posible
-- Implementar lazy loading
-- Usar CDN para assets estáticos
 
 ## Notas Importantes
 
-1. **Derechos de Autor**: Asegurar que todas las imágenes tengan licencia comercial
-2. **Accesibilidad**: Incluir textos alternativos para todas las imágenes
-3. **Performance**: Optimizar tamaño y formato para carga rápida
-4. **Responsive**: Proporcionar múltiples resoluciones cuando sea necesario
-
-## Recursos Sugeridos
-
-- **Iconos**: [Heroicons](https://heroicons.com/), [Feather Icons](https://feathericons.com/)
-- **Ilustraciones**: [Undraw](https://undraw.co/), [Freepik](https://www.freepik.com/)
-- **Fotos**: [Unsplash](https://unsplash.com/), [Pexels](https://www.pexels.com/)
+- Mantener nombres de archivos descriptivos y en minúsculas
+- No incluir espacios en nombres de archivos
+- Verificar que todos los assets referenciados existan
+- Optimizar para web (compresión, formatos adecuados)

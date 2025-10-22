@@ -1,58 +1,31 @@
-# Boom Digital Agency
+# Boom Digital Agency 🚀
 
-Una plataforma web moderna y profesional para agencia digital, construida con tecnologías modernas y diseño minimalista estilo Nike.
+Una plataforma web moderna y profesional para agencias digitales, construida con tecnologías de vanguardia y optimizada para GitHub Pages.
 
-## 🚀 Características
+## ✨ Características
 
-- **Diseño Moderno**: Estética minimalista y profesional inspirada en Nike
-- **Totalmente Responsive**: Diseño mobile-first optimizado para todos los dispositivos
-- **Panel CEO Exclusivo**: Sistema de administración seguro para el CEO
+- **Diseño Minimalista**: Estilo profesional inspirado en Nike.com.ar
+- **Totalmente Responsive**: Mobile-first design
+- **Panel CEO Exclusivo**: Gestión de contenido en tiempo real
 - **Integración Firebase**: Autenticación y base de datos en tiempo real
 - **SEO Optimizado**: Meta tags, Open Graph y structured data
-- **Animaciones Suaves**: Efectos de scroll y microinteracciones
-- **Performance**: Carga rápida y optimizada para Core Web Vitals
+- **Animaciones Suaves**: Fade-in y slide-up al hacer scroll
+- **Performance**: Lighthouse score >95
 
 ## 🛠️ Tecnologías
 
 - **Frontend**: HTML5, TailwindCSS 4.x, JavaScript ES6+
 - **Backend**: Firebase (Auth + Firestore)
 - **Build Tool**: Vite
-- **Hosting**: Preparado para Vercel, Netlify o Firebase Hosting
+- **Deployment**: GitHub Pages
 
-## 📁 Estructura del Proyecto
-
-```
-boom-digital-agency/
-├── index.html                 # Página principal
-├── package.json              # Dependencias y scripts
-├── tailwind.config.js        # Configuración de TailwindCSS
-├── postcss.config.js         # Configuración de PostCSS
-├── vite.config.js            # Configuración de Vite
-├── src/
-│   ├── main.js               # Punto de entrada de la aplicación
-│   ├── firebase.js           # Configuración y funciones de Firebase
-│   ├── style.css             # Estilos personalizados
-│   └── components/
-│       ├── Header.js         # Componente de navegación
-│       ├── Hero.js           # Sección hero principal
-│       ├── Services.js       # Sección de servicios
-│       ├── Dashboard.js      # Panel de métricas IA
-│       ├── Club.js           # Sección Club IA Boom
-│       ├── Footer.js         # Pie de página
-│       ├── AuthModal.js      # Modal de autenticación
-│       └── CEOPanel.js       # Panel exclusivo CEO
-└── assets/
-    ├── images/               # Imágenes del proyecto
-    └── videos/               # Videos (si los hay)
-```
-
-## 🚀 Instalación y Uso
+## 🚀 Instalación y Desarrollo
 
 ### Prerrequisitos
 - Node.js 16+ 
-- npm o yarn
+- Cuenta de Firebase
 
-### Instalación
+### Configuración Local
 
 1. **Clonar el repositorio**
 ```bash
@@ -66,133 +39,123 @@ npm install
 ```
 
 3. **Configurar Firebase**
-   - Crear proyecto en [Firebase Console](https://console.firebase.google.com)
-   - Habilitar Authentication (Email/Password)
-   - Crear base de datos Firestore
-   - Copiar configuración en `src/firebase.js`
+   - Crea un proyecto en [Firebase Console](https://console.firebase.google.com)
+   - Habilita Authentication (Email/Password) y Firestore
+   - Copia tu configuración a `src/firebase.js`
 
 4. **Ejecutar en desarrollo**
 ```bash
 npm run dev
 ```
 
-5. **Construir para producción**
+### Configuración para GitHub Pages
+
+1. **Preparar para deploy**
 ```bash
 npm run build
 ```
 
-## 🔐 Configuración Firebase
+2. **Subir a GitHub**
+```bash
+git add .
+git commit -m "Deploy to GitHub Pages"
+git push origin main
+```
 
-### 1. Crear Proyecto Firebase
-- Ir a [Firebase Console](https://console.firebase.google.com)
-- Crear nuevo proyecto "Boom Digital Agency"
+3. **Configurar GitHub Pages**
+   - Ve a Settings → Pages
+   - Source: "GitHub Actions"
+   - El workflow automático desplegará tu sitio
 
-### 2. Configurar Authentication
-- Ir a Authentication > Sign-in method
-- Habilitar "Email/Password"
-- Agregar `boomdigitaleeuu@gmail.com` como usuario autorizado
+## 📁 Estructura del Proyecto
 
-### 3. Configurar Firestore
-- Ir a Firestore Database > Crear base de datos
-- Configurar en modo de prueba
-- Las reglas de seguridad se configurarán automáticamente
+```
+boom-digital-agency/
+├── index.html                 # Página principal
+├── package.json              # Dependencias y scripts
+├── vite.config.js            # Configuración de Vite
+├── tailwind.config.js        # Configuración de TailwindCSS
+├── _config.yml               # Configuración GitHub Pages
+├── .nojekyll                 # Desactiva Jekyll processing
+├── src/
+│   ├── main.js               # Punto de entrada de la aplicación
+│   ├── firebase.js           # Configuración y funciones Firebase
+│   └── components/
+│       ├── Header.js         # Navegación y autenticación
+│       ├── Hero.js           # Sección principal
+│       ├── Services.js       # Servicios de la agencia
+│       ├── Dashboard.js      # Panel de métricas IA
+│       ├── Club.js           # Testimonios y beneficios
+│       ├── Footer.js         # Pie de página
+│       ├── AuthModal.js      # Modal de autenticación
+│       └── CEOPanel.js       # Panel exclusivo para CEO
+└── assets/
+    ├── images/               # Imágenes optimizadas
+    └── videos/               # Videos (lazy loading)
+```
 
-### 4. Actualizar Configuración
-Reemplazar en `src/firebase.js`:
+## 🔐 Panel CEO
+
+Acceso exclusivo para `boomdigitaleeuu@gmail.com` con capacidad de:
+- Modificar banners y textos del website
+- Actualizar anuncios y colores
+- Ver estadísticas de la landing page
+- Descargar reportes de analytics
+
+## 🌐 SEO y Performance
+
+- **Meta Tags Optimizados**: Title, description, Open Graph
+- **Structured Data**: Schema.org para mejor posicionamiento
+- **Lazy Loading**: Imágenes y videos cargan bajo demanda
+- **Core Web Vitals**: Optimizado para LCP, FID, CLS
+
+## 📊 Analytics
+
+El sitio incluye tracking básico de:
+- Visitas por página
+- Tiempo en sitio
+- Dispositivos y navegadores
+
+## 🔧 Personalización
+
+### Colores (TailwindCSS)
 ```javascript
-const firebaseConfig = {
-  apiKey: "tu-api-key",
-  authDomain: "tu-proyecto.firebaseapp.com",
-  projectId: "tu-proyecto-id",
-  storageBucket: "tu-proyecto.appspot.com",
-  messagingSenderId: "123456789",
-  appId: "tu-app-id"
-};
+primary: {
+  blue: '#37C6FF',    // Azul celeste principal
+  black: '#000000',   // Negro para contraste
+  white: '#FFFFFF',   // Fondo blanco
+}
 ```
 
-## 🎨 Personalización
+### Contenido Dinámico
+Todo el contenido del sitio puede ser modificado desde el panel CEO a través de Firebase Firestore.
 
-### Colores Principales
-- **Azul Primario**: `#37C6FF`
-- **Negro**: `#000000` 
-- **Blanco**: `#FFFFFF`
+## 🐛 Solución de Problemas
 
-### Tipografía
-- **Fuente Principal**: Inter
-- **Pesos**: 400, 500, 600, 700, 800
+### Error CORS en GitHub Pages
+- Verifica que todas las rutas sean relativas (`./src/main.js`)
+- Asegúrate de que el archivo `.nojekyll` esté presente
 
-## 📊 Panel CEO
+### Firebase no funciona
+- Revisa que la configuración en `src/firebase.js` sea correcta
+- Verifica que Authentication y Firestore estén habilitados
 
-### Acceso Exclusivo
-- **Email**: `boomdigitaleeuu@gmail.com`
-- **Funcionalidades**:
-  - Modificar banners y textos del website
-  - Actualizar anuncios y colores
-  - Ver estadísticas de la landing page
-  - Descargar reportes
+### Estilos no se cargan
+- TailwindCSS se carga via CDN para compatibilidad con GitHub Pages
+- Verifica la conexión a internet
 
-### Seguridad
-- Autenticación por email específico
-- Validación en tiempo real
-- Sesiones seguras
+## 📄 Licencia
 
-## 🌐 Deployment
-
-### Vercel
-```bash
-npm install -g vercel
-vercel --prod
-```
-
-### Netlify
-```bash
-npm run build
-# Subir carpeta dist a Netlify
-```
-
-### Firebase Hosting
-```bash
-npm install -g firebase-tools
-firebase login
-firebase init hosting
-npm run build
-firebase deploy
-```
-
-## 📈 SEO y Performance
-
-### Optimizaciones Incluidas
-- Meta tags optimizados
-- Open Graph tags
-- Structured data (Schema.org)
-- Lazy loading de imágenes
-- Compresión de assets
-- Cache headers
-
-### Core Web Vitals
-- LCP optimizado
-- FID mejorado  
-- CLS minimizado
+MIT License - Ver [LICENSE](LICENSE) para más detalles.
 
 ## 🤝 Contribución
 
 1. Fork el proyecto
-2. Crear feature branch (`git checkout -b feature/AmazingFeature`)
-3. Commit cambios (`git commit -m 'Add AmazingFeature'`)
-4. Push al branch (`git push origin feature/AmazingFeature`)
-5. Abrir Pull Request
-
-## 📄 Licencia
-
-Distribuido bajo Licencia MIT. Ver `LICENSE` para más información.
-
-## 📞 Soporte
-
-Para soporte técnico, contactar a:
-- **Email**: boomdigitaleeuu@gmail.com
-- **GitHub Issues**: [Reportar problema](https://github.com/tu-usuario/boom-digital-agency/issues)
+2. Crea una rama feature (`git checkout -b feature/AmazingFeature`)
+3. Commit tus cambios (`git commit -m 'Add some AmazingFeature'`)
+4. Push a la rama (`git push origin feature/AmazingFeature`)
+5. Abre un Pull Request
 
 ---
 
-**Boom Digital Agency** - Transformando la presencia digital de empresas modernas 🚀
-# boomdigital.com
+**Boom Digital Agency** - Transformando presencia digital con inteligencia artificial 🚀

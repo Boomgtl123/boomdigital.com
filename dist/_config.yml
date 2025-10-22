@@ -1,0 +1,37 @@
+# GitHub Pages Configuration
+title: "Boom Digital Agency"
+description: "Transformamos tu Presencia Digital con IA"
+baseurl: "" # the subpath of your site, e.g. /blog
+url: "" # the base hostname & protocol for your site
+
+# Build settings
+markdown: kramdown
+theme: jekyll-theme-minimal
+
+# Exclude from processing
+exclude:
+  - node_modules/
+  - .gitignore
+  - package.json
+  - package-lock.json
+  - tailwind.config.js
+  - postcss.config.js
+  - vite.config.js
+  - .github/
+
+# Include these files
+include:
+  - .nojekyll
+  - assets/
+  - src/
+  - 404.html
+
+# Plugins (optional)
+plugins:
+  - jekyll-sitemap
+  - jekyll-seo-tag
+
+# SEO settings
+author: "Boom Digital Agency"
+twitter_username: boomdigital
+github_username: boomdigital

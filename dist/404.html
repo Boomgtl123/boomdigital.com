@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Página No Encontrada - Boom Digital Agency</title>
+    <meta name="description" content="La página que buscas no existe. Regresa a Boom Digital Agency.">
+    
+    <!-- TailwindCSS via CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            colors: {
+              primary: {
+                blue: '#37C6FF',
+                black: '#000000',
+                white: '#FFFFFF',
+              }
+            },
+            fontFamily: {
+              sans: ['Inter', 'system-ui', 'sans-serif'],
+            }
+          }
+        }
+      }
+    </script>
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        
+        .btn-primary {
+            background-color: #37C6FF;
+            color: white;
+            padding: 12px 32px;
+            border-radius: 8px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+        
+        .btn-primary:hover {
+            background-color: #2ba8d6;
+            transform: scale(1.05);
+        }
+    </style>
+</head>
+<body class="bg-white text-black min-h-screen flex items-center justify-center">
+    <div class="text-center px-6">
+        <!-- Error Code -->
+        <h1 class="text-9xl font-bold text-primary-blue mb-4">404</h1>
+        
+        <!-- Error Message -->
+        <h2 class="text-3xl font-bold mb-4">Página No Encontrada</h2>
+        
+        <!-- Description -->
+        <p class="text-gray-600 mb-8 max-w-md mx-auto">
+            Lo sentimos, la página que estás buscando no existe o ha sido movida.
+        </p>
+        
+        <!-- Action Buttons -->
+        <div class="space-y-4 sm:space-y-0 sm:space-x-4 sm:flex sm:justify-center">
+            <a href="./" class="btn-primary inline-block">
+                Volver al Inicio
+            </a>
+            <a href="./#services" class="border-2 border-primary-blue text-primary-blue px-8 py-3 rounded-lg font-semibold transition-all duration-300 hover:bg-primary-blue hover:text-white inline-block">
+                Nuestros Servicios
+            </a>
+        </div>
+        
+        <!-- Additional Info -->
+        <div class="mt-12 text-sm text-gray-500">
+            <p>Si crees que esto es un error, por favor contacta al soporte.</p>
+            <p class="mt-2">Boom Digital Agency - Transformando presencia digital</p>
+        </div>
+    </div>
+
+    <!-- Auto-redirect after 5 seconds -->
+    <script>
+        setTimeout(function() {
+            window.location.href = './';
+        }, 5000);
+    </script>
+</body>
+</html>

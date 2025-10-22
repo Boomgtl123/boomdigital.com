@@ -35,8 +35,8 @@
     
     <!-- Favicon -->
     <link rel="icon" type="image/x-icon" href="./assets/favicon-B_SY1GJM.ico">
-    
-    <!-- TailwindCSS via CDN for GitHub Pages compatibility -->
+
+    <!-- Configure Tailwind before CDN loads -->
     <script>
       // Suppress Tailwind CDN warning for production
       const originalWarn = console.warn;
@@ -46,64 +46,46 @@
         }
         originalWarn.apply(console, args);
       };
-    </script>
-    <script src="https://cdn.tailwindcss.com?plugins=forms,typography,aspect-ratio"></script>
 
-    <script>
-      // Configure Tailwind after CDN loads
-      function configureTailwind() {
-        if (typeof tailwind !== 'undefined') {
-          tailwind.config = {
-            theme: {
-              extend: {
-                colors: {
-                  'primary-blue': '#f97109',
-                  'primary-black': '#000000',
-                  'primary-white': '#FFFFFF',
-                  'accent-light': '#F8FAFC',
-                  'accent-gray': '#64748B',
-                  'accent-dark': '#1E293B'
-                },
-                fontFamily: {
-                  sans: ['Inter', 'system-ui', 'sans-serif'],
-                },
-                animation: {
-                  'fade-in': 'fadeIn 0.8s ease-in-out',
-                  'slide-up': 'slideUp 0.8s ease-out',
-                  'pulse-slow': 'pulse 3s infinite',
-                },
-                keyframes: {
-                  fadeIn: {
-                    '0%': { opacity: '0' },
-                    '100%': { opacity: '1' },
-                  },
-                  slideUp: {
-                    '0%': { transform: 'translateY(30px)', opacity: '0' },
-                    '100%': { transform: 'translateY(0)', opacity: '1' },
-                  },
-                },
-              }
-            }
-          };
-          console.log('Tailwind configured successfully');
-          return true;
-        }
-        return false;
-      }
-
-      // Try to configure immediately
-      if (!configureTailwind()) {
-        // If not ready, wait for it
-        let attempts = 0;
-        const maxAttempts = 50;
-        const checkInterval = setInterval(() => {
-          attempts++;
-          if (configureTailwind() || attempts >= maxAttempts) {
-            clearInterval(checkInterval);
+      // Set Tailwind config before CDN loads
+      window.tailwind = window.tailwind || {};
+      window.tailwind.config = {
+        theme: {
+          extend: {
+            colors: {
+              'primary-blue': '#f97109',
+              'primary-black': '#000000',
+              'primary-white': '#FFFFFF',
+              'accent-light': '#F8FAFC',
+              'accent-gray': '#64748B',
+              'accent-dark': '#1E293B'
+            },
+            fontFamily: {
+              sans: ['Inter', 'system-ui', 'sans-serif'],
+            },
+            animation: {
+              'fade-in': 'fadeIn 0.8s ease-in-out',
+              'slide-up': 'slideUp 0.8s ease-out',
+              'pulse-slow': 'pulse 3s infinite',
+            },
+            keyframes: {
+              fadeIn: {
+                '0%': { opacity: '0' },
+                '100%': { opacity: '1' },
+              },
+              slideUp: {
+                '0%': { transform: 'translateY(30px)', opacity: '0' },
+                '100%': { transform: 'translateY(0)', opacity: '1' },
+              },
+            },
           }
-        }, 100);
-      }
+        }
+      };
+      console.log('Tailwind config set before CDN load');
     </script>
+
+    <!-- TailwindCSS via CDN for GitHub Pages compatibility -->
+    <script src="https://cdn.tailwindcss.com?plugins=forms,typography,aspect-ratio"></script>
 
     <!-- Custom Styles -->
     <style>

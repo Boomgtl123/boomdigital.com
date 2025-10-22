@@ -36,7 +36,55 @@
     <!-- Favicon -->
     <link rel="icon" type="image/x-icon" href="./assets/favicon-B_SY1GJM.ico">
     
-    <!-- Custom Styles -->
+    <!-- TailwindCSS via CDN for GitHub Pages compatibility -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      // Suppress Tailwind CDN warning for production
+      const originalWarn = console.warn;
+      console.warn = function(...args) {
+        if (args[0] && typeof args[0] === 'string' && args[0].includes('cdn.tailwindcss.com')) {
+          return; // Suppress Tailwind CDN warning
+        }
+        originalWarn.apply(console, args);
+      };
+      
+      tailwind.config = {
+        theme: {
+          extend: {
+            colors: {
+              primary: {
+                blue: '#f97109',
+                black: '#000000',
+                white: '#FFFFFF',
+              },
+              accent: {
+                light: '#F8FAFC',
+                gray: '#64748B',
+                dark: '#1E293B'
+              }
+            },
+            fontFamily: {
+              sans: ['Inter', 'system-ui', 'sans-serif'],
+            },
+            animation: {
+              'fade-in': 'fadeIn 0.8s ease-in-out',
+              'slide-up': 'slideUp 0.8s ease-out',
+              'pulse-slow': 'pulse 3s infinite',
+            },
+            keyframes: {
+              fadeIn: {
+                '0%': { opacity: '0' },
+                '100%': { opacity: '1' },
+              },
+              slideUp: {
+                '0%': { transform: 'translateY(30px)', opacity: '0' },
+                '100%': { transform: 'translateY(0)', opacity: '1' },
+              },
+            },
+          }
+        }
+      }
+    </script>
 
     <!-- Custom Styles -->
     <style>
@@ -117,8 +165,7 @@
         }
       }
     </style>
-  <script type="module" crossorigin src="./assets/index-C13nzMyU.js"></script>
-  <link rel="stylesheet" crossorigin href="./assets/index-DdzPdw2W.css">
+  <script type="module" crossorigin src="./assets/index-CvclivRR.js"></script>
 </head>
 <body class="font-sans antialiased bg-white text-black">
     <div id="app">
@@ -152,6 +199,8 @@
         <chat-bot></chat-bot>
     </div>
 
+    <!-- Firebase SDK -->
+    
     <!-- Main Application -->
     
     <!-- Error handling for GitHub Pages -->

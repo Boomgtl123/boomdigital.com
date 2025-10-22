@@ -37,6 +37,8 @@
     <link rel="icon" type="image/x-icon" href="./assets/favicon-B_SY1GJM.ico">
     
     <!-- TailwindCSS via CDN for GitHub Pages compatibility -->
+    <script src="https://cdn.tailwindcss.com?plugins=forms,typography,aspect-ratio"></script>
+
     <script>
       // Suppress Tailwind CDN warning for production
       const originalWarn = console.warn;
@@ -46,9 +48,7 @@
         }
         originalWarn.apply(console, args);
       };
-    </script>
 
-    <script>
       tailwind.config = {
         theme: {
           extend: {
@@ -86,8 +86,6 @@
         }
       }
     </script>
-
-    <script src="https://cdn.tailwindcss.com?plugins=forms,typography,aspect-ratio"></script>
 
     <!-- Custom Styles -->
     <style>

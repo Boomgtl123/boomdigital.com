@@ -8,8 +8,6 @@ import './components/Services.js';
 import './components/Dashboard.js';
 import './components/Club.js';
 import './components/Footer.js';
-import './components/AuthModal.js';
-import './components/CEOPanel.js';
 import './components/ChatBot.js';
 
 // Initialize application

@@ -225,10 +225,13 @@ class DashboardSection extends HTMLElement {
 
     setupEventListeners() {
         const ctaBtn = this.querySelector('#dashboardCtaBtn');
-        
+
         if (ctaBtn) {
             ctaBtn.addEventListener('click', () => {
-                this.showAuthModal('register');
+                // Scroll to contact section instead of showing auth modal
+                document.querySelector('#contact').scrollIntoView({
+                    behavior: 'smooth'
+                });
             });
         }
     }
@@ -305,12 +308,7 @@ class DashboardSection extends HTMLElement {
         }, 100);
     }
 
-    showAuthModal(type) {
-        const authModal = document.querySelector('auth-modal');
-        if (authModal) {
-            authModal.open(type);
-        }
-    }
+
 }
 
 // Register the custom element

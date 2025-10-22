@@ -11,100 +11,11 @@ class HeroSection extends HTMLElement {
     }
 
     async loadContent() {
-        try {
-            const { getWebsiteContent } = await import('../firebase.js');
-            this.websiteContent = await getWebsiteContent();
-            this.render();
-        } catch (error) {
-            console.error('Error loading hero content:', error);
-            this.renderWithDefaultContent();
-        }
+        // Load default content without Firebase
+        this.renderWithDefaultContent();
     }
 
-    render() {
-        const hero = this.websiteContent?.hero || {};
-        
-        this.innerHTML = `
-            <section class="relative min-h-screen flex items-center justify-center bg-white overflow-hidden">
-                <!-- Background Elements -->
-                <div class="absolute inset-0 bg-gradient-to-br from-blue-50 to-white"></div>
-                <div class="absolute top-20 left-10 w-72 h-72 bg-primary-blue/10 rounded-full blur-3xl"></div>
-                <div class="absolute bottom-20 right-10 w-96 h-96 bg-primary-blue/5 rounded-full blur-3xl"></div>
 
-                <div class="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-                    <!-- Main Content -->
-                    <div class="animate-fade-in">
-                        <!-- Badge -->
-                        <div class="inline-flex items-center px-4 py-2 rounded-full bg-primary-blue/10 border border-primary-blue/20 mb-8">
-                            <span class="text-sm font-medium text-primary-blue">✨ Potenciado por IA</span>
-                        </div>
-
-                        <!-- Main Heading -->
-                        <h1 class="text-4xl md:text-6xl lg:text-7xl font-bold text-black mb-6 leading-tight">
-                            ${hero.title || 'Transformamos tu Presencia Digital con IA'}
-                        </h1>
-
-                        <!-- Subtitle -->
-                        <p class="text-xl md:text-2xl text-gray-600 mb-8 max-w-3xl mx-auto leading-relaxed">
-                            ${hero.subtitle || 'Soluciones inteligentes que impulsan el crecimiento de tu empresa'}
-                        </p>
-
-                        <!-- CTA Buttons -->
-                        <div class="flex flex-col sm:flex-row gap-4 justify-center items-center mb-12">
-                            <button 
-                                id="heroCtaBtn"
-                                class="group relative bg-primary-blue text-white px-8 py-4 rounded-full text-lg font-semibold hover:bg-blue-400 transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl"
-                            >
-                                <span class="relative z-10">${hero.ctaText || 'Comenzar Ahora'}</span>
-                                <div class="absolute inset-0 bg-white/20 rounded-full scale-0 group-hover:scale-100 transition-transform duration-300"></div>
-                            </button>
-                            
-                            <button 
-                                id="learnMoreBtn"
-                                class="group border-2 border-black text-black px-8 py-4 rounded-full text-lg font-semibold hover:bg-black hover:text-white transition-all duration-300 transform hover:scale-105"
-                            >
-                                <span>Conocer Más</span>
-                            </button>
-                        </div>
-
-                        <!-- Stats -->
-                        <div class="grid grid-cols-2 md:grid-cols-4 gap-8 max-w-2xl mx-auto">
-                            <div class="text-center">
-                                <div class="text-2xl md:text-3xl font-bold text-black mb-1">+500</div>
-                                <div class="text-sm text-gray-600">Clientes Satisfechos</div>
-                            </div>
-                            <div class="text-center">
-                                <div class="text-2xl md:text-3xl font-bold text-black mb-1">+95%</div>
-                                <div class="text-sm text-gray-600">Tasa de Éxito</div>
-                            </div>
-                            <div class="text-center">
-                                <div class="text-2xl md:text-3xl font-bold text-black mb-1">24/7</div>
-                                <div class="text-sm text-gray-600">Soporte Activo</div>
-                            </div>
-                            <div class="text-center">
-                                <div class="text-2xl md:text-3xl font-bold text-black mb-1">+3M</div>
-                                <div class="text-sm text-gray-600">Interacciones IA</div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Scroll Indicator -->
-                    <div class="absolute bottom-8 left-1/2 transform -translate-x-1/2 animate-bounce">
-                        <div class="w-6 h-10 border-2 border-gray-400 rounded-full flex justify-center">
-                            <div class="w-1 h-3 bg-gray-400 rounded-full mt-2"></div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Floating Elements -->
-                <div class="absolute top-1/4 right-1/4 w-4 h-4 bg-primary-blue rounded-full animate-pulse"></div>
-                <div class="absolute bottom-1/3 left-1/4 w-3 h-3 bg-primary-blue rounded-full animate-pulse delay-1000"></div>
-                <div class="absolute top-1/3 left-1/2 w-2 h-2 bg-primary-blue rounded-full animate-pulse delay-500"></div>
-            </section>
-        `;
-
-        this.setupEventListeners();
-    }
 
     renderWithDefaultContent() {
         this.innerHTML = `
@@ -173,14 +84,17 @@ class HeroSection extends HTMLElement {
 
         if (ctaBtn) {
             ctaBtn.addEventListener('click', () => {
-                this.showAuthModal('register');
+                // Scroll to contact section instead of showing auth modal
+                document.querySelector('#contact').scrollIntoView({
+                    behavior: 'smooth'
+                });
             });
         }
 
         if (learnMoreBtn) {
             learnMoreBtn.addEventListener('click', () => {
-                document.querySelector('#services').scrollIntoView({ 
-                    behavior: 'smooth' 
+                document.querySelector('#services').scrollIntoView({
+                    behavior: 'smooth'
                 });
             });
         }
@@ -202,12 +116,7 @@ class HeroSection extends HTMLElement {
         }, 100);
     }
 
-    showAuthModal(type) {
-        const authModal = document.querySelector('auth-modal');
-        if (authModal) {
-            authModal.open(type);
-        }
-    }
+
 }
 
 // Register the custom element

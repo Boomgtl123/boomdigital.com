@@ -151,27 +151,17 @@ class CTASection extends HTMLElement {
     }
 
     handlePrimaryCTA() {
-        // Show registration modal or redirect to registration page
-        const registrationEvent = new CustomEvent('show-registration', {
-            bubbles: true,
-            detail: { source: 'cta-primary' }
+        // Scroll to contact section instead of showing registration modal
+        document.querySelector('#contact').scrollIntoView({
+            behavior: 'smooth'
         });
-        this.dispatchEvent(registrationEvent);
-        
-        // Alternative: Redirect to registration page
-        // window.location.href = '/register.html';
     }
 
     handleSecondaryCTA() {
-        // Show contact/demo modal
-        const demoEvent = new CustomEvent('show-demo', {
-            bubbles: true,
-            detail: { source: 'cta-secondary' }
+        // Scroll to contact section for demo requests
+        document.querySelector('#contact').scrollIntoView({
+            behavior: 'smooth'
         });
-        this.dispatchEvent(demoEvent);
-        
-        // Alternative: Open contact form
-        // window.location.href = '/contact.html';
     }
 
     // Method to update CTA content dynamically

@@ -217,7 +217,10 @@ class ClubSection extends HTMLElement {
 
         if (premiumBtn) {
             premiumBtn.addEventListener('click', () => {
-                this.showAuthModal('register');
+                // Scroll to contact section instead of showing auth modal
+                document.querySelector('#contact').scrollIntoView({
+                    behavior: 'smooth'
+                });
             });
         }
     }
@@ -296,12 +299,7 @@ class ClubSection extends HTMLElement {
         });
     }
 
-    showAuthModal(type) {
-        const authModal = document.querySelector('auth-modal');
-        if (authModal) {
-            authModal.open(type);
-        }
-    }
+
 }
 
 customElements.define('club-section', ClubSection);

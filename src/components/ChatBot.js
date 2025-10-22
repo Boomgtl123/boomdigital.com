@@ -159,9 +159,14 @@ class ChatBot extends HTMLElement {
   }
 
   getApiKey() {
-    // For browser environment, use a secure method to get API key
-    // In production, this should be handled server-side or through secure config
-    return 'sk-59b0807d89344fb781f3d9b1baf35753';
+    // Use environment variable for API key
+    // Set VITE_CHATBOT_API_KEY in .env file
+    const apiKey = import.meta.env.VITE_CHATBOT_API_KEY;
+    if (!apiKey) {
+      console.error('VITE_CHATBOT_API_KEY not found in environment variables');
+      return null;
+    }
+    return apiKey;
   }
 
   async callDeepSeekAPI(message) {

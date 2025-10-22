@@ -13,27 +13,13 @@ export default {
           white: '#FFFFFF',
         },
         accent: {
-          light: '#1A1A1A',
-          gray: '#666666',
-          dark: '#0A0A0A'
-        },
-        background: {
-          dark: '#000000',
-          card: '#111111',
-          section: '#0A0A0A'
+          light: '#F8FAFC',
+          gray: '#64748B',
+          dark: '#1E293B'
         }
       },
       fontFamily: {
         sans: ['Inter', 'system-ui', 'sans-serif'],
-      },
-      backgroundColor: {
-        'dark': '#000000',
-        'card': '#111111',
-        'section': '#0A0A0A'
-      },
-      textColor: {
-        'light': '#FFFFFF',
-        'muted': '#CCCCCC'
       },
       animation: {
         'fade-in': 'fadeIn 0.8s ease-in-out',

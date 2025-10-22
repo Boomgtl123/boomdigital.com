@@ -7,6 +7,7 @@ tailwind.config = {
           black: '#000000',
           white: '#FFFFFF',
         },
+        'primary-blue': '#f97109',
         accent: {
           light: '#F8FAFC',
           gray: '#64748B',

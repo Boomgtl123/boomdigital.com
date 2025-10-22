@@ -27,6 +27,7 @@ class HeaderComponent extends HTMLElement {
                                 <a href="#services" class="text-white hover:text-primary-blue px-3 py-2 text-sm font-medium transition-colors">Servicios</a>
                                 <a href="#dashboard" class="text-white hover:text-primary-blue px-3 py-2 text-sm font-medium transition-colors">Dashboard</a>
                                 <a href="#club" class="text-white hover:text-primary-blue px-3 py-2 text-sm font-medium transition-colors">Club IA</a>
+                                <a href="#instagram" class="text-white hover:text-primary-blue px-3 py-2 text-sm font-medium transition-colors">Instagram</a>
                                 <a href="#contact" class="text-white hover:text-primary-blue px-3 py-2 text-sm font-medium transition-colors">Contacto</a>
                             </div>
                         </div>
@@ -47,6 +48,7 @@ class HeaderComponent extends HTMLElement {
                             <a href="#services" class="text-white hover:text-primary-blue block px-3 py-2 text-base font-medium">Servicios</a>
                             <a href="#dashboard" class="text-white hover:text-primary-blue block px-3 py-2 text-base font-medium">Dashboard</a>
                             <a href="#club" class="text-white hover:text-primary-blue block px-3 py-2 text-base font-medium">Club IA</a>
+                            <a href="#instagram" class="text-white hover:text-primary-blue block px-3 py-2 text-base font-medium">Instagram</a>
                             <a href="#contact" class="text-white hover:text-primary-blue block px-3 py-2 text-base font-medium">Contacto</a>
                         </div>
                     </div>

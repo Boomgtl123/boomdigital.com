@@ -39,6 +39,15 @@
     <!-- TailwindCSS via CDN for GitHub Pages compatibility -->
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
+      // Suppress Tailwind CDN warning for production
+      const originalWarn = console.warn;
+      console.warn = function(...args) {
+        if (args[0] && typeof args[0] === 'string' && args[0].includes('cdn.tailwindcss.com')) {
+          return; // Suppress Tailwind CDN warning
+        }
+        originalWarn.apply(console, args);
+      };
+      
       tailwind.config = {
         theme: {
           extend: {
@@ -75,12 +84,6 @@
           }
         }
       }
-    </script>
-    <!-- Suppress CDN warning -->
-    <script>
-      // Suppress Tailwind CDN warning for production
-      console.log = function() {};
-      console.warn = function() {};
     </script>
 
     <!-- Custom Styles -->
@@ -196,9 +199,16 @@
     </div>
 
     <!-- Firebase SDK -->
-    <script type="module" src="src/firebase.js"></script>
+    <script type="module" src="./src/firebase.js"></script>
     
     <!-- Main Application -->
-    <script type="module" src="src/main.js"></script>
+    <script type="module" src="./src/main.js"></script>
+    
+    <!-- Error handling for GitHub Pages -->
+    <script>
+      window.addEventListener('error', function(e) {
+        console.log('Script loading error handled gracefully:', e.message);
+      });
+    </script>
 </body>
 </html>

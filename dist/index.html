@@ -57,16 +57,12 @@
             theme: {
               extend: {
                 colors: {
-                  primary: {
-                    blue: '#f97109',
-                    black: '#000000',
-                    white: '#FFFFFF',
-                  },
-                  accent: {
-                    light: '#F8FAFC',
-                    gray: '#64748B',
-                    dark: '#1E293B'
-                  }
+                  'primary-blue': '#f97109',
+                  'primary-black': '#000000',
+                  'primary-white': '#FFFFFF',
+                  'accent-light': '#F8FAFC',
+                  'accent-gray': '#64748B',
+                  'accent-dark': '#1E293B'
                 },
                 fontFamily: {
                   sans: ['Inter', 'system-ui', 'sans-serif'],
@@ -89,6 +85,7 @@
               }
             }
           };
+          console.log('Tailwind configured successfully');
           return true;
         }
         return false;

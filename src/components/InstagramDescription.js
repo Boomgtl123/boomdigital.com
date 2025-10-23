@@ -188,6 +188,7 @@ class InstagramDescriptionComponent extends HTMLElement {
         const apiKey = import.meta.env.VITE_DEEPSEEK_API_KEY;
         if (!apiKey) {
             console.error('VITE_DEEPSEEK_API_KEY not found in environment variables');
+            console.error('Available env vars:', Object.keys(import.meta.env).filter(key => key.startsWith('VITE_')));
             throw new Error('API key not configured. Please check your environment variables.');
         }
         return apiKey;

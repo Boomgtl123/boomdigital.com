@@ -164,6 +164,7 @@ class ChatBot extends HTMLElement {
     const apiKey = import.meta.env.VITE_CHATBOT_API_KEY;
     if (!apiKey) {
       console.error('VITE_CHATBOT_API_KEY not found in environment variables');
+      console.error('Available env vars:', Object.keys(import.meta.env).filter(key => key.startsWith('VITE_')));
       return null;
     }
     return apiKey;

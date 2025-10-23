@@ -1,0 +1,39 @@
+# Assets Directory - Boom Digital Agency
+
+Esta carpeta debe contener los siguientes archivos:
+
+## Imágenes Requeridas:
+
+1. **logo.png** - Logo de Boom Digital Agency (recomendado: 200x50px)
+2. **verificado.png** - Icono de verificación para el CEO (recomendado: 24x24px)
+3. **hero-bg.jpg** - Imagen de fondo para la sección Hero (recomendado: 1920x1080px)
+4. **service-ia.jpg** - Imagen para servicio Asistente IA
+5. **service-bots.jpg** - Imagen para servicio Bots Omnicanal
+6. **service-campaigns.jpg** - Imagen para servicio Campañas Garantizadas
+7. **service-growth.jpg** - Imagen para servicio Growth Simulator
+8. **dashboard-mockup.png** - Mockup del dashboard IA
+9. **ceo-avatar.jpg** - Avatar del CEO (recomendado: 100x100px)
+10. **og-image.jpg** - Imagen para Open Graph (recomendado: 1200x630px)
+11. **favicon.ico** - Favicon del sitio
+
+## Videos (opcional):
+
+1. **demo.mp4** - Video demostrativo de los servicios
+2. **testimonial-1.mp4** - Video testimonio cliente 1
+3. **testimonial-2.mp4** - Video testimonio cliente 2
+
+## Optimización Recomendada:
+
+- Formato WebP para mejor compresión
+- Tamaños múltiples para responsive design
+- Lazy loading implementado en el código
+- Alt tags descriptivos para SEO
+
+## Estilo Visual:
+
+- Minimalista y profesional
+- Colores coherentes con la paleta (#37C6FF, #000000, #FFFFFF)
+- Imágenes de alta calidad pero optimizadas
+- Estilo corporativo moderno
+
+Nota: Reemplazar este archivo con las imágenes reales antes del deployment.

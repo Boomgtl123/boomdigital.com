@@ -184,12 +184,13 @@ class InstagramDescriptionComponent extends HTMLElement {
     }
 
     getApiKey() {
-        // Try to get from environment variables first, fallback to hardcoded for development
-        if (typeof process !== 'undefined' && process.env && process.env.DEEPSEEK_API_KEY) {
-            return process.env.DEEPSEEK_API_KEY;
+        // Use environment variable for API key security
+        const apiKey = import.meta.env.VITE_DEEPSEEK_API_KEY;
+        if (!apiKey) {
+            console.error('VITE_DEEPSEEK_API_KEY not found in environment variables');
+            throw new Error('API key not configured. Please check your environment variables.');
         }
-        // Fallback for browser environment
-        return 'sk-0617e0618310453f92852ecfd933143c';
+        return apiKey;
     }
 
     async generateAIDescription(productName) {

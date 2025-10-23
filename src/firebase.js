@@ -3,16 +3,16 @@ import { initializeApp } from 'firebase/app';
 import { getAuth, signInWithEmailAndPassword, signOut, onAuthStateChanged } from 'firebase/auth';
 import { getFirestore, doc, getDoc, setDoc, updateDoc } from 'firebase/firestore';
 
-// Firebase configuration - Real credentials provided
+// Firebase configuration - Use environment variables for security
 const firebaseConfig = {
-  apiKey: process.env.FIREBASE_API_KEY || "AIzaSyB5JtqqMJgWzZrua42z_n2Vu-7ZNWanlE4",
-  authDomain: process.env.FIREBASE_AUTH_DOMAIN || "boomdigital-f6a06.firebaseapp.com",
-  databaseURL: process.env.FIREBASE_DATABASE_URL || "https://boomdigital-f6a06-default-rtdb.firebaseio.com",
-  projectId: process.env.FIREBASE_PROJECT_ID || "boomdigital-f6a06",
-  storageBucket: process.env.FIREBASE_STORAGE_BUCKET || "boomdigital-f6a06.firebasestorage.app",
-  messagingSenderId: process.env.FIREBASE_MESSAGING_SENDER_ID || "398341141",
-  appId: process.env.FIREBASE_APP_ID || "1:398341141:web:d895a031215defcdb88a1c",
-  measurementId: process.env.FIREBASE_MEASUREMENT_ID || "G-ELW9J8B9J6"
+  apiKey: import.meta.env.VITE_FIREBASE_API_KEY,
+  authDomain: import.meta.env.VITE_FIREBASE_AUTH_DOMAIN,
+  databaseURL: import.meta.env.VITE_FIREBASE_DATABASE_URL,
+  projectId: import.meta.env.VITE_FIREBASE_PROJECT_ID,
+  storageBucket: import.meta.env.VITE_FIREBASE_STORAGE_BUCKET,
+  messagingSenderId: import.meta.env.VITE_FIREBASE_MESSAGING_SENDER_ID,
+  appId: import.meta.env.VITE_FIREBASE_APP_ID,
+  measurementId: import.meta.env.VITE_FIREBASE_MEASUREMENT_ID
 };
 
 // Initialize Firebase
@@ -22,8 +22,8 @@ const app = initializeApp(firebaseConfig);
 export const auth = getAuth(app);
 export const db = getFirestore(app);
 
-// CEO Email constant
-export const CEO_EMAIL = 'boomdigitaleeuu@gmail.com';
+// CEO Email constant - Use environment variable for security
+export const CEO_EMAIL = import.meta.env.VITE_CEO_EMAIL || 'boomdigitaleeuu@gmail.com';
 
 // Authentication functions
 export const signInCEO = async (email, password) => {

@@ -11,11 +11,11 @@ export default defineConfig(({ mode }) => {
   const env = loadEnv(mode, process.cwd(), '')
 
   // Avisar si faltan las API Keys
-  if (!env.VITE_DEEPSEEK_API_KEY) {
-    console.warn('⚠️  VITE_DEEPSEEK_API_KEY not found. Some AI features may not work.')
-  }
   if (!env.VITE_CHATBOT_API_KEY) {
     console.warn('⚠️  VITE_CHATBOT_API_KEY not found. Chatbot may not work.')
+  }
+  if (!env.VITE_DEEPSEEK_API_KEY) {
+    console.warn('⚠️  VITE_DEEPSEEK_API_KEY not found. Some AI features may not work.')
   }
 
   return {

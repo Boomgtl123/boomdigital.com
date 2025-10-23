@@ -15,9 +15,15 @@ class HeaderComponent extends HTMLElement {
                 <nav class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                     <div class="flex justify-between items-center h-16">
                         <!-- Logo -->
-                        <div class="flex-shrink-0">
-                            <a href="#" class="text-2xl font-bold text-white hover:text-primary-blue transition-colors">
-                                <img src="assets/images/logo.png" alt="BOOM DIGITAL" class="h-10 w-auto">
+                        <div class="flex-shrink-0 relative">
+                            <a href="#" class="text-2xl font-bold text-white hover:text-primary-blue transition-colors block">
+                                <div class="relative">
+                                    <img src="assets/images/logo.png" alt="BOOM DIGITAL" class="h-10 w-auto relative z-10">
+                                    <!-- Fire effect at the bottom -->
+                                    <div class="absolute -bottom-1 left-1/2 transform -translate-x-1/2 w-8 h-3 z-0">
+                                        <div class="fire-effect w-full h-full"></div>
+                                    </div>
+                                </div>
                             </a>
                         </div>
 

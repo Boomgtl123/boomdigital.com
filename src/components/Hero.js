@@ -19,27 +19,21 @@ class HeroSection extends HTMLElement {
 
     renderWithDefaultContent() {
         this.innerHTML = `
-            <section class="relative min-h-screen flex items-center justify-center bg-gradient-to-br from-primary-blue to-blue-600 overflow-hidden">
-                <!-- Background Pattern -->
-                <div class="absolute inset-0 opacity-10">
-                    <div class="absolute inset-0" style="background-image: radial-gradient(circle at 25% 25%, white 2px, transparent 2px), radial-gradient(circle at 75% 75%, white 2px, transparent 2px); background-size: 50px 50px;"></div>
-                </div>
-                <!-- Video Background (only show if video exists) -->
+            <section class="relative min-h-screen flex items-center justify-center bg-white overflow-hidden">
+                <!-- Video Background -->
                 <video
-                    id="heroVideo"
                     class="absolute inset-0 w-full h-full object-cover"
                     autoplay
                     muted
                     loop
                     playsinline
                     poster="assets/images/verificado.png"
-                    style="display: none;"
                 >
                     <source src="assets/videos/banner.MOV" type="video/mp4">
                     <source src="assets/videos/banner.MOV" type="video/quicktime">
                     Tu navegador no soporta el elemento de video.
                 </video>
-                <div class="absolute inset-0 bg-black bg-opacity-30"></div>
+                <div class="absolute inset-0 bg-black bg-opacity-50"></div>
                 <div class="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
                     <div class="animate-fade-in">
                         <div class="inline-flex items-center px-4 py-2 rounded-full bg-primary-blue/10 border border-primary-blue/20 mb-8">
@@ -100,21 +94,6 @@ class HeroSection extends HTMLElement {
     setupEventListeners() {
         const ctaBtn = this.querySelector('#heroCtaBtn');
         const learnMoreBtn = this.querySelector('#learnMoreBtn');
-        const video = this.querySelector('#heroVideo');
-
-        // Check if video file exists and show it
-        if (video) {
-            fetch('assets/videos/banner.MOV', { method: 'HEAD' })
-                .then(response => {
-                    if (response.ok) {
-                        video.style.display = 'block';
-                    }
-                })
-                .catch(() => {
-                    // Video doesn't exist, keep hidden
-                    console.log('Video banner not available, using gradient background');
-                });
-        }
 
         if (ctaBtn) {
             ctaBtn.addEventListener('click', () => {
